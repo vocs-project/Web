@@ -493,7 +493,9 @@
       }
     },
     created () {
-      this.$store.dispatch('setIsPlayingGame', false)
+      console.log('yoliststststss');
+      this.$store.dispatch('getLists');
+      this.$store.dispatch('setIsPlayingGame', false);
       for (var i = 0; i < this.classes.length; i++) {
         this.tickedClasses[i] = false;
       }

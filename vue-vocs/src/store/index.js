@@ -45,7 +45,7 @@ export const store = new Vuex.Store({
           avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'
         }
       ],
-      personalLists: []
+      lists: []
     },
     isPlayingGame:false,
     editProfil: false,
@@ -250,10 +250,10 @@ export const store = new Vuex.Store({
   },
   mutations: {
     createList (state, payload) {
-      state.user.personalLists.push(payload);
+      state.user.lists.push(payload);
     },
     addListToUser (state, payload) {
-      state.user.personalLists.push(payload);
+      state.user.lists.push(payload);
     },
     createClass (state, payload) {
       state.user.classes.push(payload);
@@ -276,9 +276,9 @@ export const store = new Vuex.Store({
       console.log('myDemands: ' + JSON.stringify(state.myDemands));
     },
     removeList (state, payload) {
-      for (let i = 0; i < state.user.personalLists.length; i++) {
-        if (state.user.personalLists[i].id === payload) {
-          state.user.personalLists.splice(i, 1);
+      for (let i = 0; i < state.user.lists.length; i++) {
+        if (state.user.lists[i].id === payload) {
+          state.user.lists.splice(i, 1);
         }
       }
     },
@@ -298,7 +298,7 @@ export const store = new Vuex.Store({
         surname: null,
         email: null,
         classes: null,
-        personalLists: null
+        lists: null
       }
       state.connectionErrorMessage = '';
       state.inscriptionErrorMessage = '';
@@ -335,9 +335,9 @@ export const store = new Vuex.Store({
     removeWord (state, payload) {
       for (var i = 0; i < state.selectedList.wordTrads.length; i++) {
         if (state.selectedList.wordTrads[i].id === payload) {
-          for (var y = 0; y < state.user.personalLists.length; y++) {
-            if (state.user.personalLists[y] === state.selectedList) {
-              state.user.personalLists[y].wordTrads.splice(i, 1);
+          for (var y = 0; y < state.user.lists.length; y++) {
+            if (state.user.lists[y] === state.selectedList) {
+              state.user.lists[y].wordTrads.splice(i, 1);
             }
           }
         }
@@ -351,6 +351,7 @@ export const store = new Vuex.Store({
       }
     },
     selectList (state, payload) {
+      console.log('LISSSSSSSSTTTTTTTT: '+ JSON.stringify(payload));
       state.selectedList = payload;
     },
     selectWord (state, payload) {
@@ -744,6 +745,18 @@ export const store = new Vuex.Store({
       state.isConfirmingPassword = true;
       this.dispatch('signUserIn',payload)
     },
+    getLists({state}) {
+      state.loading = true
+      Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + state.user.id + '/lists')
+        .then(response2 => {
+          return response2.json()
+        }).then(data => {
+          console.log(JSON.stringify(data));
+          state.user.lists = data;
+        console.log(JSON.stringify(state.user.lists));
+        state.loading = false;
+        });
+    },
     signUserIn ({commit, state}, payload) {
       state.loading = true
       var theUser = {}
@@ -755,7 +768,7 @@ export const store = new Vuex.Store({
             firstname: user.body.firstname,
             surname: user.body.surname,
             email: user.body.email,
-            personalLists: user.body.lists
+            lists: user.body.lists
           }
           Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + theUser.id)
             .then(response2 => {
@@ -768,7 +781,7 @@ export const store = new Vuex.Store({
                   return response2.json()
                 })
                 .then(data2 => {
-                  theUser.personalLists = data2
+                  theUser.lists = data2
                   Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + theUser.id + '/classes')
                     .then(response2 => {
                       return response2.json()
@@ -855,7 +868,7 @@ export const store = new Vuex.Store({
             firstname: response.body.firstname,
             surname: response.body.surname,
             email: response.body.email,
-            personalLists: response.body.lists,
+            lists: response.body.lists,
             classes: payload.classes
           }
           Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + theUser.id)
@@ -869,7 +882,7 @@ export const store = new Vuex.Store({
                   return response2.json()
                 })
                 .then(data2 => {
-                  theUser.personalLists = data2
+                  theUser.lists = data2
                   Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + theUser.id + '/classes')
                     .then(response2 => {
                       return response2.json()
@@ -944,7 +957,7 @@ export const store = new Vuex.Store({
             firstname: response.body.firstname,
             surname: response.body.surname,
             email: response.body.email,
-            personalLists: response.body.lists,
+            lists: response.body.lists,
             classes: payload.user.classes
           }
           Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + theUser.id)
@@ -958,7 +971,7 @@ export const store = new Vuex.Store({
                   return response2.json()
                 })
                 .then(data2 => {
-                  theUser.personalLists = data2
+                  theUser.lists = data2
                   Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + theUser.id + '/classes')
                     .then(response2 => {
                       return response2.json()
@@ -1663,6 +1676,18 @@ export const store = new Vuex.Store({
             this.dispatch('setSnackbarMessage', 'Le Synonyme n\'a pas pu être ajouté')
             state.loading = false
           })
+    },
+    updateWordStats({commit},payload) {
+      console.log('PAYYYLLLOOOOADDD: ' + JSON.stringify(payload))
+      var toSendOff = {
+        level: payload.stat.level,
+        goodRepetition:payload.stat.goodRepetition,
+        badRepetition:payload.stat.badRepetition,
+      };
+      Vue.http.patch('https:/vocsapi.lebarillier.fr/rest/wordTradUsers/' + payload.stat.id, toSendOff)
+        .then(response => {
+          console.log('yes!:' + JSON.stringify(response));
+        }).catch(error => {console.log('shit.:' + JSON.stringify(error))});
     }
   },
 
@@ -1690,18 +1715,18 @@ export const store = new Vuex.Store({
 
   getters: {
     loadedLists (state) {
-      return state.user.personalLists
+      return state.user.lists
     },
     loadedList (state) {
       return (listId) => {
-        return state.user.personalLists.find((list) => {
+        return state.user.lists.find((list) => {
           return list.id === listId
         })
       }
     },
     selectedWord (state) {
       return (wordId) => {
-        return state.user.personalLists.find((word) => {
+        return state.user.lists.find((word) => {
           return word.id === wordId
         })
       }

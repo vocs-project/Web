@@ -12,6 +12,13 @@
             </v-btn>
           </v-toolbar>
           <v-list>
+            <div class="text-xs-center" v-if="list.wordTrads.length > 0 && Math.floor((nbGreenWords/list.wordTrads.length)*100) <100" style="display: flex;padding: 10px;padding-left: 5%">
+              <div style="margin-right: 3%;">Progression: {{Math.floor((nbGreenWords/list.wordTrads.length)*100)}}%</div>
+              <div :style="{width: ((nbGreenWords/list.wordTrads.length)*100)*0.7 + '%'}" style="margin-top:6px;background-color: green;height: 10px;"></div>
+              <div :style="{width: ((nbOrangeWords/list.wordTrads.length)*100)*0.7 + '%'}" style="margin-top:6px;background-color: orange;height: 10px;"></div>
+              <div :style="{width: ((nbRedWords/list.wordTrads.length)*100)*0.7 + '%'}" style="margin-top:6px;background-color: red;height: 10px;"></div>
+            </div>
+            <div v-if="Math.floor((nbGreenWords/list.wordTrads.length)*100) >=100" class="text-xs-center mt-1 mb-0" ><h5>LIST APPRISE!</h5></div>
             <div v-if="list.wordTrads.length <= 0" class="text-xs-center mt-4"><h5>Liste vide</h5></div>
             <v-list-tile v-for="aWord in list.wordTrads" :key="aWord.id">
               <v-dialog v-model="showWordDeleteConfirmation" persistent>
@@ -26,8 +33,13 @@
                 </v-card>
               </v-dialog>
               <v-list-tile-content>
-                <v-list-tile-title v-if="aWord.word.language.code=='EN'">{{aWord.word.content}} &rarr; {{aWord.trad.content}}</v-list-tile-title>
-                <v-list-tile-title v-else>{{aWord.trad.content}} &rarr; {{aWord.word.content}}</v-list-tile-title>
+                <div style="display: flex">
+                  <div v-if="aWord.stat.level>3" style="background-color: green;border-radius:70px;width: 25px;height: 20px;margin-right:15px;margin-top: 1px"></div>
+                  <div v-else-if="aWord.stat.level>1" style="background-color: orange;border-radius:70px;width: 25px;height: 20px;margin-right:15px;margin-top: 1px"></div>
+                  <div v-else style="background-color: red;border-radius:70px;width: 25px;height: 20px;margin-right:15px;margin-top: 1px"></div>
+                  <v-list-tile-title v-if="aWord.word.language.code=='EN'">{{aWord.word.content}} &rarr; {{aWord.trad.content}}</v-list-tile-title>
+                  <v-list-tile-title v-else>{{aWord.trad.content}} &rarr; {{aWord.word.content}}</v-list-tile-title>
+                </div>
               </v-list-tile-content>
               <v-btn icon @click="listenToWord(aWord)">
                 <v-icon color="grey lighten-1">volume_up</v-icon>
@@ -52,16 +64,16 @@
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-card-title primary-title>
-          <v-flex xs12 sm6 offset-sm3>
-              <v-form>
+          <v-flex xs12 sm6>
+              <v-form style="width:15vw;margin:0">
                 <v-text-field
-                  label="Mot"
+                  label="Mot (Anglais)"
                   v-model="createWordName"
                   :counter="10"
                   required
                 ></v-text-field>
                 <v-text-field
-                  label="Traduction"
+                  label="Traduction (Français)"
                   v-model="createWordTranslation"
                   :counter="10"
                   required
@@ -99,7 +111,7 @@
         createWordTranslation: '',
         createWordId: '',
         createdWords: [],
-        createWordFormIsValid: false
+        createWordFormIsValid: false,
       }
     },
     props: ['id'],
@@ -109,6 +121,33 @@
       },
       isAPersonalList () {
         return this.$store.getters.isAPersonalList
+      },
+      nbGreenWords(){
+        var green = 0;
+        for(let i=0;i<this.list.wordTrads.length;i++) {
+          if(this.list.wordTrads[i].stat.level>3){
+            green ++;
+          }
+        }
+        return green;
+      },
+      nbOrangeWords(){
+        var orange = 0;
+        for(let i=0;i<this.list.wordTrads.length;i++) {
+          if(this.list.wordTrads[i].stat.level>1 && this.list.wordTrads[i].stat.level<=3 ){
+            orange ++;
+          }
+        }
+        return orange;
+      },
+      nbRedWords(){
+        var red = 0;
+        for(let i=0;i<this.list.wordTrads.length;i++) {
+          if(this.list.wordTrads[i].stat.level<=1){
+            red ++;
+          }
+        }
+        return red;
       }
     },
     methods: {

@@ -81,6 +81,7 @@
         droppedList: [],
         listWords: [],
         listTrads:[],
+        listStats: [],
         //array of the words the user has matched
         matchedWords: [],
         //list that appears when user has finished
@@ -112,7 +113,7 @@
           this.selectedWord = word
         }
         if (this.selectedTradWord !== null && this.selectedWord !== null) {
-          var theCorrectAnswer = null
+          var theCorrectAnswer = null;
           for(var i=0;i<this.list.wordTrads.length;i++) {
             if(this.selectedTradWord === this.list.wordTrads[i].trad.content) {
               theCorrectAnswer = this.list.wordTrads[i].word.content
@@ -125,6 +126,7 @@
                   id:this.matchedWords.length+1,
                   word:this.listTrads[i],
                   trad:this.listWords[this.wordInArray(this.selectedWord)],
+                  stat:this.listStats[i],
                   correct:this.selectedWord === theCorrectAnswer,
                   theHoleWordTradObject:this.list.wordTrads[i]
                 });
@@ -155,6 +157,17 @@
               trad:this.matchedWords[i].trad,
               color: '#89dc6c'
             };
+            if(this.listStats[i].level<5){
+              this.listStats[i].level ++;
+            }
+            this.listStats[i].goodRepetition ++;
+            if(this.listStats[i].goodRepetition >=2) {
+              this.listStats[i].badRepetition =0;
+            }
+            var word = {
+              stat: this.listStats[i]
+            }
+            this.$store.dispatch('updateWordStats',word);
           } else {
             this.correctionList[i]= {
               id:i,
@@ -162,6 +175,15 @@
               trad:this.matchedWords[i].trad,
               color: '#ca6b6c'
             };
+            if(this.listStats[i].level>0){
+              this.listStats[i].level --;
+            }
+            this.listStats[i].badRepetition ++;
+            this.listStats[i].goodRepetition=0;
+            var word = {
+              stat: this.listStats[i]
+            }
+            this.$store.dispatch('updateWordStats',word);
           }
         }
       }
@@ -177,6 +199,7 @@
         }
         this.listWords[i] = selectedWord;
         this.listTrads[i] = this.list.wordTrads[i].trad.content
+        this.listStats[i] = this.list.wordTrads[i].stat;
         selectedWord = this.list.wordTrads[Math.floor(Math.random() * (this.listSize))].word.content
       }
     }

@@ -103,7 +103,7 @@
 
       <v-card color="white" style="width:100%; margin-top: 30px;margin-bottom: 30px;" class="gray--text text-xs-center ml-3 mr-3">
         <div style="padding-top: 10px" class="headline text-xs-center"><h4>Mes Listes</h4></div>
-        <div style="padding-bottom: 5px"><h5>{{user.personalLists.length}} liste(s)</h5></div>
+        <div style="padding-bottom: 5px"><h5>{{user.lists.length}} liste(s)</h5></div>
       </v-card>
     </v-layout>
   </v-container>

@@ -13,6 +13,7 @@ import Games from '@/components/Jeux/Games.vue'
 import Classic from '@/components/Jeux/Classic.vue'
 import QCM from '@/components/Jeux/QCM.vue'
 import Matching from '@/components/Jeux/Matching.vue'
+import TimeAttack from '@/components/Jeux/TimeAttack.vue'
 import Homepage from '@/components/Homepage/Homepage.vue'
 import Connexion from '@/components/Homepage/Connexion.vue'
 import Inscription from '@/components/Homepage/Inscription.vue'
@@ -76,6 +77,11 @@ export default new Router({
       path: '/games/matching',
       name: 'Matching',
       component: Matching
+    },
+    {
+      path: '/games/timeattack',
+      name: 'TimeAttack',
+      component: TimeAttack
     },
     {
       path: '/lists/:id',

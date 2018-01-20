@@ -18,7 +18,7 @@
       <v-flex xs4 sm6 md4 wrap>
         <v-card color="cyan lighten-2"  class="white--text text-xs-center ml-3 mr-3">
             <div style="padding-top: 10px"  class="headline text-xs-center">Mes listes</div>
-            <div>{{user.personalLists.length}} liste(s)</div>
+            <div>{{user.lists.length}} liste(s)</div>
           <div class="text-xs-center mt-2">
             <v-icon class="white--text" style="font-size: 90px">description</v-icon>
           </div>

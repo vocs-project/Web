@@ -1,5 +1,19 @@
 <template>
   <v-app class="v-app">
+
+    <div v-if="showDownloadAppDialog" style="background-color: white;width:100vw;height:100vh;z-index: 998"></div>
+    <v-dialog v-model="showDownloadAppDialog" persistent max-width="290" style="z-index: 999">
+      <v-card>
+        <v-card-title class="headline">Vous êtes sur petit écran! </v-card-title>
+        <v-card-text>Telecharger notre application mobile:</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1"  dark>IOS</v-btn>
+          <v-btn color="blue darken-1" dark>Android</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-btn
       color="white"
       fixed
@@ -25,21 +39,8 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="showDownloadAppDialog" fullscreen style="z-index: 999">
-      <v-card>
-        <v-dialog v-model="showDownloadAppDialog" max-width="290">
-          <v-card>
-            <v-card-title class="headline">Vous êtes sur petit écran! </v-card-title>
-            <v-card-text>Telecharger notre application mobile:</v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1"  dark>IOS</v-btn>
-              <v-btn color="blue darken-1" dark>Android</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-card>
-    </v-dialog>
+
+
 
 
 
@@ -139,7 +140,7 @@
     </v-navigation-drawer>
 
     <!--Top bar-->
-    <v-toolbar v-if="!isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:998; padding-right: 2%; padding-left: 1%;  position: fixed !important" v-scroll="scroll">
+    <v-toolbar v-if="!isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important" v-scroll="scroll">
       <v-toolbar-title>
         <router-link to="/homepage" tag="span" style="cursor: pointer">
           <div style="display: flex">
@@ -180,7 +181,7 @@
 
     </v-toolbar>
 
-    <v-toolbar v-if="isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:998; padding-right: 2%; padding-left: 1%;  position: fixed !important">
+    <v-toolbar v-if="isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important">
       <v-toolbar-side-icon @click="dashboardMove" v-if="!isPlayingGame">
       </v-toolbar-side-icon>
       <v-toolbar-title>
@@ -364,7 +365,7 @@
         mobileMenuIsOpen: false,
         dashboardMenuItems: [
           {icon: 'home', title: 'Principal', link: '/home', accountType: 'ALL'},
-          {icon: 'play_arrow', title: 'Exercises', link: '/games', accountType: 'ALL'},
+          {icon: 'play_arrow', title: 'Exercices', link: '/games', accountType: 'ALL'},
           {icon: 'description', title: 'Listes', link: '/lists', accountType: 'ALL'}
         ],
         dashboardMenuItems2: [

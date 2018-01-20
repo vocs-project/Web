@@ -22,10 +22,10 @@
         <div><h5>Cliquez sur l'icône d'aide pour plus d'informations sur chaque mode d'exercices</h5></div>
         <div class="text-xs-center mt-2">
         </div>
-        <v-container fluid style="margin-top: 50px; margin-left: 10%">
+        <v-container fluid style="margin-top: 50px; margin-left: 15%">
           <v-layout row wrap>
-            <v-flex xs3 class="mb-3 mr-2 ml-2" v-for="gameMode in gameModes" :key="gameMode.name">
-              <div  class="white--text game-box elevation-6" :style="{ backgroundColor: gameMode.color }">
+            <v-flex xs4 class="mb-3 mr-2 ml-2" v-for="gameMode in gameModes" :key="gameMode.name">
+              <div  class="white--text game-box elevation-6 ma-1" :style="{ backgroundColor: gameMode.color }">
                 <v-layout row>
                   <v-flex xs12>
                     <div class="text-xs-center mt-4">
@@ -121,9 +121,8 @@
         gameModes: [
           {name: 'Traduction', icon: 'gamepad', description: 'Traduire une série de mots qui s\'affichent en l\'écrivant dans la boîte indiquée', link: '/games/classic', color: '#3fb554', showInfo: false},
           {name: 'QCM', icon: 'gamepad', description: 'Choisir parmis plusieurs mots la traduction correcte ', link: '/games/QCM', color: '#35a6ff', showInfo: false},
-          {name: 'Matching', icon: 'gamepad', description: 'Lier le mot français à sa traduction correspondante', link: '/games/matching', color: '#ff4864', showInfo: false}
-/*          {name: 'Time Attack', icon: 'gamepad', description: 'Time Attack (arrive prochainement)', link: '/games/classic', color: '#ffc05f', showInfo: false},
-          {name: 'Hard List', icon: 'gamepad', description: 'Hard List (arrive prochainement)', link: '', color: '#8b51ff', showInfo: false} */
+          {name: 'Matching', icon: 'gamepad', description: 'Lier le mot français à sa traduction correspondante', link: '/games/matching', color: '#ff4864', showInfo: false},
+          {name: 'Time Attack', icon: 'gamepad', description: 'Ecriver les mots correspondants mais avec une contrainte de temps!', link: '/games/timeattack', color: '#ffc05f', showInfo: false}
         ],
         dialogConfirmation: false,
         dialogConfirmation2: false,
@@ -181,7 +180,7 @@
 
 <style>
   .game-box {
-    height: 250px;
+    height: 275px;
     border-radius: 10px;
   }
 </style>

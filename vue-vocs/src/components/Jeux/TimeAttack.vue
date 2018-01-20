@@ -1,14 +1,18 @@
 <template>
   <v-container fluid class="mt-5" style="background-color: #f4f4f4; height: 685px" >
     <v-layout row wrap style="margin-top: 5vh">
-      <div class="mb-5 text-xs-center" style="width: 90vw;margin:auto">
-        <div style="width: 100%; background-color: rgba(0,115,237,0.47); height: 10px">
-          <div style="background-color: #059ffb; height: 10px; transition: all 300ms cubic-bezier(0.550, 0.085, 0.680, 0.530)" :style="{width: progress + '%'}"></div>
-        </div>
-      </div>
       <v-flex xs4 offset-xs4>
         <div class="text-xs-center">
           <form v-if="!finished">
+            <v-progress-circular
+              class="text-xs-center"
+              size="100"
+              width="15"
+              rotate="-90"
+              :value="timer"
+              :color="timerColor"
+            >
+            </v-progress-circular>
             <v-layout row>
               <v-flex xs12>
                 <v-alert
@@ -90,7 +94,7 @@
           <v-card-title v-else class="headline">Voulez-vous proposer votre mot aux administrateurs?</v-card-title>
           <h5 class="text-xs-center">La Bonne réponse:</h5>
           <h5 class="text-xs-center">{{answer}}</h5>
-            <h5 class="text-xs-center">Votre proposition:</h5>
+          <h5 class="text-xs-center">Votre proposition:</h5>
           <h5 class="text-xs-center">{{userAnswer}}</h5>
           <div class="text-xs-center pb-2">
             <v-btn large @click="alertSignalerMot = false" >Annuler</v-btn>
@@ -128,7 +132,9 @@
         synonymes : [],
         previousAnswer: null,
         currentWordStats: null,
-        currentWordId: null
+        currentWordId: null,
+        timer: 100,
+        timerColor:'primary'
       }
     },
     computed: {
@@ -137,9 +143,6 @@
       },
       list () {
         return JSON.parse(JSON.stringify(this.$store.getters.gameList))
-      },
-      progress () {
-        return (this.questionsAsked / this.amountOfQuestionsUserWants) * 100;
       },
       accountType () {
         if (this.user.roles === 'STUDENT' || JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]') {
@@ -164,6 +167,8 @@
           this.answer = this.list.wordTrads[randomNum].trad.content.toLowerCase();
           this.synonymes = this.list.wordTrads[randomNum].word.trads;
         }
+        this.timer=100;
+        this.timerColor='primary';
         this.currentWordStats = this.list.wordTrads[randomNum].stat;
         console.log('********currentWordStats: ' + JSON.stringify(this.currentWordStats));
         this.currentWordId = this.list.wordTrads[randomNum].id;
@@ -194,13 +199,8 @@
           this.userEnteredSynonym = false;
           this.questionResult = 'Bonne Réponse'
           this.questionsAsked++;
-          if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
-            this.finished = true
-            this.userAnswer = ''
-          } else {
-            this.list.wordTrads.splice(this.currentWordToRemove, 1)
-            this.randomQuestion()
-          }
+          this.list.wordTrads.splice(this.currentWordToRemove, 1)
+          this.randomQuestion()
         } else if(heEnteredSynonyme) {
           if(!this.hasGotItWrong){
             this.correctAnswers++
@@ -211,30 +211,20 @@
           this.previousAnswer = this.answer;
           this.questionResult = 'Bonne Réponse'
           this.questionsAsked++;
-          if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
-            this.finished = true
-            this.userAnswer = ''
-          } else {
-            this.list.wordTrads.splice(this.currentWordToRemove, 1)
-            this.randomQuestion()
-          }
+          this.list.wordTrads.splice(this.currentWordToRemove, 1)
+          this.randomQuestion()
         }else {
-          if(!this.hasGotItWrong){
-            if(this.currentWordStats.level>0){
-              this.currentWordStats.level --;
-            }
-            this.currentWordStats.badRepetition ++;
-            this.currentWordStats.goodRepetition=0;
-            var word = {
-              stat: this.currentWordStats
-            }
-            this.$store.dispatch('updateWordStats',word);
+          this.questionsAsked++;
+          if(this.currentWordStats.level>0){
+            this.currentWordStats.level --;
           }
-          this.hasGotItWrong = true;
-          this.userEnteredSynonym = false;
-          this.userEnteredCorrectAnswer = false;
-          this.userEnteredWrongAnswer = true;
-          this.questionResult = 'Mauvaise Réponse'
+          this.currentWordStats.badRepetition ++;
+          this.currentWordStats.goodRepetition=0;
+          var word = {
+            stat: this.currentWordStats
+          }
+          this.$store.dispatch('updateWordStats',word);
+          this.finished = true;
         }
 
       },
@@ -256,11 +246,26 @@
         console.log(this.userAnswer);
         this.$store.dispatch('sendSynonyme', toSend);
         this.alertSignalerMot = false;
+      },
+      countDown1(){
+        setInterval(() => {
+          this.timer =this.timer-10;
+          if(this.timer<=60 && this.timer>=35){
+            this.timerColor ='warning';
+          }
+          if(this.timer<35){
+            this.timerColor ='error';
+          }
+          if(this.timer<=0){
+            this.finished =true;
+          }
+        },500);
       }
     },
     created () {
       this.listSize = this.list.wordTrads.length;
       this.randomQuestion();
+      this.countDown1();
     }
   }
 </script>

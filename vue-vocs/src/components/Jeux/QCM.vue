@@ -96,7 +96,9 @@
         amountOfQuestionsUserWants: localStorage.getItem('amountOfQuestions'),
         userEnteredCorrectAnswer: false,
         userEnteredWrongAnswer: false,
-        hasGotItWrong: false
+        hasGotItWrong: false,
+        currentWordStats: null,
+        currentWordId: null
       }
     },
     computed: {
@@ -117,8 +119,10 @@
         var randomNum = Math.floor(Math.random() * this.list.wordTrads.length)
         console.log('randomNum: ' + randomNum)
         this.currentWordToRemove = randomNum
-        this.question = this.list.wordTrads[randomNum].word.content
-        this.answer = this.list.wordTrads[randomNum].trad.content
+        this.question = this.list.wordTrads[randomNum].word.content;
+        this.answer = this.list.wordTrads[randomNum].trad.content;
+        this.currentWordStats = this.list.wordTrads[randomNum].stat;
+        this.currentWordId = this.list.wordTrads[randomNum].id;
         this.randomIndexForCorrectAnswer = Math.floor(Math.random() * 4)
         console.log('randomIndexForCorrectAnswer: ' + randomNum)
         console.log('questionChoises: ' + this.questionChoises)
@@ -168,6 +172,17 @@
         if (this.userAnswer === this.answer) {
           if(!this.hasGotItWrong){
             this.correctAnswers++
+            if(this.currentWordStats.level<5){
+              this.currentWordStats.level ++;
+            }
+            this.currentWordStats.goodRepetition ++;
+            if(this.currentWordStats.goodRepetition >=2) {
+              this.currentWordStats.badRepetition =0;
+            }
+            var word = {
+              stat: this.currentWordStats
+            }
+            this.$store.dispatch('updateWordStats',word);
           }
           this.userEnteredCorrectAnswer = true;
           this.userEnteredWrongAnswer = false;
@@ -182,6 +197,17 @@
             this.randomQuestion()
           }
         } else {
+          if(!this.hasGotItWrong){
+            if(this.currentWordStats.level>0){
+              this.currentWordStats.level --;
+            }
+            this.currentWordStats.badRepetition ++;
+            this.currentWordStats.goodRepetition=0;
+            var word = {
+              stat: this.currentWordStats
+            }
+            this.$store.dispatch('updateWordStats',word);
+          }
           this.hasGotItWrong = true;
           this.userEnteredCorrectAnswer = false;
           this.userEnteredWrongAnswer = true;
