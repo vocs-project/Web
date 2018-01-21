@@ -50,7 +50,7 @@
               </v-flex>
             </v-layout>
             <br>
-            <h2>Question: {{question}}</h2>
+            <h2>{{question}}</h2>
 
             <br>
             <v-layout row>

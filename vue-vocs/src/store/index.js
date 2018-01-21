@@ -45,7 +45,20 @@ export const store = new Vuex.Store({
           avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'
         }
       ],
-      lists: []
+      lists: [
+          {
+            id: 177,
+            name: '',
+            creationDate: '2018-01-20T15:24:15+01:00',
+            wordTrads: []
+          }
+      ]
+    },
+    hardlist:{
+      id: null,
+      name: 'HiiiardList',
+      creationDate: '',
+      wordTrads: []
     },
     isPlayingGame:false,
     editProfil: false,
@@ -751,10 +764,29 @@ export const store = new Vuex.Store({
         .then(response2 => {
           return response2.json()
         }).then(data => {
-          console.log(JSON.stringify(data));
           state.user.lists = data;
-        console.log(JSON.stringify(state.user.lists));
-        state.loading = false;
+          Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + state.user.id + '/hardlist')
+            .then(response => {
+              return response.json()
+            }).then(data2 => {
+            state.hardlist = data2;
+            if(state.user.classes.length>0){
+              for(let h=0;h<state.user.classes[0].lists.length;h++){
+                var id = state.user.classes[0].lists[h].id;
+                Vue.http.get('https://vocsapi.lebarillier.fr/rest/users/' + state.user.id + '/lists/' + id)
+                  .then(response3 => {
+                    return response3.json()
+                  }).then(data3 => {
+                  state.user.classes[0].lists[h] = data3;
+                  if(h>=state.user.classes[0].lists.length-1){
+                    state.loading=false;
+                  }
+                });
+              }
+            }else {
+              state.loading=false;
+            }
+          });
         });
     },
     signUserIn ({commit, state}, payload) {
@@ -1087,6 +1119,60 @@ export const store = new Vuex.Store({
               this.dispatch('setSnackbarMessage', 'Vous n\'avez pas pu quitté la classe')
               state.loading = false
             })
+      }
+    },
+    removeStudentButKeepLists ({commit, state}, payload) {
+      state.loading = true
+      if (state.user.roles === 'STUDENT') {
+        for(let i=0;i<state.user.classes[0].lists.length;i++){
+          var toSendOff = {
+            name: state.user.classes[0].lists[i].name,
+            wordTrads: []
+          }
+
+          console.log('TOSENDOFF: ' + JSON.stringify(toSendOff))
+          for(let j=0;j<state.user.classes[0].lists[i].wordTrads.length;j++){
+            toSendOff.wordTrads.push(state.user.classes[0].lists[i].wordTrads[j].id);
+          }
+          console.log('TOSENDOFF: ' + JSON.stringify(toSendOff))
+          Vue.http.post('https://vocsapi.lebarillier.fr/rest/users/'+ state.user.id +'/lists', toSendOff)
+          .then(() => {
+            console.log('success :p');
+            if(i>=state.user.classes[0].lists.length-1){
+              Vue.http.delete('https://vocsapi.lebarillier.fr/rest/classes/' + state.user.classes[0].id + '/users/' + payload)
+                .then(response => {
+                  console.log('deleted student from classe: ' + response)
+                  console.log('user id: ' + state.user.id)
+                  var userRole = {
+                    roles: []
+                  }
+                  Vue.http.patch('https://vocsapi.lebarillier.fr/rest/users/' + state.user.id, userRole)
+                    .then(response2 => {
+                      console.log(response2)
+                      this.dispatch('setSnackbarIsEnabled', true)
+                      this.dispatch('setSnackbarMessage', 'Vous avez quitté la classe')
+                      state.loading = false
+                      commit('removeStudent', payload)
+                    })
+                    .catch(
+                      error => {
+                        console.log('the error: ' + error)
+                        this.dispatch('setSnackbarIsEnabled', true)
+                        this.dispatch('setSnackbarMessage', 'Vous n\'avez pas pu quitté la classe')
+                        state.loading = false
+                      })
+                })
+                .catch(
+                  error => {
+                    console.log(error)
+                    this.dispatch('setSnackbarIsEnabled', true)
+                    this.dispatch('setSnackbarMessage', 'Vous n\'avez pas pu quitté la classe')
+                    state.loading = false
+                  })
+            }
+          });
+        }
+
       }
     },
     removeWord ({commit, state}, payload) {
@@ -1716,6 +1802,9 @@ export const store = new Vuex.Store({
   getters: {
     loadedLists (state) {
       return state.user.lists
+    },
+    getTheHardList (state) {
+      return state.hardlist
     },
     loadedList (state) {
       return (listId) => {

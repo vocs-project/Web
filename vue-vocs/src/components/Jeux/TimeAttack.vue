@@ -1,18 +1,28 @@
 <template>
   <v-container fluid class="mt-5" style="background-color: #f4f4f4; height: 685px" >
-    <v-layout row wrap style="margin-top: 5vh">
+    <v-dialog  v-if="!started" v-model="FirstCountDownBeforeStarting" persistent>
+      <v-card>
+        <br>
+        <h3 class="headline text-xs-center ">Vous êtes prêt? </h3>
+        <br>
+        <h2 class="text-xs-center mb-4 ">{{FirstCountDownBeforeStartingValue}}</h2>
+        <br>
+        <br>
+      </v-card>
+    </v-dialog>
+    <v-layout v-if="started" row wrap style="margin-top: 5vh">
       <v-flex xs4 offset-xs4>
         <div class="text-xs-center">
           <form v-if="!finished">
-            <v-progress-circular
-              class="text-xs-center"
-              size="100"
-              width="15"
-              rotate="-90"
-              :value="timer"
-              :color="timerColor"
-            >
-            </v-progress-circular>
+            <div style="background-color: #c9c9c9;width:100%;height:20px">
+              <div :style="{backgroundColor: timerColor,width:timer + '%'}" style="height: 20px;">
+
+              </div>
+            </div>
+            <div class="mt-3">
+              <v-icon :style="{color: life1Color}" style="font-size: 60px">favorite</v-icon>
+              <v-icon :style="{color: life2Color}" style="font-size: 60px">favorite</v-icon>
+              <v-icon :style="{color: life3Color}" style="font-size: 60px">favorite</v-icon></div>
             <v-layout row>
               <v-flex xs12>
                 <v-alert
@@ -33,11 +43,7 @@
                     transition="scale-transition"
                   >
                     Mauvaise Réponse...<br>
-                    La Bonne Réponse Etait:
-                    <h6>{{answer}}</h6>
-                    Entrer le bonne réponse en dessous.
                   </v-alert>
-                  <v-btn class="blue" dark large @click="alertSignalerMot=true">Signaler Le Mot</v-btn>
                 </div>
                 <div v-if="userEnteredSynonym">
                   <v-alert
@@ -54,7 +60,7 @@
               </v-flex>
             </v-layout>
             <br>
-            <h2>Question: {{question}}</h2>
+            <h2>{{question}}</h2>
 
             <br>
             <v-layout row>
@@ -78,7 +84,7 @@
             </v-layout>
           </form>
           <div v-if="finished">
-            <h2>Résultat:</h2>
+            <h2>Fini!</h2>
             <br>
             <h2>{{correctAnswers}} / {{questionsAsked}} !</h2>
             <br>
@@ -86,22 +92,6 @@
           </div>
         </div>
       </v-flex>
-    </v-layout>
-    <v-layout row justify-center>
-      <v-dialog v-if="alertSignalerMot"persistent v-model="alertSignalerMot">
-        <v-card>
-          <v-card-title v-if="accountType == 'Élève'" class="headline text-xs-center">Voulez-vous proposer votre mot à votre professeur?</v-card-title>
-          <v-card-title v-else class="headline">Voulez-vous proposer votre mot aux administrateurs?</v-card-title>
-          <h5 class="text-xs-center">La Bonne réponse:</h5>
-          <h5 class="text-xs-center">{{answer}}</h5>
-          <h5 class="text-xs-center">Votre proposition:</h5>
-          <h5 class="text-xs-center">{{userAnswer}}</h5>
-          <div class="text-xs-center pb-2">
-            <v-btn large @click="alertSignalerMot = false" >Annuler</v-btn>
-            <v-btn large @click="sendSynonyme" >Envoyer</v-btn>
-          </div>
-        </v-card>
-      </v-dialog>
     </v-layout>
   </v-container>
 </template>
@@ -121,20 +111,24 @@
         finished: false,
         questionResult: '',
         correctAnswers: 0,
-        currentWordToRemove: '',
         listSize: 0,
-        amountOfQuestionsUserWants: localStorage.getItem('amountOfQuestions'),
-        alertSignalerMot: false,
         userEnteredCorrectAnswer : false,
         userEnteredWrongAnswer : false,
         userEnteredSynonym: false,
-        hasGotItWrong: false,
         synonymes : [],
         previousAnswer: null,
         currentWordStats: null,
         currentWordId: null,
         timer: 100,
-        timerColor:'primary'
+        timerColor:'#529bff',
+        lives:3,
+        FirstCountDownBeforeStarting:true,
+        FirstCountDownBeforeStartingValue:3,
+        countDownBeforeStartingInterval: null,
+        started:false,
+        life1Color:'red',
+        life2Color:'red',
+        life3Color:'red'
       }
     },
     computed: {
@@ -168,19 +162,17 @@
           this.synonymes = this.list.wordTrads[randomNum].word.trads;
         }
         this.timer=100;
-        this.timerColor='primary';
+        this.timerColor='#529bff';
         this.currentWordStats = this.list.wordTrads[randomNum].stat;
         console.log('********currentWordStats: ' + JSON.stringify(this.currentWordStats));
         this.currentWordId = this.list.wordTrads[randomNum].id;
         console.log("all synonymes: " + JSON.stringify(this.list.wordTrads[randomNum].word));
         this.answerObject = this.list.wordTrads[randomNum];
-        this.currentWordToRemove = randomNum;
         this.userAnswer = '';
       },
       testAnswer () {
         var heEnteredSynonyme = this.testIfUserEnteredASynonyme(this.userAnswer,this.synonymes);
         if (this.userAnswer.toLowerCase() === this.answer) {
-          if(!this.hasGotItWrong){
             this.correctAnswers++;
             if(this.currentWordStats.level<5){
               this.currentWordStats.level ++;
@@ -193,25 +185,20 @@
               stat: this.currentWordStats
             }
             this.$store.dispatch('updateWordStats',word);
-          }
           this.userEnteredCorrectAnswer = true;
           this.userEnteredWrongAnswer = false;
           this.userEnteredSynonym = false;
           this.questionResult = 'Bonne Réponse'
           this.questionsAsked++;
-          this.list.wordTrads.splice(this.currentWordToRemove, 1)
           this.randomQuestion()
         } else if(heEnteredSynonyme) {
-          if(!this.hasGotItWrong){
-            this.correctAnswers++
-          }
+          this.correctAnswers++
           this.userEnteredCorrectAnswer = false;
           this.userEnteredSynonym = true;
           this.userEnteredWrongAnswer = false;
           this.previousAnswer = this.answer;
           this.questionResult = 'Bonne Réponse'
           this.questionsAsked++;
-          this.list.wordTrads.splice(this.currentWordToRemove, 1)
           this.randomQuestion()
         }else {
           this.questionsAsked++;
@@ -224,7 +211,20 @@
             stat: this.currentWordStats
           }
           this.$store.dispatch('updateWordStats',word);
-          this.finished = true;
+          this.userEnteredCorrectAnswer = false;
+          this.userEnteredWrongAnswer = true;
+          this.userEnteredSynonym = false;
+          this.lives --;
+          this.life3Color = 'grey';
+          if(this.lives ==1){
+            this.life2Color = 'grey';
+          }
+          if(this.lives <=0) {
+            this.life1Color = 'grey';
+            this.finished = true;
+          }else{
+            this.randomQuestion()
+          }
         }
 
       },
@@ -249,23 +249,46 @@
       },
       countDown1(){
         setInterval(() => {
-          this.timer =this.timer-10;
+          this.timer--;
           if(this.timer<=60 && this.timer>=35){
-            this.timerColor ='warning';
+            this.timerColor ='#ffbd8c';
           }
           if(this.timer<35){
-            this.timerColor ='error';
+            this.timerColor ='#ff766b';
           }
           if(this.timer<=0){
-            this.finished =true;
+            this.lives --;
+            this.life3Color = 'grey';
+            if(this.lives ==1) {
+              this.life2Color = 'grey';
+            }
+            if(this.lives <=0) {
+              this.life1Color = 'grey';
+              this.finished = true;
+            }else{
+              this.questionsAsked++;
+              this.randomQuestion()
+            }
+            this.timer = 100;
           }
-        },500);
+        },45);
+      },
+      countDownBeforeStarting(){
+        this.countDownBeforeStartingInterval = setInterval(() => {
+          this.FirstCountDownBeforeStartingValue--;
+          if(this.FirstCountDownBeforeStartingValue<=0){
+            this.randomQuestion();
+            this.countDown1();
+            clearInterval(this.countDownBeforeStartingInterval);
+            this.started = true;
+          }
+
+        },1000);
       }
     },
     created () {
       this.listSize = this.list.wordTrads.length;
-      this.randomQuestion();
-      this.countDown1();
+      this.countDownBeforeStarting();
     }
   }
 </script>

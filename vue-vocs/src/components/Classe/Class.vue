@@ -45,7 +45,7 @@
       </v-card>
       <v-flex class="text-xs-center">
         <v-card style="margin-top: 30px; height: 130px; margin-bottom: 30px" class="gray--text text-xs-center ml-3 mr-3">
-          <v-btn large color="error" style="margin-top: 40px " @click="removeStudent">Quitter ma classe</v-btn>
+          <v-btn large color="error" style="margin-top: 40px " @click="confirmClassLeaveDialog=true">Quitter ma classe</v-btn>
         </v-card>
       </v-flex>
     </v-layout>
@@ -59,6 +59,17 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="confirmClassLeaveDialog" persistent>
+      <v-card>
+        <v-card-title class="headline">Quitter Ma Classe</v-card-title>
+        <v-card-text>Voulez-vous garder les listes de cette classe?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="removeStudentButKeepLists">Oui</v-btn>
+          <v-btn color="blue darken-1" flat @click.native="removeStudent">Non</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -67,7 +78,8 @@
   export default {
     data () {
       return {
-        classroomBG: homeClassroom
+        classroomBG: homeClassroom,
+        confirmClassLeaveDialog:false
       }
     },
     computed: {
@@ -97,6 +109,9 @@
       },
       removeStudent () {
         this.$store.dispatch('removeStudent', this.theUser.id)
+      },
+      removeStudentButKeepLists () {
+        this.$store.dispatch('removeStudentButKeepLists', this.theUser.id)
       }
     },
     created () {

@@ -406,7 +406,7 @@
     },
     computed: {
       isLoggedIn () {
-        return this.$store.getters.isLoggedIn
+        return this.$store.getters.isLoggedIn;
       },
       menuItems () {
         return [

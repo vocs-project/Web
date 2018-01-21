@@ -52,6 +52,7 @@
               <v-list-tile-title>Pas De Listes</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+          {{classes[0].lists}}
           <template v-for="(list, index) in classes[0].lists">
             <v-list-tile v-if="classes[0].lists.length > 0">
               <v-btn icon @click="">
@@ -116,28 +117,25 @@
       <v-card>
         <v-toolbar color="light-blue" dark>
           <v-toolbar-title>Hard Liste</v-toolbar-title>
-          <v-btn class="black--text" style="border-radius: 20px" small>S'entrainer</v-btn>
+          <v-btn v-if="hardList.wordTrads.length >= 0" class="black--text" style="border-radius: 20px" small @click="selectListForGame(hardList); confirmPlayWithList = true;">S'entrainer</v-btn>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-list>
-          <v-list-tile v-if="hardList.length <= 0">
+          <v-list-tile v-if="hardList.wordTrads.length <= 0">
             <v-list-tile-content>
               <v-list-tile-title>Pas De Mots</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <template v-for="(wordTrad, index) in hardList">
-            <v-list-tile v-if="hardList.length > 0">
+          <template  v-for="(wordTrad, index) in hardList.wordTrads">
+            <v-list-tile>
               <v-btn icon @click="">
                 <v-icon>description</v-icon>
               </v-btn>
-              <v-list-tile-content class="ml-3" style="cursor: pointer" @click="clickedList(wordTrad.id); selectList(wordTrad, false)">
-                <v-list-tile-title style="font-size: 20px">{{ wordTrad.wordTrads.word.content }} &rarr; {{ wordTrad.wordTrads.trad.content }}</v-list-tile-title>
+              <v-list-tile-content class="ml-3" style="cursor: pointer">
+                <v-list-tile-title style="font-size: 20px">{{ wordTrad.word.content }} &rarr; {{ wordTrad.trad.content }}</v-list-tile-title>
               </v-list-tile-content>
-              <v-list-tile-action>
-                <v-icon style="cursor: pointer" color="grey lighten-1" @click="clickedList(wordTrad.id); selectList(wordTrad, false)">arrow_right</v-icon>
-              </v-list-tile-action>
             </v-list-tile>
-            <v-divider style="width:90%" inset v-if="index + 1 < hardList.length "></v-divider>
+            <v-divider style="width:90%" inset v-if="index + 1 < hardList.wordTrads.length "></v-divider>
           </template>
         </v-list>
       </v-card>
@@ -364,14 +362,16 @@
         selectedTeachers: [],
         teacherName:'',
         theTeachers: [],
-        selectedListToShare: '',
-        hardList : []
+        selectedListToShare: ''
       }
     },
     computed: {
       lists () {
         /* loadedLists doesn't take parenthese it is a property (even though it is a method in the store */
         return this.$store.getters.loadedLists
+      },
+      hardList () {
+        return this.$store.getters.getTheHardList
       },
       classLists () {
         return this.$store.getters.classLists
@@ -436,6 +436,7 @@
         this.isAPersonalList = booleanValue;
       },
       selectList (list, booleanValue) {
+        console.log('selectteeddd list: ' + JSON.stringify(list))
         this.$store.dispatch('selectList', list);
         this.setIsAPersonalList(booleanValue);
         this.$store.dispatch('setIsAPersonalList', this.isAPersonalList);
@@ -493,7 +494,6 @@
       }
     },
     created () {
-      console.log('yoliststststss');
       this.$store.dispatch('getLists');
       this.$store.dispatch('setIsPlayingGame', false);
       for (var i = 0; i < this.classes.length; i++) {
