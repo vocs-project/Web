@@ -117,7 +117,7 @@
       <v-card>
         <v-toolbar color="light-blue" dark>
           <v-toolbar-title>Hard Liste</v-toolbar-title>
-          <v-btn v-if="hardList.wordTrads.length >= 0" class="black--text" style="border-radius: 20px" small @click="selectListForGame(hardList); confirmPlayWithList = true;">S'entrainer</v-btn>
+          <v-btn v-if="hardList.wordTrads.length > 0" class="black--text" style="border-radius: 20px" small @click="selectListForGame(hardList); confirmPlayWithList = true;">S'entrainer</v-btn>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-list>

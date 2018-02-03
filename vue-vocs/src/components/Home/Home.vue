@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="margin-top: 100px">
     <v-layout row wrap>
-      <v-flex xs4 sm6 md4 wrap class="mb-4">
+      <v-flex xs6 wrap class="mb-4">
         <v-card color="red lighten-2" class="white--text text-xs-center ml-3 mr-3">
           <div v-if="accountType !== 'Professeur' " style="padding-top: 10px" class="headline text-xs-center">Ma Classe</div>
           <div v-else style="padding-top: 10px" class="headline text-xs-center">Mes Classes</div>
@@ -15,7 +15,7 @@
           <v-btn v-else style="margin-top: 10px; margin-bottom: 10px;" flat dark to="/class">Voir Mes Classes</v-btn>
         </v-card>
       </v-flex>
-      <v-flex xs4 sm6 md4 wrap>
+      <v-flex xs6 wrap>
         <v-card color="cyan lighten-2"  class="white--text text-xs-center ml-3 mr-3">
             <div style="padding-top: 10px"  class="headline text-xs-center">Mes listes</div>
             <div>{{user.lists.length}} liste(s)</div>
@@ -23,16 +23,6 @@
             <v-icon class="white--text" style="font-size: 90px">description</v-icon>
           </div>
             <v-btn style="margin-top: 10px; margin-bottom: 10px;" flat dark to="/lists">Voir les listes</v-btn>
-        </v-card>
-      </v-flex>
-      <v-flex xs4 sm6 md4 wrap>
-        <v-card color="orange lighten-2" class="white--text text-xs-center ml-3 mr-3">
-          <div style="padding-top: 10px"  class="headline text-xs-center">Mes Statistiques</div>
-          <div>Tu es juste trop fort</div>
-          <div class="text-xs-center mt-2">
-            <v-icon class="white--text" style="font-size: 90px">show_chart</v-icon>
-          </div>
-          <v-btn style="margin-top: 10px; margin-bottom: 10px;" flat dark to="/statistics">Voir mes statistiques</v-btn>
         </v-card>
       </v-flex>
     </v-layout>

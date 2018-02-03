@@ -8,7 +8,6 @@ import Class from '@/components/Classe/Class.vue'
 import JoinClass from '@/components/Classe/JoinClass.vue'
 import Classes from '@/components/Classe/Classes.vue'
 import Profil from '@/components/Profile/Profile.vue'
-import Statistics from '@/components/Statistiques/Statistics.vue'
 import Games from '@/components/Jeux/Games.vue'
 import Classic from '@/components/Jeux/Classic.vue'
 import QCM from '@/components/Jeux/QCM.vue'
@@ -108,11 +107,6 @@ export default new Router({
       path: '/profil',
       name: 'Profil',
       component: Profil
-    },
-    {
-      path: '/statistics',
-      name: 'Statistics',
-      component: Statistics
     }
   ],
   mode: 'history'

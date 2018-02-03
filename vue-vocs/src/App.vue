@@ -1,9 +1,9 @@
 <template>
   <v-app class="v-app">
 
-    <div v-if="showDownloadAppDialog" style="background-color: white;width:100vw;height:100vh;z-index: 998"></div>
+    <div v-if="showDownloadAppDialog" style="background-color: white;position:fixed;width:100vw;height:100vh;z-index: 998"></div>
     <v-dialog v-model="showDownloadAppDialog" persistent max-width="290" style="z-index: 999">
-      <v-card>
+      <v-card style="z-index: 999">
         <v-card-title class="headline">Vous êtes sur petit écran! </v-card-title>
         <v-card-text>Telecharger notre application mobile:</v-card-text>
         <v-card-actions>
@@ -369,7 +369,6 @@
           {icon: 'description', title: 'Listes', link: '/lists', accountType: 'ALL'}
         ],
         dashboardMenuItems2: [
-          {icon: 'show_chart', title: 'Statistiques', link: '/statistics', accountType: 'ALL'},
           {icon: 'tune', title: 'Réglages', link: '/settings', accountType: 'ALL'}
         ],
         deconnectionButton: {
