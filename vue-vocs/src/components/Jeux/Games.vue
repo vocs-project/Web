@@ -119,10 +119,10 @@
     data () {
       return {
         gameModes: [
-          {name: 'Traduction', icon: 'gamepad', description: 'Traduire une série de mots qui s\'affichent en l\'écrivant dans la boîte indiquée', link: '/games/classic', color: '#3fb554', showInfo: false},
-          {name: 'QCM', icon: 'gamepad', description: 'Choisir parmis plusieurs mots la traduction correcte ', link: '/games/QCM', color: '#35a6ff', showInfo: false},
-          {name: 'Matching', icon: 'gamepad', description: 'Lier le mot français à sa traduction correspondante', link: '/games/matching', color: '#ff4864', showInfo: false},
-          {name: 'Time Attack', icon: 'gamepad', description: 'Ecriver les mots correspondants mais avec une contrainte de temps!', link: '/games/timeattack', color: '#ffc05f', showInfo: false}
+          {name: 'Traduction', icon: 'gamepad', description: 'Traduire une série de mots qui s\'affichent en l\'écrivant dans la boîte indiquée', link: '/games/classic', color: '#6FC9C0', showInfo: false},
+          {name: 'QCM', icon: 'gamepad', description: 'Choisir parmis plusieurs mots la traduction correcte ', link: '/games/QCM', color: '#26A4FF', showInfo: false},
+          {name: 'Matching', icon: 'gamepad', description: 'Lier le mot français à sa traduction correspondante', link: '/games/matching', color: '#B198DA', showInfo: false},
+          {name: 'Time Attack', icon: 'gamepad', description: 'Ecriver les mots correspondants mais avec une contrainte de temps!', link: '/games/timeattack', color: '#FF865E', showInfo: false}
         ],
         dialogConfirmation: false,
         dialogConfirmation2: false,

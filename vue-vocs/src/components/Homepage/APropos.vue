@@ -1,12 +1,13 @@
 <template>
   <div v-scroll="scroll">
-    <v-parallax class="s1-parallax" src="https://www.sinium.com/media/2013/08/sinium-bg.png" style="height:100vh;width:100vw">
-      <v-layout column align-center justify-center>
-        <v-flex class="text-md-center" :class="s1TextClass">
-          <h1 class="white--text text-xs-center textMain" >A propos de<br></h1>
-          <h1 class="white--text text-xs-center mb-0">Vocs</h1>
-          <p><v-btn icon class="mt-3 s1-btn" large @click="autoScrollDown">
-            <v-icon large color="white">keyboard_arrow_down</v-icon></v-btn></p>
+    <v-parallax class="s1-parallax" :src="HomepageBG" style="height:100vh;width:100vw;margin-top: -65px">
+      <v-layout align-center justify-center class="mt-5">
+        <v-flex xs10 sm10 md8 class="text-xs-center" :class="s1TextClass">
+          <h1 class="white--text text-xs-center" >A propos de<br></h1>
+          <h1 class="white--text text-xs-center">Vocs</h1>
+          <v-btn icon class="text-xs-center" large @click="autoScrollDown">
+            <v-icon large color="white">keyboard_arrow_down</v-icon>
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-parallax>
@@ -106,32 +107,55 @@
     </v-container>
 
 
+    <!-------------->
+    <!-- Footer -->
+    <!-------------->
+    <footer style="height: auto;background-color: rgba(24,24,24,0.85);padding: 2%;padding-top: 40px">
+      <v-layout row wrap>
+        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+          <div>
+            <h6 style="color: white" class="text-xs-center">A Propos</h6>
+            <p style="color: white" class="text-xs-center">A propos de la plateforme Vocs</p>
+          </div>
+        </v-flex>
+        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+          <div>
+            <h6 style="color: white" class="text-xs-center">Connexion</h6>
+            <p style="color: white" class="text-xs-center">Connectez-vous à votre compte personnel</p>
+          </div>
+        </v-flex>
+        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+          <div>
+            <h6 style="color: white" class="text-xs-center">Inscription</h6>
+            <p style="color: white" class="text-xs-center">Inscrivez-vous si vous ne l'avez pas encore fait</p>
+          </div>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap style="margin-top: 30px;margin-bottom: 20px">
+        <v-flex xs12>
+          <div style="align-items: center;justify-content: center;">
+            <h6 style="color: white" class="text-xs-center">Contact</h6>
+            <p style="color: white" class="text-xs-center">Vocs Inc</p>
+          </div>
+        </v-flex>
+        <v-flex xs12 class="text-xs-center">
+          <img :src="logo" alt="Logo Vocs" style="height: 40px;">
+        </v-flex>
+      </v-layout>
+    </footer>
+
   </div>
 </template>
 
 <script>
   import HomepageBG from '@/assets/HomepageBG.png'
-  import HomepageBG2 from '@/assets/HomepageBG2.png'
-  import HomepageBG3 from '@/assets/HomepageBG3.png'
-  import HomepageBG4 from '@/assets/HomepageBG4.png'
-  import Iphone from '@/assets/iphone.png'
-  import Android from '@/assets/android.png'
-  import clouds from '@/assets/cloud1.png'
-  import clouds2 from '@/assets/cloud2.png'
+  import logo from '@/assets/logoFlatWhite.png'
 
   export default {
     data () {
       return {
-        sliderImages: [
-          {imageUrl: HomepageBG, title: 'Le Vocabulaire'},
-          {imageUrl: HomepageBG2, title: 'L\'Orthophe'},
-          {imageUrl: HomepageBG3, title: 'La Grammaire'},
-          {imageUrl: HomepageBG4, title: 'Vocs'}
-        ],
-        iphone: Iphone,
-        android: Android,
-        clouds: clouds,
-        clouds2: clouds2,
+        logo:logo,
+        HomepageBG:HomepageBG,
         s1TextClass: 's1-text-hide',
         s2IphoneClass: 's2-iphone-hide',
         s2TextClass: 's2-text-hide',
@@ -171,7 +195,7 @@
       autoScrollDown () {
         do {
           document.documentElement.scrollTop = document.documentElement.scrollTop + 1
-        } while (document.documentElement.scrollTop < 700)
+        } while (document.documentElement.scrollTop < 745)
       }
     },
     mounted () {

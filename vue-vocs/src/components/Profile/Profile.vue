@@ -110,11 +110,9 @@
 </template>
 
 <script>
-  import homeClassroom from '@/assets/homeClassroom.png'
   export default {
     data () {
       return {
-        classroomBG: homeClassroom,
         students: [
           {name: 'Harvey', surname: 'Roberts', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
           {name: 'Simon', surname: 'Aranud', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},

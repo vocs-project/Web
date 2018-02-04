@@ -5,7 +5,7 @@
     <v-dialog v-model="showDownloadAppDialog" persistent max-width="290" style="z-index: 999">
       <v-card style="z-index: 999">
         <v-card-title class="headline">Vous êtes sur petit écran! </v-card-title>
-        <v-card-text>Telecharger notre application mobile:</v-card-text>
+        <v-card-text>Telechargez notre application mobile:</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1"  dark>IOS</v-btn>
@@ -61,7 +61,7 @@
       temporary
       right
       v-model="mobileMenuIsOpen"
-      style="z-index:999">
+      style="z-index:997">
       <v-list>
         <v-list-tile
           v-for="item in menuItems"
@@ -83,7 +83,7 @@
     <v-navigation-drawer
       v-if="isLoggedIn"
       clipped
-      style="z-index:997;background-color: #2B333E; transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1); overflow-y: hidden"
+      style="z-index:996;background-color: #2B333E; transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1); overflow-y: hidden"
       :style="{width: dashboardWidth + 'px'}">
       <div class="white--text text-xs-center ml-3 mr-3" :class="{dashboardAvatarShow: dashboardAvatarStyle, dashboardAvatarHidden: !dashboardAvatarStyle}">
         <v-card style="border-radius: 500px; height: 100px; width:100px; margin:auto; margin-top: 100px" :to="profile.link">
@@ -139,8 +139,77 @@
       </v-list>
     </v-navigation-drawer>
 
-    <!--Top bar-->
-    <v-toolbar v-if="!isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important" v-scroll="scroll">
+
+
+
+
+
+    <!------------->
+    <!--The Static Top bar When Not Logged In-->
+    <!------------->
+    <v-toolbar
+      v-if="!isLoggedIn"
+      style="
+        z-index:996;
+        background-color: transparent;
+        box-shadow: none;
+        padding-right: 2%;
+        padding-left: 1%;">
+      <v-toolbar-title>
+        <router-link to="/homepage" tag="span" style="cursor: pointer">
+          <div style="display: flex">
+            <img :src="vocsLoadingLogoWhite" alt="Vocs" style="height: 60px;margin-top: 25px">
+          </div>
+        </router-link>
+      </v-toolbar-title>
+      <!--Space between elements-->
+      <v-spacer></v-spacer>
+      <!--Group of items-->
+      <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
+        <!--Button-->
+        <v-btn style="margin:8px;height:50px;background: none;color: white;font-size: 15px;border: 2px solid white;border-radius: 8px" class="elevation-0" :class="item.buttonType" :to="item.link">
+          <v-icon left color="white" style="margin-bottom: 3px; margin-right: 7px;">{{item.icon}}</v-icon>
+          {{item.title}}
+        </v-btn>
+      </v-toolbar-items>
+      {{user.roles}}
+      <v-toolbar-items v-if="profile.shown" class="topbar-btn">
+        <v-btn icon @click="showNotifications = !showNotifications">
+          <v-badge left style="cursor: pointer">
+            <span v-if="amountOfNotifications > 0" slot="badge">{{amountOfNotifications}}</span>
+            <v-icon>notifications</v-icon>
+          </v-badge>
+        </v-btn>
+        <!--Button-->
+        <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
+          <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
+          {{profile.title}}
+        </v-btn>
+      </v-toolbar-items>
+      <!--Hamburger menu
+      &click.stop stops probagation -->
+      <v-toolbar-side-icon dark class="hidden-md-and-up" @click.stop="mobileMenuIsOpen=!mobileMenuIsOpen">
+      </v-toolbar-side-icon>
+    </v-toolbar>
+
+
+
+
+
+
+    <!------------->
+    <!--The Sliding Top bar When Not Logged In-->
+    <!------------->
+    <v-toolbar
+      v-if="!isLoggedIn"
+      :class="topBarClass"
+      style="
+        z-index:997;
+        background-color: white;
+        padding-right: 2%;
+        padding-left: 1%;
+        position: fixed !important"
+      v-scroll="scroll">
       <v-toolbar-title>
         <router-link to="/homepage" tag="span" style="cursor: pointer">
           <div style="display: flex">
@@ -153,8 +222,8 @@
       <!--Group of items-->
       <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
         <!--Button-->
-        <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="item.buttonType" :to="item.link">
-          <v-icon left color="light-blue darken-1" style="margin-bottom: 3px; margin-right: 7px;">{{item.icon}}</v-icon>
+        <v-btn style="background: none;margin-right: 5px;margin-left: 5px" class="elevation-0" :class="item.buttonType" :to="item.link">
+          <v-icon left color="primary" style="margin-bottom: 3px; margin-right: 7px;">{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
       </v-toolbar-items>
@@ -166,7 +235,6 @@
             <v-icon>notifications</v-icon>
           </v-badge>
         </v-btn>
-
         <!--Button-->
         <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
           <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
@@ -176,17 +244,22 @@
       <!--Hamburger menu
       &click.stop stops probagation -->
       <v-toolbar-side-icon class="hidden-md-and-up" @click.stop="mobileMenuIsOpen=!mobileMenuIsOpen">
-
       </v-toolbar-side-icon>
-
     </v-toolbar>
 
+
+
+
+
+    <!------------->
+    <!--The Top bar When Logged In-->
+    <!------------->
     <v-toolbar v-if="isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important">
       <v-toolbar-side-icon @click="dashboardMove" v-if="!isPlayingGame">
       </v-toolbar-side-icon>
       <v-toolbar-title>
         <div style="display: flex">
-          <img v-if="role == 'USER' " :src="vocsLoadingLogo" alt="Vocs" style="height: 30px"><img v-if="role == 'STUDENT'" :src="vocsLoadingLogoWhite" alt="Vocs" style="height: 30px; opacity: 0.9"><img v-if="role == 'PROFESSOR'" :src="vocsLoadingLogoWhite" alt="Vocs" style="height: 30px; opacity: 0.9">
+          <img v-if="role == 'USER' " :src="vocsLoadingLogo" alt="Vocs" style="height: 30px"><img v-if="role == 'STUDENT'" :src="vocsLoadingLogo" alt="Vocs" style="height: 30px; opacity: 0.9"><img v-if="role == 'PROFESSOR'" :src="vocsLoadingLogo" alt="Vocs" style="height: 30px; opacity: 0.9">
           <div v-if="role == 'USER'" class="blue--text" style="margin-left: -7px; margin-top: 7px">ocs</div><div v-if="role == 'PROFESSOR'" style="margin-left: -7px; margin-top: 7px; color: white; opacity: 0.8">ocs</div>
         </div>
       </v-toolbar-title>
@@ -333,19 +406,8 @@
     </v-dialog>
 
     <main>
-      <!--<div style="position: fixed; z-index: 999"><h1>{{offsetTop}}</h1></div>-->
-      <!--      <br>
-            <br>
-            SelectedListForGame:{{getSelectedListForGame}}
-            <br>
-            <br>
-            LoadedLists: {{getLoadedLists}}
-            <br>
-            <br>
-            SelectedList: {{getSelectedList}}-->
       <v-content>
         <v-container fluid :class="mainClass">
-          <div v-if="isLoggedIn === true"><!--{{getLoadedLists}}{{user}}--></div>
           <router-view></router-view>
         </v-container>
       </v-content>
@@ -377,7 +439,7 @@
           link: '/homepage'},
         offsetTop: 0,
         oldOffsetTop: 0,
-        topBarClass: 'top-bar-show',
+        topBarClass: 'top-bar-hide',
         autoScrollUpBtnClass: 'auto-scroll-up-btn-hide',
         roles: [
           {title: 'USER'},
@@ -409,7 +471,7 @@
       },
       menuItems () {
         return [
-          {icon: '', title: 'A Propos', link: '/about', shown: !this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'},
+          {icon: 'help_outline', title: 'A Propos', link: '/about', shown: !this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'},
           {icon: 'perm_identity', title: 'Connexion', link: '/connection', shown: !this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'},
           {icon: 'assignment', title: 'Inscription', link: '/inscription', shown: !this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'}
         ]
@@ -472,18 +534,18 @@
       },
       topbarColor () {
         if (this.role === 'STUDENT') {
-          return '#36c0ff'
+          return '#FBFBFB'
         } else if (this.role === 'PROFESSOR') {
-          return '#FFB74D'
+          return '#fbfbfb'
         } else {
-          return 'white'
+          return '#FBFBFB'
         }
       },
       topbarTextColor () {
         if (this.role === 'STUDENT') {
-          return 'white'
+          return '#7f7f7f'
         } else if (this.role === 'PROFESSOR') {
-          return 'white'
+          return '#7f7f7f'
         } else {
           return '#7f7f7f'
         }
@@ -528,6 +590,9 @@
     },
     watch: {
       isLoggedIn: function (val) {
+        if(val === true) {
+          this.getWindowWidth();
+        }
         if (val === true && this.isPlayingGame === false) {
           this.mainClass = 'dashboard-open'
         } else if (this.isPlayingGame === false){
@@ -546,9 +611,9 @@
       }
     },
     methods: {
-      getWindowWidth(event) {
+      getWindowWidth() {
         this.windowWidth = document.documentElement.clientWidth;
-        if(this.windowWidth <= 900){
+        if(this.windowWidth <= 900 && this.isLoggedIn === true){
           this.showDownloadAppDialog = true;
         } else {
           this.showDownloadAppDialog = false;
@@ -562,8 +627,10 @@
         this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
         if (this.offsetTop > this.oldOffsetTop && this.isLoggedIn === false) {
           this.topBarClass = 'top-bar-hide'
-        } else if (this.offsetTop < this.oldOffsetTop && this.isLoggedIn === false) {
+        } else if (this.offsetTop < this.oldOffsetTop && this.isLoggedIn === false && this.offsetTop>100) {
           this.topBarClass = 'top-bar-show'
+        } else if(this.offsetTop<100 && this.isLoggedIn === false){
+          this.topBarClass = 'top-bar-hide'
         } else if(this.isLoggedIn){
           this.topBarClass = 'top-bar-show'
         }
@@ -651,7 +718,7 @@
 
 <style>
   .v-app {
-    background-color: #eeeeee;
+    background-color: #e9eaee;
   }
   .dashboard-closed {
     margin-left: 0px;
@@ -685,7 +752,7 @@
     transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
   }
   .top-bar-hide {
-    transform: translateY(-110%);
+    transform: translateY(-130%);
     transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
   }
   .dashboard-nav-tile:hover {

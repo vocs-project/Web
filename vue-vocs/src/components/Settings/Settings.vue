@@ -34,11 +34,9 @@
 </template>
 
 <script>
-  import homeClassroom from '@/assets/homeClassroom.png'
   export default {
     data () {
       return {
-        classroomBG: homeClassroom,
         info: {
           email: '',
           password: ''

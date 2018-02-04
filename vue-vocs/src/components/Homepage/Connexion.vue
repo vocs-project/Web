@@ -1,5 +1,5 @@
 <template>
-  <v-parallax class="s1-parallax" src="https://www.sinium.com/media/2013/08/sinium-bg.png" style="height:100vh;width:100vw">
+  <v-parallax class="s1-parallax" :src="HomepageBG" style="height:100vh;width:100vw;margin-top: -65px">
     <v-container>
       <v-layout row>
         <v-flex style="margin-top: 180px" xs12 sm6 offset-sm3>
@@ -63,9 +63,11 @@
 </template>
 
 <script>
+  import HomepageBG from '@/assets/HomepageBG.png'
   export default {
     data () {
       return {
+        HomepageBG:HomepageBG,
         users: [],
         info: {
           email: '',

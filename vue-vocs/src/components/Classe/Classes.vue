@@ -2,11 +2,9 @@
   <v-container fluid style="padding-top: 90px; background-color: #8BC3DC; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
     <v-layout row wrap >
       <v-flex xs6 offset-xs3 class="mb-4">
-        <v-card color="white" style="border-radius: 500px; height: 220px; width:220px; padding-top: 30px; margin:auto" class="white--text">
           <div class="text-xs-center mt-3">
-            <v-icon class="gray--text" style="font-size: 120px; margin-right: 1%; margin-top: 3%">school</v-icon>
+            <v-icon class="white--text" style="font-size: 120px; margin-right: 1%; margin-top: 3%">school</v-icon>
           </div>
-        </v-card>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -205,11 +203,9 @@
 </template>
 
 <script>
-  import homeClassroom from '@/assets/homeClassroom.png'
   export default {
     data () {
       return {
-        classroomBG: homeClassroom,
         createClass: false,
         createClassName: '',
         addStudents: false,
