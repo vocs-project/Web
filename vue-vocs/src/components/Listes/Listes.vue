@@ -13,7 +13,7 @@
         </v-toolbar>
         <v-list>
           <template v-for="(list,index) in lists">
-            <v-list-tile two-line  v-bind:key="list.name" class="mt-3 mb-3">
+            <v-list-tile   v-bind:key="list.name" class="mt-3 mb-3">
               <v-btn icon @click.native.stop="confirmListRemoval = true; listRemovalId=list.id">
                 <v-icon class="white&#45;&#45;text" >delete</v-icon>
               </v-btn>

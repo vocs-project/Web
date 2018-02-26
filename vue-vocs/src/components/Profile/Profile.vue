@@ -1,18 +1,12 @@
 <template>
   <v-container fluid style="padding-top: 90px;height:140vh; background-color: #8BC3DC; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
-    <v-layout row wrap>
-      <v-flex xs6 sm6 md4 offset-xs5 wrap class="mb-4 text-xs-center">
-        <div class="text-xs-center">
-          <v-card style="background:none; box-shadow:none; border-radius: 500px; height: 220px; width:220px" class="white--text">
-            <img style="height:105%; width:105%; margin: 0; margin-left: -2px; margin-top: -1px; padding: 0" src="http://flaticons.net/icons/Application/User-Profile.png" alt="">
-          </v-card>
-        </div>
-      </v-flex>
+    <v-layout row style="justify-content:center">
+        <v-card style="background:none; box-shadow:none; border-radius: 500px; height: 220px; width:220px" class="white--text">
+          <img style="height:105%; width:105%; margin: 0; margin-left: -2px; margin-top: -1px; padding: 0" src="http://flaticons.net/icons/Application/User-Profile.png" alt="">
+        </v-card>
     </v-layout>
-    <v-layout row wrap>
-      <v-flex xs6 sm6 md4 offset-xs4>
-        <h2 class="white--text text-xs-center">Mon Profil</h2>
-      </v-flex>
+    <v-layout row style="justify-content:center">
+        <h2 class="white--text">Mon Profil</h2>
     </v-layout>
     <v-layout style="background-color: #ebebeb;" row wrap>
       <v-card style="width:100%; height: 115px" class="gray--text text-xs-center">

@@ -1,6 +1,7 @@
 <template>
   <v-app class="v-app">
 
+    <!--If we are on a small screen then we display the download app message-->
     <div v-if="showDownloadAppDialog" style="background-color: white;position:fixed;width:100vw;height:100vh;z-index: 998"></div>
     <v-dialog v-model="showDownloadAppDialog" persistent max-width="290" style="z-index: 999">
       <v-card style="z-index: 999">
@@ -14,404 +15,408 @@
       </v-card>
     </v-dialog>
 
-    <v-btn
-      color="white"
-      fixed
-      bottom
-      right
-      fab
-      :class="autoScrollUpBtnClass"
-      @click="autoScrollUp"
-    >
-      <v-icon>arrow_upward</v-icon>
-    </v-btn>
+    <!--If we are on a large screen then we display the content-->
+    <div v-if="!showDownloadAppDialog">
+      <v-btn
+        color="white"
+        fixed
+        bottom
+        right
+        fab
+        :class="autoScrollUpBtnClass"
+        @click="autoScrollUp"
+      >
+        <v-icon>arrow_upward</v-icon>
+      </v-btn>
 
-    <v-dialog v-model="loading" persistent :content-class="loadingClass">
-      <v-card style="background: white">
-        <v-card-title>
-          <img style="height:30%; width:30%; margin: auto;" :src="vocsLoadingLogo" alt="Vocs">
-        </v-card-title>
-        <v-card-text>
-          <div class="text-xs-center">
-            <v-progress-circular indeterminate v-bind:size="50" color="primary"></v-progress-circular>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-
-
-
-
-
-
-    <v-snackbar
-      top
-      multi-line
-      v-model="snackbarEnabled"
-      style="position: fixed; z-index: 999"
-      :timeout="timeout"
-    >
-      {{ snackbarMessage }}
-      <v-btn flat color="blue" @click.native="setSnackbarEnabled">Close</v-btn>
-    </v-snackbar>
-
-
-    <!--Mobile menu drawer-->
-    <v-navigation-drawer
-      temporary
-      right
-      v-model="mobileMenuIsOpen"
-      style="z-index:997">
-      <v-list>
-        <v-list-tile
-          v-for="item in menuItems"
-          :key="item.title"
-          :to="item.link"
-          v-if="item.shown"
-        >
-          <v-list-tile-action >
-            <v-icon v-model="item.shown" left color="ligh-blue darken-1">{{item.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title > {{item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-
-    </v-navigation-drawer>
-    <!--Dashboard menu drawer-->
-    <v-navigation-drawer
-      v-if="isLoggedIn"
-      clipped
-      style="z-index:996;background-color: #2B333E; transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1); overflow-y: hidden"
-      :style="{width: dashboardWidth + 'px'}">
-      <div class="white--text text-xs-center ml-3 mr-3" :class="{dashboardAvatarShow: dashboardAvatarStyle, dashboardAvatarHidden: !dashboardAvatarStyle}">
-        <v-card style="border-radius: 500px; height: 100px; width:100px; margin:auto; margin-top: 100px" :to="profile.link">
-          <img style="height:103%; width:103%; margin: 0; margin-left: -2px; margin-top: -2px; padding: 0; cursor: pointer" src="https://www.practicepanther.com/wp-content/uploads/2017/02/user.png" alt="img-profil" >
+      <v-dialog v-model="loading" persistent :content-class="loadingClass">
+        <v-card style="background: white">
+          <v-card-title>
+            <img style="height:30%; width:30%; margin: auto;" :src="vocsLoadingLogo" alt="Vocs">
+          </v-card-title>
+          <v-card-text>
+            <div class="text-xs-center">
+              <v-progress-circular indeterminate v-bind:size="50" color="primary"></v-progress-circular>
+            </div>
+          </v-card-text>
         </v-card>
-        <h6 class="white--text mt-4">{{user.firstname}} {{user.surname}}</h6>
-      </div>
-      <v-list style="transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1)" :style="{marginTop: dashboardMarginTop + 'px'}">
-        <v-list-tile
-          v-for="item in dashboardMenuItems"
-          :key="item.title"
-          :to="item.link"
-          class="dashboard-nav-tile"
-          v-if="item.accountType === role || item.accountType === 'ALL'">
-          <v-list-tile-action >
-            <v-icon left class="white--text">{{item.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content >
-            <v-list-tile-title class="white--text"> {{item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile
-          :to="myClassButton.link"
-          class="dashboard-nav-tile">
-          <v-list-tile-action >
-            <v-icon left class="white--text">{{myClassButton.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content >
-            <v-list-tile-title class="white--text"> {{myClassButton.title}}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile
-          v-for="item in dashboardMenuItems2"
-          :key="item.title"
-          :to="item.link"
-          class="dashboard-nav-tile"
-          v-if="item.accountType === role || item.accountType === 'ALL'">
-          <v-list-tile-action >
-            <v-icon left class="white--text">{{item.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content >
-            <v-list-tile-title class="white--text"> {{item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile class="dashboard-nav-tile" @click="deconnect">
-          <v-list-tile-action >
-            <v-icon left class="white--text">{{deconnectionButton.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content >
-            <v-list-tile-title class="white--text"> {{deconnectionButton.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
+      </v-dialog>
 
 
 
 
 
 
-    <!------------->
-    <!--The Static Top bar When Not Logged In-->
-    <!------------->
-    <v-toolbar
-      v-if="!isLoggedIn"
-      style="
-        z-index:996;
-        background-color: transparent;
-        box-shadow: none;
-        padding-right: 2%;
-        padding-left: 1%;">
-      <v-toolbar-title>
-        <router-link to="/homepage" tag="span" style="cursor: pointer">
-          <div style="display: flex">
-            <img :src="vocsLoadingLogoWhite" alt="Vocs" style="height: 60px;margin-top: 25px">
-          </div>
-        </router-link>
-      </v-toolbar-title>
-      <!--Space between elements-->
-      <v-spacer></v-spacer>
-      <!--Group of items-->
-      <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
-        <!--Button-->
-        <v-btn style="margin:8px;height:50px;background: none;color: white;font-size: 15px;border: 2px solid white;border-radius: 8px" class="elevation-0" :class="item.buttonType" :to="item.link">
-          <v-icon left color="white" style="margin-bottom: 3px; margin-right: 7px;">{{item.icon}}</v-icon>
-          {{item.title}}
-        </v-btn>
-      </v-toolbar-items>
-      {{user.roles}}
-      <v-toolbar-items v-if="profile.shown" class="topbar-btn">
-        <v-btn icon @click="showNotifications = !showNotifications">
-          <v-badge left style="cursor: pointer">
-            <span v-if="amountOfNotifications > 0" slot="badge">{{amountOfNotifications}}</span>
-            <v-icon>notifications</v-icon>
-          </v-badge>
-        </v-btn>
-        <!--Button-->
-        <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
-          <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
-          {{profile.title}}
-        </v-btn>
-      </v-toolbar-items>
-      <!--Hamburger menu
-      &click.stop stops probagation -->
-      <v-toolbar-side-icon dark class="hidden-md-and-up" @click.stop="mobileMenuIsOpen=!mobileMenuIsOpen">
-      </v-toolbar-side-icon>
-    </v-toolbar>
+      <v-snackbar
+        top
+        multi-line
+        v-model="snackbarEnabled"
+        style="position: fixed; z-index: 999"
+        :timeout="timeout"
+      >
+        {{ snackbarMessage }}
+        <v-btn flat color="blue" @click.native="setSnackbarEnabled">Close</v-btn>
+      </v-snackbar>
 
 
+      <!--Mobile menu drawer-->
+      <v-navigation-drawer
+        temporary
+        right
+        v-model="mobileMenuIsOpen"
+        style="z-index:997">
+        <v-list>
+          <v-list-tile
+            v-for="item in menuItems"
+            :key="item.title"
+            :to="item.link"
+            v-if="item.shown"
+          >
+            <v-list-tile-action >
+              <v-icon v-model="item.shown" left color="ligh-blue darken-1">{{item.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title > {{item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
 
-
-
-
-    <!------------->
-    <!--The Sliding Top bar When Not Logged In-->
-    <!------------->
-    <v-toolbar
-      v-if="!isLoggedIn"
-      :class="topBarClass"
-      style="
-        z-index:997;
-        background-color: white;
-        padding-right: 2%;
-        padding-left: 1%;
-        position: fixed !important"
-      v-scroll="scroll">
-      <v-toolbar-title>
-        <router-link to="/homepage" tag="span" style="cursor: pointer">
-          <div style="display: flex">
-            <img :src="vocsLoadingLogo" alt="Vocs" style="height: 30px">
-          </div>
-        </router-link>
-      </v-toolbar-title>
-      <!--Space between elements-->
-      <v-spacer></v-spacer>
-      <!--Group of items-->
-      <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
-        <!--Button-->
-        <v-btn style="background: none;margin-right: 5px;margin-left: 5px" class="elevation-0" :class="item.buttonType" :to="item.link">
-          <v-icon left color="primary" style="margin-bottom: 3px; margin-right: 7px;">{{item.icon}}</v-icon>
-          {{item.title}}
-        </v-btn>
-      </v-toolbar-items>
-      {{user.roles}}
-      <v-toolbar-items v-if="profile.shown" class="topbar-btn">
-        <v-btn icon @click="showNotifications = !showNotifications">
-          <v-badge left style="cursor: pointer">
-            <span v-if="amountOfNotifications > 0" slot="badge">{{amountOfNotifications}}</span>
-            <v-icon>notifications</v-icon>
-          </v-badge>
-        </v-btn>
-        <!--Button-->
-        <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
-          <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
-          {{profile.title}}
-        </v-btn>
-      </v-toolbar-items>
-      <!--Hamburger menu
-      &click.stop stops probagation -->
-      <v-toolbar-side-icon class="hidden-md-and-up" @click.stop="mobileMenuIsOpen=!mobileMenuIsOpen">
-      </v-toolbar-side-icon>
-    </v-toolbar>
-
-
-
-
-
-    <!------------->
-    <!--The Top bar When Logged In-->
-    <!------------->
-    <v-toolbar v-if="isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important">
-      <v-toolbar-side-icon @click="dashboardMove" v-if="!isPlayingGame">
-      </v-toolbar-side-icon>
-      <v-toolbar-title>
-        <div style="display: flex">
-          <img v-if="role == 'USER' " :src="vocsLoadingLogo" alt="Vocs" style="height: 30px"><img v-if="role == 'STUDENT'" :src="vocsLoadingLogo" alt="Vocs" style="height: 30px; opacity: 0.9"><img v-if="role == 'PROFESSOR'" :src="vocsLoadingLogo" alt="Vocs" style="height: 30px; opacity: 0.9">
-          <div v-if="role == 'USER'" class="blue--text" style="margin-left: -7px; margin-top: 7px">ocs</div><div v-if="role == 'PROFESSOR'" style="margin-left: -7px; margin-top: 7px; color: white; opacity: 0.8">ocs</div>
+      </v-navigation-drawer>
+      <!--Dashboard menu drawer-->
+      <v-navigation-drawer
+        v-if="isLoggedIn"
+        clipped
+        style="z-index:996;background-color: #2B333E; transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1); overflow-y: hidden"
+        :style="{width: dashboardWidth + 'px'}">
+        <div class="white--text text-xs-center ml-3 mr-3" :class="{dashboardAvatarShow: dashboardAvatarStyle, dashboardAvatarHidden: !dashboardAvatarStyle}">
+          <v-card style="border-radius: 500px; height: 100px; width:100px; margin:auto; margin-top: 100px" :to="profile.link">
+            <img style="height:103%; width:103%; margin: 0; margin-left: -2px; margin-top: -2px; padding: 0; cursor: pointer" src="https://www.practicepanther.com/wp-content/uploads/2017/02/user.png" alt="img-profil" >
+          </v-card>
+          <h6 class="white--text mt-4">{{user.firstname}} {{user.surname}}</h6>
         </div>
-      </v-toolbar-title>
-      <!--Space between elements-->
-      <v-spacer></v-spacer>
-      <div style="margin-right: 2%">{{topbarAccountText}}</div>
-      <!--Group of items-->
-      <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
-        <!--Button-->
-        <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="item.buttonType" :to="item.link">
-          <v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>
-          {{item.title}}
-        </v-btn>
-      </v-toolbar-items>
-      <v-toolbar-items v-if="profile.shown" class="topbar-btn">
-        <v-btn style="margin-right: 30px" icon v-if="role === 'PROFESSOR'" @click="showDemandsSent = !showDemandsSent">
-          <v-badge left>
-            <span style="margin: 0" v-if="amountOfDemandsSent > 0" overlap slot="badge">{{amountOfDemandsSent}}</span>
-            <v-icon>send</v-icon>
-          </v-badge>
-        </v-btn>
-        <v-btn style="margin-right: 20px; margin-left: 20px" icon v-if="role === 'STUDENT' || role === 'USER'" @click="showNotifications = !showNotifications">
-          <v-badge style="margin-right: 20px; margin-left: 20px"  left >
-            <span style="margin: 0" v-if="amountOfNotifications > 0" overlap slot="badge">{{amountOfNotifications}}</span>
-            <v-icon>notifications</v-icon>
-          </v-badge>
-        </v-btn>
-        <v-btn icon v-if="role === 'PROFESSOR'" @click="showNotificationsTeacher = !showNotificationsTeacher">
-          <v-badge left style="cursor: pointer">
-            <span v-if="amountOfNotifications > 0" slot="badge">{{amountOfNotifications}}</span>
-            <v-icon>notifications</v-icon>
-          </v-badge>
-        </v-btn>
-
-        <!--Button-->
-        <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
-          <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
-          {{profile.title}}
-        </v-btn>
-      </v-toolbar-items>
-
-    </v-toolbar>
-    <v-dialog max-width="800" style="width: 80vw; height: 75vh; position: absolute" v-if="showNotifications" v-model="showNotifications">
-      <v-card>
-        <v-toolbar color="cyan" dark style="position: fixed; width: 52.1vw; z-index: 999">
-          <v-btn flat @click.native="showNotifications = false" ><v-icon>close</v-icon></v-btn>
-          <v-toolbar-title>Vos Notifications</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-        <v-list two-line class="pt-5">
-          <div class="text-xs-center mt-5" v-if="amountOfNotifications == 0"><h5>Vous n'avez pas de notifications</h5></div>
-          <template v-for="demand in notifications.demandReceive">
-            <v-divider></v-divider>
-            <v-list-tile style="height: 150px">
-              <v-list-tile-avatar>
-                <v-icon large class="mt-4">school</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content class="mt-4" style="height: 120px">
-                <div v-if="demand.classe != null" class="mt-5" style="height: 120px">
-                  <strong>Demande pour rejoindre une classe</strong><br>
-                  Demande de {{demand.userSend.firstname}} {{demand.userSend.surname}} pour la classe {{demand.classe.name}}</div>
-              </v-list-tile-content>
-              <v-list-tile-action style="height: 120px" class="mt-5">
-                <v-btn dark class="mt-4" color="cyan" @click="deleteDemand(demand.id)">Refuser</v-btn>
-                <v-btn v-if="demand.classe != null" dark class="mt-1" color="cyan" @click="addUserToClass(demand.classe.id, demand.userReceive.id); deleteDemand(demand.id)">Accepter</v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </template>
+        <v-list style="transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1)" :style="{marginTop: dashboardMarginTop + 'px'}">
+          <v-list-tile
+            v-for="item in dashboardMenuItems"
+            :key="item.title"
+            :to="item.link"
+            class="dashboard-nav-tile"
+            v-if="item.accountType === role || item.accountType === 'ALL'">
+            <v-list-tile-action >
+              <v-icon left class="white--text">{{item.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content >
+              <v-list-tile-title class="white--text"> {{item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            :to="myClassButton.link"
+            class="dashboard-nav-tile">
+            <v-list-tile-action >
+              <v-icon left class="white--text">{{myClassButton.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content >
+              <v-list-tile-title class="white--text"> {{myClassButton.title}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            v-for="item in dashboardMenuItems2"
+            :key="item.title"
+            :to="item.link"
+            class="dashboard-nav-tile"
+            v-if="item.accountType === role || item.accountType === 'ALL'">
+            <v-list-tile-action >
+              <v-icon left class="white--text">{{item.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content >
+              <v-list-tile-title class="white--text"> {{item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile class="dashboard-nav-tile" @click="deconnect">
+            <v-list-tile-action >
+              <v-icon left class="white--text">{{deconnectionButton.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content >
+              <v-list-tile-title class="white--text"> {{deconnectionButton.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
         </v-list>
-      </v-card>
-    </v-dialog>
+      </v-navigation-drawer>
 
-    <v-dialog max-width="800" style="width: 80vw; height: 75vh; position: absolute" v-if="showDemandsSent" v-model="showDemandsSent">
-      <v-card>
-        <v-toolbar color="cyan" dark style="position: fixed; width: 52.1vw; z-index: 999">
-          <v-btn flat @click.native="showDemandsSent = false" ><v-icon>close</v-icon></v-btn>
-          <v-toolbar-title>Vos Demandes</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-        <v-list two-line class="pt-5">
-          <div class="text-xs-center mt-5" v-if="amountOfDemandsSent == 0"><h5>Vous n'avez pas de demandes</h5></div>
-          <template v-for="demand in notifications.demandSend">
-            <v-divider></v-divider>
-            <v-list-tile style="height: 150px">
-              <v-list-tile-avatar>
-                <v-icon large class="mt-4">school</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content class="mt-4" style="height: 120px">
-                <div v-if="demand.classe != null" class="mt-5" style="height: 120px">
-                  <strong>Demande pour rejoindre une classe</strong><br>
-                  Demande à {{demand.userReceive.firstname}} {{demand.userReceive.surname}} pour votre classe {{demand.classe.name}}</div>
-                <div v-else-if="demand.list != null" class="mt-5" style="height: 120px">
-                  <strong>Demande pour partage de liste</strong><br>
-                  Demande à {{demand.userReceive.firstname}} {{demand.userReceive.surname}} pour votre liste {{demand.list.name}}</div>
-                <div v-else-if="demand.wordTrad != null" class="mt-5" style="height: 120px">
-                  <strong>Demande pour ajout de synonyme</strong><br>
-                  Propose à {{demand.userReceive.firstname}} {{demand.userReceive.surname}} le synonyme {{demand.wordTrad.word.content}} pour le mot {{demand.wordTrad.trad.content}}</div>
-              </v-list-tile-content>
-              <v-list-tile-action style="height: 120px" class="mt-5">
-                <v-btn dark class="mt-4" color="cyan" @click="deleteDemand2(demand.id)">Retirer</v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </template>
-        </v-list>
-      </v-card>
-    </v-dialog>
 
-    <v-dialog max-width="800" style="width: 80vw; height: 75vh; position: absolute" v-if="showNotificationsTeacher" v-model="showNotificationsTeacher">
-      <v-card>
-        <v-toolbar color="cyan" dark style="position: fixed; width: 52.1vw; z-index: 999">
-          <v-btn flat @click.native="showNotificationsTeacher = false" ><v-icon>close</v-icon></v-btn>
-          <v-toolbar-title>Vos Notifications</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-        <v-list two-line class="pt-5">
-          <div class="text-xs-center mt-5" v-if="amountOfNotifications == 0"><h5>Vous n'avez pas de notifications</h5></div>
-          <template v-for="demand in notifications.demandReceive">
-            <v-divider></v-divider>
-            <v-list-tile style="height: 150px">
-              <v-list-tile-avatar>
-                <v-icon large class="mt-4">school</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content class="mt-4" style="height: 120px">
-                <div v-if="demand.classe != null" class="mt-5" style="height: 120px">
-                  <strong>Demande pour rejoindre votre classe</strong><br>
-                  Demande de {{demand.userSend.firstname}} {{demand.userSend.surname}} pour votre classe {{demand.classe.name}}</div>
-                <div v-else-if="demand.list != null" class="mt-5" style="height: 120px">
-                  <strong>Demande pour partage de liste</strong><br>
-                  {{demand.userSend.firstname}} {{demand.userSend.surname}} veut partager sa liste avec vous !</div>
-                <div v-else-if="demand.wordTrad != null" class="mt-5" style="height: 120px">
-                  <strong>Demande pour ajout de synonyme</strong><br>
-                  {{demand.userSend.firstname}} {{demand.userSend.surname}} propose le synonyme {{demand.wordTrad.word.content}} pour le mot {{demand.wordTrad.trad.content}}</div>
-              </v-list-tile-content>
-              <v-list-tile-action style="height: 120px" class="mt-5">
-                <v-btn dark class="mt-4" color="cyan" @click="deleteDemand(demand.id)">Refuser</v-btn>
-                <v-btn v-if="demand.classe != null" dark class="mt-1" color="cyan" @click="addUserToClass(demand.classe.id, demand.userSend.id); deleteDemand(demand.id)">Accepter</v-btn>
-                <v-btn v-else-if="demand.list != null" dark class="mt-1" color="cyan" @click="addListToUser(demand.list.id, demand.userSend.id); deleteDemand(demand.id)">Accepter</v-btn>
-                <v-btn v-else-if="demand.wordTrad != null" dark class="mt-1" color="cyan" @click="addSynonyme(demand), deleteDemand(demand.id)">Accepter</v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </template>
-        </v-list>
-      </v-card>
-    </v-dialog>
 
-    <main>
-      <v-content>
-        <v-container fluid :class="mainClass">
-          <router-view></router-view>
-        </v-container>
-      </v-content>
-    </main>
+
+
+
+      <!---------------->
+      <!--The Static Top bar When Not Logged In-->
+      <!---------------->
+      <v-toolbar
+        v-if="!isLoggedIn"
+        style="
+          z-index:996;
+          background-color: transparent;
+          box-shadow: none;
+          padding-right: 2%;
+          padding-left: 1%;">
+        <v-toolbar-title>
+          <router-link to="/homepage" tag="span" style="cursor: pointer">
+            <div style="display: flex">
+              <img :src="vocsLoadingLogoWhite" alt="Vocs" style="height: 60px;margin-top: 25px">
+            </div>
+          </router-link>
+        </v-toolbar-title>
+        <!--Space between elements-->
+        <v-spacer></v-spacer>
+        <!--Group of items-->
+        <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
+          <!--Button-->
+          <v-btn style="margin:8px;height:50px;background: none;color: white;font-size: 15px;border: 2px solid white;border-radius: 8px" class="elevation-0" :class="item.buttonType" :to="item.link">
+            <v-icon left color="white" style="margin-bottom: 3px; margin-right: 7px;">{{item.icon}}</v-icon>
+            {{item.title}}
+          </v-btn>
+        </v-toolbar-items>
+        {{user.roles}}
+        <v-toolbar-items v-if="profile.shown" class="topbar-btn">
+          <v-btn icon @click="showNotifications = !showNotifications">
+            <v-badge left style="cursor: pointer">
+              <span v-if="amountOfNotifications > 0" slot="badge">{{amountOfNotifications}}</span>
+              <v-icon>notifications</v-icon>
+            </v-badge>
+          </v-btn>
+          <!--Button-->
+          <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
+            <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
+            {{profile.title}}
+          </v-btn>
+        </v-toolbar-items>
+        <!--Hamburger menu
+        &click.stop stops probagation -->
+        <v-toolbar-side-icon dark class="hidden-md-and-up" @click.stop="mobileMenuIsOpen=!mobileMenuIsOpen">
+        </v-toolbar-side-icon>
+      </v-toolbar>
+
+
+
+
+
+
+      <!---------------->
+      <!--The Sliding Top bar When Not Logged In-->
+      <!---------------->
+      <v-toolbar
+        v-if="!isLoggedIn"
+        :class="topBarClass"
+        style="
+          z-index:997;
+          background-color: white;
+          padding-right: 2%;
+          padding-left: 1%;
+          position: fixed !important"
+        v-scroll="scroll">
+        <v-toolbar-title>
+          <router-link to="/homepage" tag="span" style="cursor: pointer">
+            <div style="display: flex">
+              <img :src="vocsLoadingLogo" alt="Vocs" style="height: 30px">
+            </div>
+          </router-link>
+        </v-toolbar-title>
+        <!--Space between elements-->
+        <v-spacer></v-spacer>
+        <!--Group of items-->
+        <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
+          <!--Button-->
+          <v-btn style="background: none;margin-right: 5px;margin-left: 5px" class="elevation-0" :class="item.buttonType" :to="item.link">
+            <v-icon left color="primary" style="margin-bottom: 3px; margin-right: 7px;">{{item.icon}}</v-icon>
+            {{item.title}}
+          </v-btn>
+        </v-toolbar-items>
+        {{user.roles}}
+        <v-toolbar-items v-if="profile.shown" class="topbar-btn">
+          <v-btn icon @click="showNotifications = !showNotifications">
+            <v-badge left style="cursor: pointer">
+              <span v-if="amountOfNotifications > 0" slot="badge">{{amountOfNotifications}}</span>
+              <v-icon>notifications</v-icon>
+            </v-badge>
+          </v-btn>
+          <!--Button-->
+          <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
+            <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
+            {{profile.title}}
+          </v-btn>
+        </v-toolbar-items>
+        <!--Hamburger menu
+        &click.stop stops probagation -->
+        <v-toolbar-side-icon class="hidden-md-and-up" @click.stop="mobileMenuIsOpen=!mobileMenuIsOpen">
+        </v-toolbar-side-icon>
+      </v-toolbar>
+
+
+
+
+
+      <!---------------->
+      <!--The Top bar When Logged In-->
+      <!---------------->
+      <v-toolbar v-if="isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important">
+        <v-toolbar-side-icon @click="dashboardMove" v-if="!isPlayingGame">
+        </v-toolbar-side-icon>
+        <v-toolbar-title>
+          <div style="display: flex">
+            <img v-if="role == 'USER' " :src="vocsLoadingLogo" alt="Vocs" style="height: 30px"><img v-if="role == 'STUDENT'" :src="vocsLoadingLogo" alt="Vocs" style="height: 30px; opacity: 0.9"><img v-if="role == 'PROFESSOR'" :src="vocsLoadingLogo" alt="Vocs" style="height: 30px; opacity: 0.9">
+            <div v-if="role == 'USER'" class="blue--text" style="margin-left: -7px; margin-top: 7px">ocs</div><div v-if="role == 'PROFESSOR'" style="margin-left: -7px; margin-top: 7px; color: white; opacity: 0.8">ocs</div>
+          </div>
+        </v-toolbar-title>
+        <!--Space between elements-->
+        <v-spacer></v-spacer>
+        <div style="margin-right: 2%">{{topbarAccountText}}</div>
+        <!--Group of items-->
+        <v-toolbar-items v-for="item in menuItems" :key="item.link" v-if="item.shown" class="hidden-sm-and-down topbar-btn">
+          <!--Button-->
+          <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="item.buttonType" :to="item.link">
+            <v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>
+            {{item.title}}
+          </v-btn>
+        </v-toolbar-items>
+        <v-toolbar-items v-if="profile.shown" class="topbar-btn">
+          <v-btn style="margin-right: 30px" icon v-if="role === 'PROFESSOR'" @click="showDemandsSent = !showDemandsSent">
+            <v-badge left>
+              <span style="margin: 0" v-if="amountOfDemandsSent > 0" overlap slot="badge">{{amountOfDemandsSent}}</span>
+              <v-icon>send</v-icon>
+            </v-badge>
+          </v-btn>
+          <v-btn style="margin-right: 20px; margin-left: 20px" icon v-if="role === 'STUDENT' || role === 'USER'" @click="showNotifications = !showNotifications">
+            <v-badge style="margin-right: 20px; margin-left: 20px"  left >
+              <span style="margin: 0" v-if="amountOfNotifications > 0" overlap slot="badge">{{amountOfNotifications}}</span>
+              <v-icon>notifications</v-icon>
+            </v-badge>
+          </v-btn>
+          <v-btn icon v-if="role === 'PROFESSOR'" @click="showNotificationsTeacher = !showNotificationsTeacher">
+            <v-badge left style="cursor: pointer">
+              <span v-if="amountOfNotifications > 0" slot="badge">{{amountOfNotifications}}</span>
+              <v-icon>notifications</v-icon>
+            </v-badge>
+          </v-btn>
+
+          <!--Button-->
+          <v-btn style="background: none" :style="{color: topbarTextColor}" class="elevation-0" :class="profile.buttonType" :to="profile.link">
+            <!--<v-icon left color="light-blue darken-1">{{item.icon}}</v-icon>-->
+            {{profile.title}}
+          </v-btn>
+        </v-toolbar-items>
+
+      </v-toolbar>
+      <v-dialog max-width="800" style="width: 80vw; height: 75vh; position: absolute" v-if="showNotifications" v-model="showNotifications">
+        <v-card>
+          <v-toolbar color="cyan" dark style="position: fixed; width: 52.1vw; z-index: 999">
+            <v-btn flat @click.native="showNotifications = false" ><v-icon>close</v-icon></v-btn>
+            <v-toolbar-title>Vos Notifications</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-list two-line class="pt-5">
+            <div class="text-xs-center mt-5" v-if="amountOfNotifications == 0"><h5>Vous n'avez pas de notifications</h5></div>
+            <template v-for="demand in notifications.demandReceive">
+              <v-divider></v-divider>
+              <v-list-tile style="height: 150px">
+                <v-list-tile-avatar>
+                  <v-icon large class="mt-4">school</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content class="mt-4" style="height: 120px">
+                  <div v-if="demand.classe != null" class="mt-5" style="height: 120px">
+                    <strong>Demande pour rejoindre une classe</strong><br>
+                    Demande de {{demand.userSend.firstname}} {{demand.userSend.surname}} pour la classe {{demand.classe.name}}</div>
+                </v-list-tile-content>
+                <v-list-tile-action style="height: 120px" class="mt-5">
+                  <v-btn dark class="mt-4" color="cyan" @click="deleteDemand(demand.id)">Refuser</v-btn>
+                  <v-btn v-if="demand.classe != null" dark class="mt-1" color="cyan" @click="addUserToClass(demand.classe.id, demand.userReceive.id); deleteDemand(demand.id)">Accepter</v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+            </template>
+          </v-list>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog max-width="800" style="width: 80vw; height: 75vh; position: absolute" v-if="showDemandsSent" v-model="showDemandsSent">
+        <v-card>
+          <v-toolbar color="cyan" dark style="position: fixed; width: 52.1vw; z-index: 999">
+            <v-btn flat @click.native="showDemandsSent = false" ><v-icon>close</v-icon></v-btn>
+            <v-toolbar-title>Vos Demandes</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-list two-line class="pt-5">
+            <div class="text-xs-center mt-5" v-if="amountOfDemandsSent == 0"><h5>Vous n'avez pas de demandes</h5></div>
+            <template v-for="demand in notifications.demandSend">
+              <v-divider></v-divider>
+              <v-list-tile style="height: 150px">
+                <v-list-tile-avatar>
+                  <v-icon large class="mt-4">school</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content class="mt-4" style="height: 120px">
+                  <div v-if="demand.classe != null" class="mt-5" style="height: 120px">
+                    <strong>Demande pour rejoindre une classe</strong><br>
+                    Demande à {{demand.userReceive.firstname}} {{demand.userReceive.surname}} pour votre classe {{demand.classe.name}}</div>
+                  <div v-else-if="demand.list != null" class="mt-5" style="height: 120px">
+                    <strong>Demande pour partage de liste</strong><br>
+                    Demande à {{demand.userReceive.firstname}} {{demand.userReceive.surname}} pour votre liste {{demand.list.name}}</div>
+                  <div v-else-if="demand.wordTrad != null" class="mt-5" style="height: 120px">
+                    <strong>Demande pour ajout de synonyme</strong><br>
+                    Propose à {{demand.userReceive.firstname}} {{demand.userReceive.surname}} le synonyme {{demand.wordTrad.word.content}} pour le mot {{demand.wordTrad.trad.content}}</div>
+                </v-list-tile-content>
+                <v-list-tile-action style="height: 120px" class="mt-5">
+                  <v-btn dark class="mt-4" color="cyan" @click="deleteDemand2(demand.id)">Retirer</v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+            </template>
+          </v-list>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog max-width="800" style="width: 80vw; height: 75vh; position: absolute" v-if="showNotificationsTeacher" v-model="showNotificationsTeacher">
+        <v-card>
+          <v-toolbar color="cyan" dark style="position: fixed; width: 52.1vw; z-index: 999">
+            <v-btn flat @click.native="showNotificationsTeacher = false" ><v-icon>close</v-icon></v-btn>
+            <v-toolbar-title>Vos Notifications</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-list two-line class="pt-5">
+            <div class="text-xs-center mt-5" v-if="amountOfNotifications == 0"><h5>Vous n'avez pas de notifications</h5></div>
+            <template v-for="demand in notifications.demandReceive">
+              <v-divider></v-divider>
+              <v-list-tile style="height: 150px">
+                <v-list-tile-avatar>
+                  <v-icon large class="mt-4">school</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content class="mt-4" style="height: 120px">
+                  <div v-if="demand.classe != null" class="mt-5" style="height: 120px">
+                    <strong>Demande pour rejoindre votre classe</strong><br>
+                    Demande de {{demand.userSend.firstname}} {{demand.userSend.surname}} pour votre classe {{demand.classe.name}}</div>
+                  <div v-else-if="demand.list != null" class="mt-5" style="height: 120px">
+                    <strong>Demande pour partage de liste</strong><br>
+                    {{demand.userSend.firstname}} {{demand.userSend.surname}} veut partager sa liste avec vous !</div>
+                  <div v-else-if="demand.wordTrad != null" class="mt-5" style="height: 120px">
+                    <strong>Demande pour ajout de synonyme</strong><br>
+                    {{demand.userSend.firstname}} {{demand.userSend.surname}} propose le synonyme {{demand.wordTrad.word.content}} pour le mot {{demand.wordTrad.trad.content}}</div>
+                </v-list-tile-content>
+                <v-list-tile-action style="height: 120px" class="mt-5">
+                  <v-btn dark class="mt-4" color="cyan" @click="deleteDemand(demand.id)">Refuser</v-btn>
+                  <v-btn v-if="demand.classe != null" dark class="mt-1" color="cyan" @click="addUserToClass(demand.classe.id, demand.userSend.id); deleteDemand(demand.id)">Accepter</v-btn>
+                  <v-btn v-else-if="demand.list != null" dark class="mt-1" color="cyan" @click="addListToUser(demand.list.id, demand.userSend.id); deleteDemand(demand.id)">Accepter</v-btn>
+                  <v-btn v-else-if="demand.wordTrad != null" dark class="mt-1" color="cyan" @click="addSynonyme(demand), deleteDemand(demand.id)">Accepter</v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+            </template>
+          </v-list>
+        </v-card>
+      </v-dialog>
+
+      <main>
+        <v-content>
+          <v-container fluid :class="mainClass">
+            <!--This is the view that will change depending on the current route-->
+            <router-view></router-view>
+          </v-container>
+        </v-content>
+      </main>
+    </div>
   </v-app>
 </template>
 
@@ -695,6 +700,7 @@
     created () {
       if (this.isLoggedIn === true && !this.isPlayingGame || (localStorage.getItem('userEmail') && localStorage.getItem('userPassword') && !this.isPlayingGame)) {
         this.mainClass = 'dashboard-open'
+        this.topBarClass = 'top-bar-show'
         this.$router.push('/home')
       } else if(!this.isPlayingGame){
         this.mainClass = 'dashboard-closed'
@@ -703,6 +709,7 @@
         this.mainClass = 'dashboard-half-open'
       }else {
         this.$router.push('/homepage')
+        this.topBarClass = 'top-bar-hide'
       }
       this.$store.dispatch('getSchoolsAndClasses')
       this.$store.dispatch('autoLoginIn')
@@ -749,10 +756,11 @@
     height:38px;
   }
   .top-bar-show {
+    transform: translateY(-100%);
     transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
   }
   .top-bar-hide {
-    transform: translateY(-130%);
+    transform: translateY(-200%);
     transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
   }
   .dashboard-nav-tile:hover {

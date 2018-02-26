@@ -1,13 +1,7 @@
 <template>
   <v-container fluid style="padding-top: 100px; background-color: #8bc3dc; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
-    <v-layout row wrap>
-      <v-flex xs6 sm6 md4 wrap class="mb-5" style="background: none; margin: auto; padding-left: 7.5%">
-        <div style="border-radius: 500px; background: none; height: 220px; width:220px; padding-top: 30px" class="text-xs-center white--text">
-          <div class="text-xs-center mt-3">
-            <v-icon class="white--text" style="font-size: 120px; margin-right: 1%; margin-top: 3%">gamepad</v-icon>
-          </div>
-        </div>
-      </v-flex>
+    <v-layout row style="justify-content:center">
+      <v-icon class="white--text mt-5 mb-5" style="font-size: 120px;">gamepad</v-icon>
     </v-layout>
     <v-layout style="background-color: #ebebeb" row wrap>
       <v-card style="width:100%; height: 100px" class="gray--text text-xs-center">
@@ -24,7 +18,7 @@
         </div>
         <v-container fluid style="margin-top: 50px; margin-left: 15%">
           <v-layout row wrap>
-            <v-flex xs4 class="mb-3 mr-2 ml-2" v-for="gameMode in gameModes" :key="gameMode.name">
+            <v-flex lg4 sm8 md8 class="mb-3 mr-2 ml-2" v-for="gameMode in gameModes" :key="gameMode.name">
               <div  class="white--text game-box elevation-6 ma-1" :style="{ backgroundColor: gameMode.color }">
                 <v-layout row>
                   <v-flex xs12>
@@ -65,11 +59,10 @@
               <v-layout row justify-center>
                 <v-dialog v-model="dialogConfirmation">
                   <v-card>
-                    <v-card-title class="headline">Vous n'avez pas sélectionné une de vos listes. Une liste de base sera utilisée.</v-card-title>
+                    <v-card-title class="headline">Vous n'avez pas sélectionné une de vos listes. </v-card-title>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn flat  to="/lists" @click.native="dialogConfirmation = false">Aller à mes listes</v-btn>
-                      <v-btn flat  @click.native="setGameList(aBasicList)" >S'entrainer</v-btn>
+                      <v-btn flat  to="/lists" color="primary" @click.native="dialogConfirmation = false">Aller à mes listes</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -77,21 +70,19 @@
               <v-layout row justify-center>
                 <v-dialog v-model="dialogConfirmation2" v-if="SelectedListForGameIsLessThanFour && selectedGameMode === 'QCM'">
                   <v-card>
-                    <v-card-title class="headline">Votre liste {{selectedListForGame.name}} a moins de 4 mots, une liste de base sera utilisée.</v-card-title>
+                    <v-card-title class="headline">Votre liste {{selectedListForGame.name}} a moins de 4 mots.</v-card-title>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn flat to="/lists" @click.native="dialogConfirmation2 = false">Choisir une autre liste</v-btn>
-                      <v-btn flat @click.native="setGameList(aBasicList)">S'entrainer</v-btn>
+                      <v-btn flat to="/lists" color="primary" @click.native="dialogConfirmation2 = false">Choisir une autre liste</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
                 <v-dialog v-model="dialogConfirmation2" v-else-if="SelectedListForGameIsLessThanTen && selectedGameMode === 'Matching'">
                   <v-card>
-                    <v-card-title class="headline">Votre liste {{selectedListForGame.name}} a moins de 10 mots, une liste de base sera utilisée.</v-card-title>
+                    <v-card-title class="headline">Votre liste {{selectedListForGame.name}} a moins de 10 mots.</v-card-title>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn flat to="/lists" @click.native="dialogConfirmation2 = false">Choisir une autre liste</v-btn>
-                      <v-btn flat @click.native="setGameList(aBasicList)">S'entrainer</v-btn>
+                      <v-btn flat to="/lists" color="primary" @click.native="dialogConfirmation2 = false">Choisir une autre liste</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -101,7 +92,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn flat @click.native="dialogConfirmation2 = false">Annuler</v-btn>
-                      <v-btn flat @click.native="setGameList(selectedListForGame)" >S'entrainer</v-btn>
+                      <v-btn flat color="primary" @click.native="setGameList(selectedListForGame)" >S'entrainer</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -147,9 +138,6 @@
         } else {
           return this.$store.getters.getSelectedListForGame.wordTrads.length < 10
         }
-      },
-      aBasicList () {
-        return this.$store.getters.basicList
       },
       gameList () {
         return this.$store.getters.gameList

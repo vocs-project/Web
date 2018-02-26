@@ -9,7 +9,7 @@
     <!-- First Section -->
     <!-------------->
     <v-parallax class="s1-parallax" :src="BGFrontPageSRC" style="height:100vh;width:100vw;margin-top: -65px">
-      <v-layout style="height:100%;width:100%;">
+      <v-layout style="height:100vh;width:100%;">
         <v-flex xs8 md10 lg8 sm10 offset-xs2 offset-lg2 offset-sm1 style="align-self: center;" >
           <h1 class="white--text text-xs-center" style="font-size: 100px">Vocs</h1>
           <h3 class="white--text text-xs-center" style="opacity: 0.7;font-size: 40px">Apprenez, retenez, réussissez.</h3>
@@ -54,7 +54,7 @@
 
       <v-layout row wrap >
         <v-flex xs12 style="margin-top: 30px;margin-bottom: 20px" class="text-xs-center" :class="s3MainTextClass">
-          <p style="font-size: 38px;color: #5a5a5a">Une superb façon d'apprendre</p>
+          <p style="font-size: 38px;color: #5a5a5a">Une superbe façon d'apprendre</p>
         </v-flex>
       </v-layout>
 
@@ -91,16 +91,22 @@
     <v-parallax :src="sky" style="height:auto;padding-top: 80px;padding-bottom: 80px">
       <v-parallax :src="stars" height="11000" style="position:absolute; width:100vw">
       </v-parallax>
+      <v-parallax :src="stars" height="5000" style="position:absolute; width:100vw">
+      </v-parallax>
       <v-layout row wrap >
         <v-flex xs12 sm12 md6 class="text-xs-center" style="padding: 5%">
           <img :class="s4IphoneImgClass" :src="iphone" height="420px">
           <h3 style="color: #f5f5f5; margin-top: 10px" :class="s4IphoneTextClass">Disponible à télécharger sur votre iPhone.</h3>
-          <v-btn :class="s4IphoneTextClass">AppStore</v-btn>
+          <v-btn :class="s4IphoneTextClass" style="border-radius: 10px;background-color: #27629E;color: white;width:180px;height:50px;font-size: 15px" large to="/inscription">
+              AppStore
+          </v-btn>
         </v-flex>
         <v-flex xs12 sm12 md6 class="text-xs-center" style="padding: 5%">
           <img :class="s4AndroidImgClass" :src="android" height="420px">
           <h3 style="color: #f5f5f5; margin-top: 10px" :class="s4AndroidTextClass">Ou alors sur votre appareil Android.</h3>
-          <v-btn :class="s4AndroidTextClass">Google Play Store</v-btn>
+          <v-btn :class="s4AndroidTextClass" style="border-radius: 10px;background-color: #27629E;color: white;width:180px;height:50px;font-size: 15px" large to="/inscription">
+              Google Play Store
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-parallax>
