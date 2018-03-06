@@ -65,7 +65,7 @@
         temporary
         right
         v-model="mobileMenuIsOpen"
-        style="z-index:997">
+        style="z-index:999">
         <v-list>
           <v-list-tile
             v-for="item in menuItems"
@@ -81,8 +81,10 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
-
       </v-navigation-drawer>
+
+
+
       <!--Dashboard menu drawer-->
       <v-navigation-drawer
         v-if="isLoggedIn"
@@ -149,7 +151,7 @@
 
 
       <!---------------->
-      <!--The Static Top bar When Not Logged In-->
+      <!--The Static Top bar At Top Of Page When Not Logged In-->
       <!---------------->
       <v-toolbar
         v-if="!isLoggedIn"
@@ -626,22 +628,23 @@
         }
       },
       deconnect () {
+        //this is for when we are on a small
+        //device and we press on the deconnect 
+        //button when the dialog comes up
         this.showDownloadAppDialog = false;
         this.$store.dispatch('logout');
         this.$router.push('/homepage');
       },
       scroll (e) {
+        //When we scroll we get the users scroll position and show the 
+        //top bar or not 
         this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
-        if (this.offsetTop > this.oldOffsetTop && this.isLoggedIn === false) {
-          this.topBarClass = 'top-bar-hide'
-        } else if (this.offsetTop < this.oldOffsetTop && this.isLoggedIn === false && this.offsetTop>100) {
-          this.topBarClass = 'top-bar-show'
-        } else if(this.offsetTop<100 && this.isLoggedIn === false){
-          this.topBarClass = 'top-bar-hide'
-        } else if(this.isLoggedIn){
-          this.topBarClass = 'top-bar-show'
+        if(this.offsetTop>100){
+          this.topBarClass = 'top-bar-show';
+        } else {
+          this.topBarClass = 'top-bar-hide';
         }
-        this.oldOffsetTop = this.offsetTop
+        //show the auto scroll up button or not
         if (this.offsetTop > 750) {
           this.autoScrollUpBtnClass = 'auto-scroll-up-btn-show'
         }
@@ -650,6 +653,7 @@
         }
       },
       autoScrollUp () {
+        //would like to make this progressive
         document.documentElement.scrollTop = 0
       },
       setRole (account) {
