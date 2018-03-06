@@ -26,7 +26,7 @@
                       </v-text-field>
                       <v-text-field
                         name="password"
-                        label="Mot-de-passe"
+                        label="Mot de passe"
                         v-model="user.password"
                         type="password"
                         required>
@@ -34,7 +34,7 @@
                       </v-text-field>
                       <v-text-field
                         name="confirmPassword"
-                        label="Confirmez votre mot-de-passe"
+                        label="Confirmez votre mot de passe"
                         v-model="confirmPassword"
                         type="password"
                         required>
@@ -206,7 +206,7 @@
                       <v-select
                         :items="theClasses"
                         v-model="classSearch"
-                        label="Enter une class"
+                        label="Classe"
                         required
                       ></v-select>
                     </v-layout>

@@ -3,12 +3,13 @@
 
     <!--If we are on a small screen then we display the download app message-->
     <div v-if="showDownloadAppDialog" style="background-color: white;position:fixed;width:100vw;height:100vh;z-index: 998"></div>
-    <v-dialog v-model="showDownloadAppDialog" persistent max-width="290" style="z-index: 999">
+    <v-dialog v-model="showDownloadAppDialog" persistent max-width="320" style="z-index: 999">
       <v-card style="z-index: 999">
         <v-card-title class="headline">Vous êtes sur petit écran! </v-card-title>
         <v-card-text>Telechargez notre application mobile:</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn style="font-size: 12px; opacity: 0.7" @click="deconnect">Deconnexion</v-btn>
           <v-btn color="blue darken-1"  dark>IOS</v-btn>
           <v-btn color="blue darken-1" dark>Android</v-btn>
         </v-card-actions>
@@ -625,8 +626,9 @@
         }
       },
       deconnect () {
-        this.$store.dispatch('logout')
-        this.$router.push('/homepage')
+        this.showDownloadAppDialog = false;
+        this.$store.dispatch('logout');
+        this.$router.push('/homepage');
       },
       scroll (e) {
         this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
