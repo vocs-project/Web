@@ -188,7 +188,7 @@
 
 
 <script>
-  import BGFrontPage from '@/assets/HomepageBackgroundNew.png'
+  import BGFrontPage from '@/assets/HomepageBackgroundFinal.png'
   import Iphone from '@/assets/iphone.png'
   import Android from '@/assets/android.png'
   import sky from '@/assets/sky.png'

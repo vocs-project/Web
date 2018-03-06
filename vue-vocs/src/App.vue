@@ -639,7 +639,9 @@
         //When we scroll we get the users scroll position and show the 
         //top bar or not 
         this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
-        if(this.offsetTop>100){
+        if(this.isLoggedIn) {
+          this.topBarClass = 'top-bar-show';
+        }else if(this.offsetTop>100){
           this.topBarClass = 'top-bar-show';
         } else {
           this.topBarClass = 'top-bar-hide';

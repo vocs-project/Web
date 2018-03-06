@@ -57,13 +57,18 @@
                 </v-layout>
               </div>
               <v-layout row justify-center>
-                <v-dialog v-model="dialogConfirmation">
+                <v-dialog max-width="500" v-model="dialogConfirmation">
                   <v-card>
-                    <v-card-title class="headline">Vous n'avez pas sélectionné une de vos listes. </v-card-title>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn flat  to="/lists" color="primary" @click.native="dialogConfirmation = false">Aller à mes listes</v-btn>
-                    </v-card-actions>
+                    <v-card-title class="headline">Selectionnez une liste</v-card-title>
+                    <v-list>
+                      <template v-for="list in lists">
+                        <v-list-tile v-if="!(SelectedListForGameIsLessThanFour && selectedGameMode === 'QCM') || !(SelectedListForGameIsLessThanTen && selectedGameMode === 'Matching')" v-bind:key="list.name" class="mt-3 mb-3">
+                          <v-list-tile-content style="cursor: pointer;background-color:#26A4FF;padding:10px;border-radius:4px" @click="setGameList(list);">
+                            <v-list-tile-title style="font-size: 20px; color:white">{{list.name}} </v-list-tile-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                      </template>
+                  </v-list>
                   </v-card>
                 </v-dialog>
               </v-layout>
@@ -93,6 +98,7 @@
                       <v-spacer></v-spacer>
                       <v-btn flat @click.native="dialogConfirmation2 = false">Annuler</v-btn>
                       <v-btn flat color="primary" @click.native="setGameList(selectedListForGame)" >S'entrainer</v-btn>
+                      <v-btn flat color="primary" @click.native="chooseAnotherList()" >Choisir une autre liste</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -122,6 +128,10 @@
       }
     },
     computed: {
+      lists () {
+        /* loadedLists doesn't take parenthese it is a property (even though it is a method in the store */
+        return this.$store.getters.loadedLists
+      },
       selectedListForGame () {
         return this.$store.getters.getSelectedListForGame
       },
@@ -157,6 +167,11 @@
         this.$store.dispatch('setGameList', list)
         this.$store.dispatch('setIsPlayingGame',  true)
         this.$router.push(this.tempLink)
+      },
+      chooseAnotherList(){
+        this.$store.dispatch('selectListForGame', '');
+        this.dialogConfirmation2 = false;
+        this.dialogConfirmation = true;
       }
     },
     created () {

@@ -187,7 +187,6 @@ export const store = new Vuex.Store({
       }
     },
     selectList (state, payload) {
-      console.log('LISSSSSSSSTTTTTTTT: '+ JSON.stringify(payload));
       state.selectedList = payload;
     },
     selectWord (state, payload) {
@@ -611,6 +610,10 @@ export const store = new Vuex.Store({
             }
           });
         });
+    },
+    resetEditProfile({state}) {
+      state.editProfil = false;
+      state.isConfirmingPassword = false;
     },
     signUserIn ({commit, state}, payload) {
       state.loading = true

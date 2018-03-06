@@ -169,6 +169,8 @@
       }
     },
     created () {
+      console.log('heheheheheheheh')
+      this.$store.dispatch('resetEditProfile');
       this.$store.dispatch('setIsPlayingGame', false)
       this.info.email = this.user.email;
       this.theModifiedUser.firstname = this.user.firstname;

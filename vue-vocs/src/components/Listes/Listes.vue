@@ -52,7 +52,6 @@
               <v-list-tile-title>Pas De Listes</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          {{classes[0].lists}}
           <template v-for="(list, index) in classes[0].lists">
             <v-list-tile v-if="classes[0].lists.length > 0">
               <v-btn icon @click="">
