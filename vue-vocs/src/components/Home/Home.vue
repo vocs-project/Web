@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="margin-top: 100px">
     <v-layout row style="justify-content:center">
-      <h3 style="text-align:center;color:#737373">Bienvenu sur Vocs</h3>
+      <h3 style="text-align:center;color:#737373">Bienvenue sur Vocs</h3>
     </v-layout>
     <v-layout row wrap style="justify-content:center">
 

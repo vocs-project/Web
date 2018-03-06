@@ -62,7 +62,14 @@
                     <v-card-title class="headline">Selectionnez une liste</v-card-title>
                     <v-list>
                       <template v-for="list in lists">
-                        <v-list-tile v-if="!(SelectedListForGameIsLessThanFour && selectedGameMode === 'QCM') || !(SelectedListForGameIsLessThanTen && selectedGameMode === 'Matching')" v-bind:key="list.name" class="mt-3 mb-3">
+                        <v-list-tile v-if="(list.wordTrads.length > 0) && !(list.wordTrads.length < 4 && selectedGameMode === 'QCM') && !(list.wordTrads.length < 10 && selectedGameMode === 'Matching')" v-bind:key="list.name" class="mt-3 mb-3">
+                          <v-list-tile-content style="cursor: pointer;background-color:#26A4FF;padding:10px;border-radius:4px" @click="setGameList(list);">
+                            <v-list-tile-title style="font-size: 20px; color:white">{{list.name}} </v-list-tile-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                      </template>
+                      <template v-for="list in classLists">
+                        <v-list-tile v-if="(list.wordTrads.length > 0) && !(list.wordTrads.length < 4 && selectedGameMode === 'QCM') && !(list.wordTrads.length < 10 && selectedGameMode === 'Matching')" v-bind:key="list.name" class="mt-3 mb-3">
                           <v-list-tile-content style="cursor: pointer;background-color:#26A4FF;padding:10px;border-radius:4px" @click="setGameList(list);">
                             <v-list-tile-title style="font-size: 20px; color:white">{{list.name}} </v-list-tile-title>
                           </v-list-tile-content>
@@ -131,6 +138,9 @@
       lists () {
         /* loadedLists doesn't take parenthese it is a property (even though it is a method in the store */
         return this.$store.getters.loadedLists
+      },
+      classLists () {
+        return this.$store.getters.classLists
       },
       selectedListForGame () {
         return this.$store.getters.getSelectedListForGame
