@@ -439,7 +439,7 @@
           {icon: 'description', title: 'Listes', link: '/lists', accountType: 'ALL'}
         ],
         dashboardMenuItems2: [
-          {icon: 'tune', title: 'Réglages', link: '/settings', accountType: 'ALL'}
+          {icon: 'tune', title: 'Paramètres', link: '/settings', accountType: 'ALL'}
         ],
         deconnectionButton: {
           icon: 'close',

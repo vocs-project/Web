@@ -50,7 +50,7 @@
             <!-- Subtitle (number of lists) -->
             <div style="color:black;text-align:center;font-size:17px">{{user.lists.length}} liste(s)</div>
           <!-- See Class Button -->
-          <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/class">Voir</v-btn>
+          <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/lists">Voir</v-btn>
         </v-card>
       </v-flex>
 
@@ -72,13 +72,13 @@
             <!-- Subtitle (number of lists) -->
             <div style="color:black;text-align:center;font-size:17px">4 exercices disponibles</div>
           <!-- See Class Button -->
-          <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/class">Voir</v-btn>
+          <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/games">Voir</v-btn>
         </v-card>
       </v-flex>
 
 
       <!-------------->
-      <!-- Setings Card -->
+      <!-- Settings Card -->
       <!-------------->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
@@ -95,7 +95,7 @@
             <!-- Subtitle (number of lists) -->
             <div style="color:black;text-align:center;font-size:17px">Changer les réglages</div>
           <!-- See Class Button -->
-          <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/class">Voir</v-btn>
+          <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/settings">Voir</v-btn>
         </v-card>
       </v-flex>
 

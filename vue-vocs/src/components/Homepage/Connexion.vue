@@ -27,7 +27,7 @@
                       </v-text-field>
                       <v-text-field
                         name="password"
-                        label="Mot-de-passe"
+                        label="Mot de passe"
                         id="password"
                         v-model="info.password"
                         type="password"
