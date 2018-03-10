@@ -1,3 +1,11 @@
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--//////////////////////////////////////////////////////////TEMPLATE///////////////////////////////////////////////////////// -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
 <template>
   <div v-scroll="scroll">
     <v-parallax class="s1-parallax" :src="HomepageBG" style="height:100vh;width:100vw;margin-top: -65px">
@@ -147,153 +155,181 @@
   </div>
 </template>
 
-<script>
-  import HomepageBG from '@/assets/HomepageBG.png'
-  import logo from '@/assets/logoFlatWhite.png'
 
-  export default {
-    data () {
-      return {
-        logo:logo,
-        HomepageBG:HomepageBG,
-        s1TextClass: 's1-text-hide',
-        s2IphoneClass: 's2-iphone-hide',
-        s2TextClass: 's2-text-hide',
-        s3MainTextClass: 's3-main-text-hide',
-        s3TextClassLeft: 's3-text-left-hide',
-        s3TextClassRight: 's3-text-right-hide',
-        s3TextClassMiddle: 's3-text-middle-hide'
-      }
-    },
-    methods: {
-      scroll (e) {
-        this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
-        if (this.offsetTop > 300) {
-          this.s2IphoneClass = 's2-iphone-show'
-          this.s2TextClass = 's2-text-show'
-        } else if (this.offsetTop < 280) {
-          this.s2IphoneClass = 's2-iphone-hide'
-          this.s2TextClass = 's2-text-hide'
-        }
-        if (this.offsetTop > 750) {
-          this.s3MainTextClass = 's3-main-text-show'
-        }
-        if (this.offsetTop > 800) {
-          this.s3TextClassLeft = 's3-text-left-show'
-          this.s3TextClassRight = 's3-text-right-show'
-        }
-        if (this.offsetTop > 900) {
-          this.s3TextClassMiddle = 's3-text-middle-show'
-        }
-        if (this.offsetTop < 750) {
-          this.s3MainTextClass = 's3-main-text-hide'
-          this.s3TextClassLeft = 's3-text-left-hide'
-          this.s3TextClassRight = 's3-text-right-hide'
-          this.s3TextClassMiddle = 's3-text-middle-hide'
-        }
-      },
-      autoScrollDown () {
-        do {
-          document.documentElement.scrollTop = document.documentElement.scrollTop + 1
-        } while (document.documentElement.scrollTop < 745)
-      }
-    },
-    mounted () {
-      this.$nextTick(function () {
-        this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
-        if (this.offsetTop >= 0) {
-          this.s1TextClass = 's1-text-show'
-        }
-      })
-    },
-    created () {
-      this.$store.dispatch('setIsPlayingGame', false)
-    }
-  }
+
+
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--//////////////////////////////////////////////////////////SCRIPT///////////////////////////////////////////////////////// -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+<script>
+import HomepageBG from "@/assets/HomepageBG.png";
+import logo from "@/assets/logoFlatWhite.png";
+
+export default {
+	data() {
+		return {
+			logo: logo,
+			HomepageBG: HomepageBG,
+			s1TextClass: "s1-text-hide",
+			s2IphoneClass: "s2-iphone-hide",
+			s2TextClass: "s2-text-hide",
+			s3MainTextClass: "s3-main-text-hide",
+			s3TextClassLeft: "s3-text-left-hide",
+			s3TextClassRight: "s3-text-right-hide",
+			s3TextClassMiddle: "s3-text-middle-hide"
+		};
+	},
+	methods: {
+		scroll(e) {
+			this.offsetTop = window.pageYOffset || document.documentElement.scrollTop;
+			if (this.offsetTop > 300) {
+				this.s2IphoneClass = "s2-iphone-show";
+				this.s2TextClass = "s2-text-show";
+			} else if (this.offsetTop < 280) {
+				this.s2IphoneClass = "s2-iphone-hide";
+				this.s2TextClass = "s2-text-hide";
+			}
+			if (this.offsetTop > 750) {
+				this.s3MainTextClass = "s3-main-text-show";
+			}
+			if (this.offsetTop > 800) {
+				this.s3TextClassLeft = "s3-text-left-show";
+				this.s3TextClassRight = "s3-text-right-show";
+			}
+			if (this.offsetTop > 900) {
+				this.s3TextClassMiddle = "s3-text-middle-show";
+			}
+			if (this.offsetTop < 750) {
+				this.s3MainTextClass = "s3-main-text-hide";
+				this.s3TextClassLeft = "s3-text-left-hide";
+				this.s3TextClassRight = "s3-text-right-hide";
+				this.s3TextClassMiddle = "s3-text-middle-hide";
+			}
+		},
+		autoScrollDown() {
+			do {
+				document.documentElement.scrollTop =
+					document.documentElement.scrollTop + 1;
+			} while (document.documentElement.scrollTop < 745);
+		}
+	},
+	mounted() {
+		this.$nextTick(function() {
+			this.offsetTop = window.pageYOffset || document.documentElement.scrollTop;
+			if (this.offsetTop >= 0) {
+				this.s1TextClass = "s1-text-show";
+			}
+		});
+	},
+	created() {
+		this.$store.dispatch("setIsPlayingGame", false);
+	}
+};
 </script>
 
+
+
+
+
+
+
+
+
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--//////////////////////////////////////////////////////////STYLE///////////////////////////////////////////////////////// -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
 <style scoped>
-  .textSlide {
-    color: white;
-    font-size: 4em;
-
-  }
-  .textMain {
-    margin-top:22vh;
-    color: white;
-    font-size: 6rem;
-
-  }
-  .s1-parallax {
-    background-size: contain;
-  }
-  .s1-text-hide {
-    transform: translateY(-150%);
-    opacity: 0;
-    transition: transform 1.2s ease, opacity 3s;
-  }
-  .s1-text-show {
-    transition: transform 1.2s ease, opacity 3s;
-  }
-  .s1-btn :hover{
-    height: 90px !important;
-    transition: height 2s;
-  }
-  .s2-iphone{
-    width:auto;
-  }
-  .s2-iphone-hide {
-    transform: translateX(-300%);
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .s2-iphone-show {
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .s2-text{
-    height: 350px;
-  }
-  .s2-text-hide {
-    transform: translateX(300%);
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .s2-text-show {
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .s3-headline {
-    height: 180px;
-  }
-  .s3-box {
-    height:220px;
-  }
-  .s3-text-left-hide {
-    transform: translateX(-300%);
-    opacity: 0;
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
-  }
-  .s3-text-left-show {
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
-  }
-  .s3-text-middle-hide {
-    font-size: 26px;
-    opacity: 0.1;
-    transition: font-size 1.2s cubic-bezier(0.6, 0, 0.07, 1), opacity 1.2s;
-  }
-  .s3-text-middle-show {
-    transition: font-size 1.2s cubic-bezier(0.6, 0, 0.07, 1), opacity 1.2s;
-  }
-  .s3-text-right-hide {
-    transform: translateX(300%);
-    opacity: 0;
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
-  }
-  .s3-text-right-show {
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
-  }
-  .s3-main-text-hide {
-    opacity:0;
-    transition: opacity 2s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .s3-main-text-show {
-    transition: opacity 2s cubic-bezier(0.6, 0, 0.07, 1);
-  }
+.textSlide {
+	color: white;
+	font-size: 4em;
+}
+.textMain {
+	margin-top: 22vh;
+	color: white;
+	font-size: 6rem;
+}
+.s1-parallax {
+	background-size: contain;
+}
+.s1-text-hide {
+	transform: translateY(-150%);
+	opacity: 0;
+	transition: transform 1.2s ease, opacity 3s;
+}
+.s1-text-show {
+	transition: transform 1.2s ease, opacity 3s;
+}
+.s1-btn :hover {
+	height: 90px !important;
+	transition: height 2s;
+}
+.s2-iphone {
+	width: auto;
+}
+.s2-iphone-hide {
+	transform: translateX(-300%);
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.s2-iphone-show {
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.s2-text {
+	height: 350px;
+}
+.s2-text-hide {
+	transform: translateX(300%);
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.s2-text-show {
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.s3-headline {
+	height: 180px;
+}
+.s3-box {
+	height: 220px;
+}
+.s3-text-left-hide {
+	transform: translateX(-300%);
+	opacity: 0;
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
+}
+.s3-text-left-show {
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
+}
+.s3-text-middle-hide {
+	font-size: 26px;
+	opacity: 0.1;
+	transition: font-size 1.2s cubic-bezier(0.6, 0, 0.07, 1), opacity 1.2s;
+}
+.s3-text-middle-show {
+	transition: font-size 1.2s cubic-bezier(0.6, 0, 0.07, 1), opacity 1.2s;
+}
+.s3-text-right-hide {
+	transform: translateX(300%);
+	opacity: 0;
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
+}
+.s3-text-right-show {
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1), opacity 2s;
+}
+.s3-main-text-hide {
+	opacity: 0;
+	transition: opacity 2s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.s3-main-text-show {
+	transition: opacity 2s cubic-bezier(0.6, 0, 0.07, 1);
+}
 </style>

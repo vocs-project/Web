@@ -9,13 +9,12 @@
 <template>
   <v-container fluid style="margin-top: 100px">
 
-  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home.png"-->
-
+  <!--"/assets/Screenshots(ForCommenting)/home/home.png"-->
 
   <!--//*---------------->
   <!--// *Title Section -->
   <!--//*---------------->
-  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-title.png"-->
+  <!--"/assets/Screenshots(ForCommenting)/home/home-title.png"-->
     <v-layout row style="justify-content:center">
       <h3 style="text-align:center;color:#737373">Bienvenue sur Vocs</h3>
     </v-layout>
@@ -31,7 +30,7 @@
   <!--//*---------------->
   <!--// *Class Card Section -->
   <!--//*---------------->
-  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-classSection.png"-->
+  <!--"/assets/Screenshots(ForCommenting)/home/home-classSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->
@@ -62,7 +61,7 @@
   <!--//*---------------->
   <!--// *List Card Section -->
   <!--//*---------------->
-       <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-listSection.png"-->
+       <!--"/assets/Screenshots(ForCommenting)/home/home-listSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->
@@ -91,7 +90,7 @@
   <!--//*---------------->
   <!--// *Exercise Card Section -->
   <!--//*---------------->
-       <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-exerciseSection.png"-->
+       <!--"/assets/Screenshots(ForCommenting)/home/home-exerciseSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->
@@ -120,7 +119,7 @@
   <!--//*---------------->
   <!--// *Settings Card Section -->
   <!--//*---------------->
-       <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-settingsSection.png"-->
+       <!--"/assets/Screenshots(ForCommenting)/home/home-settingsSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->

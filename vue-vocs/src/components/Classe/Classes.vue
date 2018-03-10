@@ -11,7 +11,7 @@
     <!--//*---------------->
     <!--// *Top Section -->
     <!--//*---------------->
-    <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-TopSection.png"-->
+    <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-TopSection.png"-->
                       <v-layout row wrap >
                         <v-flex xs6 offset-xs3 class="mb-4">
                             <div class="text-xs-center mt-3">
@@ -21,7 +21,7 @@
                       </v-layout>
                       <v-layout row wrap>
                       <!-- Title Section -->
-                      <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-TopSection-Title.png"-->
+                      <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-TopSection-Title.png"-->
                         <v-flex class="text-xs-center">
                           <!--Render title conditionally relative to if we have selected a class or not-->
                           <h2 v-if="selectedClass === ''" class="white--text">Mes classes</h2>
@@ -37,10 +37,10 @@
     <!--//*---------------->
     <!--// *Bottom Section -->
     <!--//*---------------->
-    <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-LowerSection.png"-->
+    <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-LowerSection.png"-->
                       <v-layout style="background-color: #ebebeb" row wrap >
                       <!-- Class name Section -->
-                      <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-LowerSection-Top.png"-->
+                      <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-LowerSection-Top.png"-->
                         <v-card style="width:100%; height: 100px" class="gray--text text-xs-center">
                           <div style="padding-top: 20px" class="headline text-xs-center">Mon établissement</div>
                           <div>{{classes.length}} classes</div>
@@ -48,7 +48,7 @@
                           </div>
                         </v-card>
                         <!-- Classes card Section -->
-                        <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-LowerSection-Middle.png"-->
+                        <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-LowerSection-Middle.png"-->
                         <v-card v-if="selectedClass === ''" style="width:100%; margin-top: 30px; margin-bottom: 30px" class="gray--text text-xs-center ml-3 mr-3" >
                           <v-toolbar color="light-blue" dark height="100">
                             <div style="margin-top: 15px"><h4>Mes Classes</h4></div>
@@ -83,7 +83,7 @@
                           </v-list>
                         </v-card>
                         <!-- Classes card Section -->
-                        <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-LowerSection-Middle2.png"-->
+                        <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-LowerSection-Middle2.png"-->
                         <v-card  v-if="selectedClass != ''" style="width:100%; margin-top: 30px; margin-bottom: 30px" class="gray--text text-xs-center ml-3 mr-3">
                           <v-toolbar color="light-blue" dark height="100">
                             <v-btn flat @click="clickedClass ('')"><v-icon >arrow_back</v-icon>Retour</v-btn>
@@ -127,7 +127,7 @@
     <!--//*---------------->
     <!--// *Create Class Dialog Section -->
     <!--//*---------------->
-    <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-Dialogs-CreateClass.png"-->
+    <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-Dialogs-CreateClass.png"-->
                       <v-dialog v-model="createClass" fullscreen transition="dialog-bottom-transition" style="z-index: 999;position: absolute" :overlay=true
                                 scrollable>
                         <v-card>
@@ -185,7 +185,7 @@
     <!--//*---------------->
     <!--// *Delete Class Dialog Section -->
     <!--//*---------------->
-    <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-Dialogs-DeleteClass.png"-->
+    <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-Dialogs-DeleteClass.png"-->
                       <v-layout row justify-center>
                         <v-dialog v-model="confirmClassRemoval">
                           <v-card>
@@ -209,7 +209,7 @@
     <!--//*---------------->
     <!--// *Add Students Dialog Section -->
     <!--//*---------------->
-    <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-Dialogs-AddStudents.png"-->
+    <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-Dialogs-AddStudents.png"-->
                       <v-dialog v-model="addStudents" fullscreen transition="dialog-bottom-transition" style="z-index: 999;position: absolute" :overlay=true
                                 scrollable>
                         <v-card>
@@ -259,7 +259,7 @@
     <!--//*---------------->
     <!--// *Confirm Student Removal Dialog Section -->
     <!--//*---------------->
-    <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Classes-Dialogs-ConfirmStudentRemoval.png"-->
+    <!--"/assets/Screenshots(ForCommenting)/Classe/Classes-Dialogs-ConfirmStudentRemoval.png"-->
                       <v-layout row justify-center>
                         <v-dialog v-model="confirmStudentRemoval">
                           <v-card>
