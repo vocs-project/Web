@@ -9,11 +9,10 @@
 
 <template>
   <v-container fluid style="padding-top: 90px; background-color: #8BC3DC; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
-
-
-  <!-------------->
-  <!-- Top Section -->
-  <!-------------->
+     
+  <!--//*---------------->
+  <!--// *Top Section -->
+  <!--//*---------------->
   <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Class-TopSection.png"-->
     <v-layout row wrap >
       <v-flex xs6 offset-xs3 class="mb-4">
@@ -33,15 +32,14 @@
         <h2 class="white--text">Ma classe</h2>
       </v-flex>
     </v-layout>
-  <!-------------->
-  <!-- END Top Section -->
-  <!-------------->
+  <!--//!---------------->
+  <!--// !END Top Section -->
+  <!--//!---------------->
 
 
-
-  <!-------------->
-  <!-- Lower Section -->
-  <!-------------->
+  <!--//*---------------->
+  <!--// *Lower Section -->
+  <!--//*---------------->
  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Class-LowerSection.png"-->
     <v-layout style="background-color: #ebebeb" row wrap>
   <!-- Class name Section -->
@@ -59,17 +57,20 @@
         <div style="padding-top: 10px" class="headline text-xs-center"><h4>Professeur: {{theTeacherInTheClass.firstname}} {{theTeacherInTheClass.surname}}</h4></div>
         <div class="text-xs-center mt-2">
         </div>
+        <!-- List Of Students Section -->
+        <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Class-LowerSection-middle-StudentsList.png"-->
         <v-list>
           <template v-for="(student,index) in classes[0].users">
+            <!--Render only if the current user in class is not a teacher-->
             <v-list-tile v-if="isNotTeacher(index)" two-line  v-bind:key="student.name" class="mt-3 mb-3">
               <v-list-tile-avatar>
                 <img src="https://www.practicepanther.com/wp-content/uploads/2017/02/user.png">
               </v-list-tile-avatar>
-              <v-list-tile-content style="cursor: pointer" class="ml-3" @click="clickedList(student.id); selectList(student)">
+              <v-list-tile-content class="ml-3">
                 <v-list-tile-title style="font-size: 20px">{{student.firstname}} {{student.surname}}</v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-icon style="cursor: pointer" color="grey lighten-1" @click="clickedList(student.id); selectList(student)">arrow_right</v-icon>
+                <v-icon color="grey lighten-1">arrow_right</v-icon>
               </v-list-tile-action>
             </v-list-tile>
             <v-divider style="width:90%" inset v-if="index + 1 < classes[0].users.length"></v-divider>
@@ -84,15 +85,14 @@
         </v-card>
       </v-flex>
     </v-layout>
-  <!-------------->
-  <!-- END Lower Section -->
-  <!-------------->
+  <!--//!---------------->
+  <!--// !END Lower Section -->
+  <!--//!---------------->
 
 
-
-  <!-------------->
-  <!-- First Time Student Dialog Section -->
-  <!-------------->
+  <!--//*---------------->
+  <!--// *First Time Student Dialog  Section -->
+  <!--//*---------------->
     <v-dialog v-model="firstTimeStudent" persistent>
       <v-card>
         <v-card-title class="headline">Vous êtes élève!</v-card-title>
@@ -103,15 +103,17 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  <!-------------->
-  <!-- END First Time Student Dialog Section -->
-  <!-------------->
+
+  <!--//!---------------->
+  <!--// !First Time Student Dialog  Section -->
+  <!--//!---------------->
 
 
 
-  <!-------------->
-  <!-- Confirm Quit Class Dialog Section -->
-  <!-------------->
+  <!--//*---------------->
+  <!--// *Confirm Quit Class Dialog  Section -->
+  <!--//*---------------->
+  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Class-Dialogs-QuitClass.png"-->
     <v-dialog v-model="confirmClassLeaveDialog" persistent>
       <v-card>
         <v-card-title class="headline">Quitter Ma Classe</v-card-title>
@@ -124,9 +126,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  <!-------------->
-  <!-- END Confirm Quit Class Dialog Section -->
-  <!-------------->
+  <!--//!---------------->
+  <!--// !Confirm Quit Class Dialog  Section -->
+  <!--//!---------------->
 
 
   </v-container>
@@ -139,52 +141,63 @@
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--//////////////////////////////////////////////////////////sCRIPT////////////////////////////////////////////////////::///// -->
+<!--//////////////////////////////////////////////////////////SCRIPT////////////////////////////////////////////////////::///// -->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
 <script>
-  export default {
-    data () {
-      return {
-        confirmClassLeaveDialog:false
-      }
-    },
-    computed: {
-      firstTimeStudent () {
-        return this.$store.getters.firstTimeStudent
-      },
-      classes () {
-        return this.$store.getters.classes
-      },
-      theTeacherInTheClass () {
-        return this.$store.getters.theTeacherInTheClass
-      },
-      theUser () {
-        return this.$store.getters.user
-      }
-    },
-    methods: {
-      setFirstTimeStudentFalse () {
-        this.$store.dispatch('setFirstTimeStudent', false)
-      },
-      isNotTeacher (index) {
-        if (JSON.stringify(this.classes[0].users[index].roles) !== '["ROLE_PROFESSOR"]') {
-          return true
-        } else {
-          return false
-        }
-      },
-      removeStudent () {
-        this.$store.dispatch('removeStudent', this.theUser.id)
-      },
-      removeStudentButKeepLists () {
-        this.$store.dispatch('removeStudentButKeepLists', this.theUser.id)
-      }
-    },
-    created () {
-      this.$store.dispatch('setIsPlayingGame', false)
-    }
-  }
+export default {
+	data() {
+		return {
+			// The dialog before leaving the class
+			confirmClassLeaveDialog: false
+		};
+	},
+	// We get all our properties from the store
+	computed: {
+		firstTimeStudent() {
+			return this.$store.getters.firstTimeStudent;
+		},
+		// Get the classes of the student
+		classes() {
+			return this.$store.getters.classes;
+		},
+		theTeacherInTheClass() {
+			return this.$store.getters.theTeacherInTheClass;
+		},
+		theUser() {
+			return this.$store.getters.user;
+		}
+	},
+	methods: {
+		// When we have seen the dialog and pressed ok we set firsttimestudent to false
+		setFirstTimeStudentFalse() {
+			this.$store.dispatch("setFirstTimeStudent", false);
+		},
+		// We filter out the teacher(s) in the class to not display them
+		isNotTeacher(index) {
+			if (
+				JSON.stringify(this.classes[0].users[index].roles) !==
+				'["ROLE_PROFESSOR"]'
+			) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+		// When the student decides to leave the class without keeping the lists of that class
+		removeStudent() {
+			this.$store.dispatch("removeStudent", this.theUser.id);
+		},
+		// When the student decides to leave the class and keep the lists of that class
+		removeStudentButKeepLists() {
+			this.$store.dispatch("removeStudentButKeepLists", this.theUser.id);
+		}
+	},
+	// We say that the player isn't playing a game to keep/set the side drawer to open
+	created() {
+		this.$store.dispatch("setIsPlayingGame", false);
+	}
+};
 </script>
