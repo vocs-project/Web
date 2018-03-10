@@ -112,7 +112,7 @@
   <!--// *Confirm Quit Class Dialog Section -->
   <!--//*---------------->
   <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/Classe/Class-Dialogs-QuitClass.png"-->
-                      <v-dialog v-model="confirmClassLeaveDialog" persistent>
+                      <v-dialog v-model="confirmClassLeaveDialog" max-width="300" persistent>
                         <v-card>
                           <v-card-title class="headline">Quitter Ma Classe</v-card-title>
                           <v-card-text>Voulez-vous garder les listes de cette classe?</v-card-text>
