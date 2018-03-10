@@ -1,14 +1,37 @@
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--//////////////////////////////////////////////////////////TEMPLATE///////////////////////////////////////////////////////// -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
 <template>
   <v-container fluid style="margin-top: 100px">
+
+  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home.png"-->
+
+
+  <!--//*---------------->
+  <!--// *Title Section -->
+  <!--//*---------------->
+  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-title.png"-->
     <v-layout row style="justify-content:center">
       <h3 style="text-align:center;color:#737373">Bienvenue sur Vocs</h3>
     </v-layout>
+  <!--//!---------------->
+  <!--// !END Title Section -->
+  <!--//!---------------->
+
+
+
+
     <v-layout row wrap style="justify-content:center">
 
-
-      <!-------------->
-      <!-- Classes Card -->
-      <!-------------->
+  <!--//*---------------->
+  <!--// *Class Card Section -->
+  <!--//*---------------->
+  <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-classSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->
@@ -29,12 +52,17 @@
           <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/class">Voir</v-btn>
         </v-card>
       </v-flex>
+  <!--//!---------------->
+  <!--// !END Class Card Section -->
+  <!--//!---------------->
 
 
 
-      <!-------------->
-      <!-- Lists Card -->
-      <!-------------->
+
+  <!--//*---------------->
+  <!--// *List Card Section -->
+  <!--//*---------------->
+       <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-listSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->
@@ -53,10 +81,17 @@
           <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/lists">Voir</v-btn>
         </v-card>
       </v-flex>
+  <!--//!---------------->
+  <!--// !END List Card Section -->
+  <!--//!---------------->
+      
 
-      <!-------------->
-      <!-- Exercise Card -->
-      <!-------------->
+
+      
+  <!--//*---------------->
+  <!--// *Exercise Card Section -->
+  <!--//*---------------->
+       <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-exerciseSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->
@@ -75,11 +110,17 @@
           <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/games">Voir</v-btn>
         </v-card>
       </v-flex>
+  <!--//!---------------->
+  <!--// !END Exercise Card Section -->
+  <!--//!---------------->
 
 
-      <!-------------->
-      <!-- Settings Card -->
-      <!-------------->
+
+
+  <!--//*---------------->
+  <!--// *Settings Card Section -->
+  <!--//*---------------->
+       <!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Screenshots(For Commenting)/home/home-settingsSection.png"-->
       <v-flex lg5 md7 sm12 xs12 class="mr-2 ml-1">
         <v-card>
           <!-- Icon Container -->
@@ -98,38 +139,47 @@
           <v-btn large flat color="primary" style="margin-top: 10px; margin-bottom: 10px;" to="/settings">Voir</v-btn>
         </v-card>
       </v-flex>
+  <!--//!---------------->
+  <!--// !END Settings Card Section -->
+  <!--//!---------------->
 
 
     </v-layout>
-
 
   </v-container>
 </template>
 
 <script>
-  import ListBG from '@/assets/HomepageBG4.png'
-  export default {
-    data () {
-      return {
-        listBG: ListBG
-      }
-    },
-    computed: {
-      user () {
-        return this.$store.getters.user
-      },
-      accountType () {
-        if (this.user.roles === 'STUDENT' || JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]') {
-          return 'Élève';
-        } else if (this.user.roles === 'PROFESSOR' || JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]') {
-          return 'Professeur';
-        } else {
-          return 'Libre';
-        }
-      }
-    },
-    created () {
-      this.$store.dispatch('setIsPlayingGame', false)
-    }
-  }
+import ListBG from "@/assets/HomepageBG4.png";
+export default {
+	data() {
+		return {
+			listBG: ListBG
+		};
+	},
+	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
+		accountType() {
+			if (
+				this.user.roles === "STUDENT" ||
+				JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]'
+			) {
+				return "Élève";
+			} else if (
+				this.user.roles === "PROFESSOR" ||
+				JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]'
+			) {
+				return "Professeur";
+			} else {
+				return "Libre";
+			}
+		}
+	},
+	created() {
+		// We say that the player isn't playing a game to keep/set the side drawer to open
+		this.$store.dispatch("setIsPlayingGame", false);
+	}
+};
 </script>

@@ -115,7 +115,7 @@
     <v-flex xs10 offset-xs1 class="mt-5">
       <v-card>
         <v-toolbar color="light-blue" dark>
-          <v-toolbar-title>Hard Liste</v-toolbar-title>
+          <v-toolbar-title>Hard List</v-toolbar-title>
           <v-btn v-if="hardList.wordTrads.length > 0" class="black--text" style="border-radius: 20px" small @click="selectListForGame(hardList); confirmPlayWithList = true;">S'entrainer</v-btn>
           <v-spacer></v-spacer>
         </v-toolbar>
@@ -338,173 +338,181 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        createListBoxIsOpen: false,
-        createListName: '',
-        addWords: false,
-        createWordName: '',
-        createWordTranslation: '',
-        createWordId: 1,
-        createListId: '',
-        createListWords: [],
-        createList: false,
-        confirmListRemoval: false,
-        confirmPlayWithList: false,
-        confirmClassListRemoval: false,
-        listRemovalId: '',
-        addToClass: false,
-        isAPersonalList: null,
-        selectedListToAddInClass: '',
-        shareList: false ,
-        selectedTeachers: [],
-        teacherName:'',
-        theTeachers: [],
-        selectedListToShare: ''
-      }
-    },
-    computed: {
-      lists () {
-        /* loadedLists doesn't take parenthese it is a property (even though it is a method in the store */
-        return this.$store.getters.loadedLists
-      },
-      hardList () {
-        return this.$store.getters.getTheHardList
-      },
-      classLists () {
-        return this.$store.getters.classLists
-      },
-      createListFormIsValid () {
-        if (this.createListName !== '' && this.createListWords.length > 0) {
-          return true
-        }
-        return false
-      },
-      tickedClasses () {
-        return this.$store.getters.isClickedClasses
-      },
-      role () {
-        return this.$store.getters.roles
-      },
-      classes () {
-        return this.$store.getters.classes
-      },
-      addListToClassFormIsValid () {
-        var atLeastOneTicked = false
-        for (var i = 0; i < this.classes.length; i++) {
-          if (this.tickedClasses[i] === true) {
-            atLeastOneTicked = true
-          }
-        }
-        return atLeastOneTicked
-      },
-      hasClass () {
-        return JSON.stringify(this.$store.getters.user.classes) !== '[]'
-      },
-      teachers () {
-        return this.$store.getters.teachers;
-
-      }
-    },
-    methods: {
-      clickedList (id) {
-        this.$router.push('/lists/' + id)
-      },
-      createAList () {
-        const listData = {
-          name: this.createListName,
-          wordTrads: this.createListWords
-        };
-        this.$store.dispatch('createList', listData);
-        this.createListBoxIsOpen = false;
-      },
-      addWord () {
-        this.createListWords.push({word: {content: this.createWordName, language: 'EN'}, trad: {content: this.createWordTranslation, language: 'FR'}})
-        this.createWordTranslation = '';
-        this.createWordName = '';
-        this.createWordId++;
-      },
-      removeList (listId) {
-        this.$store.dispatch('removeList', listId);
-      },
-      removeClassList (listId) {
-        this.$store.dispatch('removeClassList', listId);
-      },
-      setIsAPersonalList (booleanValue) {
-        this.isAPersonalList = booleanValue;
-      },
-      selectList (list, booleanValue) {
-        console.log('selectteeddd list: ' + JSON.stringify(list))
-        this.$store.dispatch('selectList', list);
-        this.setIsAPersonalList(booleanValue);
-        this.$store.dispatch('setIsAPersonalList', this.isAPersonalList);
-      },
-      selectListForGame (list) {
-        this.$store.dispatch('selectListForGame', list);
-        this.$router.push('/games');
-      },
-      isValidForAddingToClass (listLength) {
-        if (this.role === 'PROFESSOR' && listLength > 0) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      tickClass (aClassId) {
-        this.$store.dispatch('setIsClickedClasses', aClassId);
-      },
-      addListToClasses (tickedClasses) {
-        var toSendOff = {
-          selectedList: this.selectedListToAddInClass,
-          tickedArray: tickedClasses
-        }
-        this.$store.dispatch('addListToClasses', toSendOff);
-      },
-      listIsInClass (list) {
-        this.dispatch('listIsInClass', list);
-      },
-      addTeacher (name) {
-        for (var i = 0; i < this.teachers.length; i++) {
-          if (name === this.teachers[i].firstname + ' ' + this.teachers[i].surname.toUpperCase()) {
-            var userToAdd = {
-              id: this.teachers[i].id,
-              firstname: this.teachers[i].firstname,
-              surname: this.teachers[i].surname,
-              roles: this.teachers[i].roles,
-              avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'
-            }
-            for (var y = 0; y < this.theTeachers.length; y++) {
-              if (this.theTeachers[y] === name) {
-                this.theTeachers.splice(y, 1);
-              }
-            }
-          }
-        }
-        this.selectedTeachers.push(userToAdd);
-        this.teacherName = '';
-      },
-      addTeacher2 (invitedTeachers) {
-          var toSendOff = {
-            invitedTeachers: invitedTeachers,
-            selectedListToShare: this.selectedListToShare
-          }
-          this.$store.dispatch('addTeachers', toSendOff)
-      }
-    },
-    created () {
-      this.$store.dispatch('getLists');
-      this.$store.dispatch('setIsPlayingGame', false);
-      for (var i = 0; i < this.classes.length; i++) {
-        this.tickedClasses[i] = false;
-      }
-      for (var i = 0; i < this.teachers.length; i++) {
-        if(this.teachers[i].id !== this.$store.getters.user.id) {
-          var firstname = this.teachers[i].firstname;
-          var surname = this.teachers[i].surname;
-          this.theTeachers[i] = firstname + ' ' + surname.toUpperCase();
-        }
-      }
-    }
-  }
+export default {
+	data() {
+		return {
+			createListBoxIsOpen: false,
+			createListName: "",
+			addWords: false,
+			createWordName: "",
+			createWordTranslation: "",
+			createWordId: 1,
+			createListId: "",
+			createListWords: [],
+			createList: false,
+			confirmListRemoval: false,
+			confirmPlayWithList: false,
+			confirmClassListRemoval: false,
+			listRemovalId: "",
+			addToClass: false,
+			isAPersonalList: null,
+			selectedListToAddInClass: "",
+			shareList: false,
+			selectedTeachers: [],
+			teacherName: "",
+			theTeachers: [],
+			selectedListToShare: ""
+		};
+	},
+	computed: {
+		lists() {
+			/* loadedLists doesn't take parenthese it is a property (even though it is a method in the store */
+			return this.$store.getters.loadedLists;
+		},
+		hardList() {
+			return this.$store.getters.getTheHardList;
+		},
+		classLists() {
+			return this.$store.getters.classLists;
+		},
+		createListFormIsValid() {
+			if (this.createListName !== "" && this.createListWords.length > 0) {
+				return true;
+			}
+			return false;
+		},
+		tickedClasses() {
+			return this.$store.getters.isClickedClasses;
+		},
+		role() {
+			return this.$store.getters.roles;
+		},
+		classes() {
+			return this.$store.getters.classes;
+		},
+		addListToClassFormIsValid() {
+			var atLeastOneTicked = false;
+			for (var i = 0; i < this.classes.length; i++) {
+				if (this.tickedClasses[i] === true) {
+					atLeastOneTicked = true;
+				}
+			}
+			return atLeastOneTicked;
+		},
+		hasClass() {
+			return JSON.stringify(this.$store.getters.user.classes) !== "[]";
+		},
+		teachers() {
+			return this.$store.getters.teachers;
+		}
+	},
+	methods: {
+		clickedList(id) {
+			this.$router.push("/lists/" + id);
+		},
+		createAList() {
+			const listData = {
+				name: this.createListName,
+				wordTrads: this.createListWords
+			};
+			this.$store.dispatch("createList", listData);
+			this.createListBoxIsOpen = false;
+		},
+		addWord() {
+			this.createListWords.push({
+				word: { content: this.createWordName, language: "EN" },
+				trad: { content: this.createWordTranslation, language: "FR" }
+			});
+			this.createWordTranslation = "";
+			this.createWordName = "";
+			this.createWordId++;
+		},
+		removeList(listId) {
+			this.$store.dispatch("removeList", listId);
+		},
+		removeClassList(listId) {
+			this.$store.dispatch("removeClassList", listId);
+		},
+		setIsAPersonalList(booleanValue) {
+			this.isAPersonalList = booleanValue;
+		},
+		selectList(list, booleanValue) {
+			console.log("selectteeddd list: " + JSON.stringify(list));
+			this.$store.dispatch("selectList", list);
+			this.setIsAPersonalList(booleanValue);
+			this.$store.dispatch("setIsAPersonalList", this.isAPersonalList);
+		},
+		selectListForGame(list) {
+			this.$store.dispatch("selectListForGame", list);
+			this.$router.push("/games");
+		},
+		isValidForAddingToClass(listLength) {
+			if (this.role === "PROFESSOR" && listLength > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+		tickClass(aClassId) {
+			this.$store.dispatch("setIsClickedClasses", aClassId);
+		},
+		addListToClasses(tickedClasses) {
+			var toSendOff = {
+				selectedList: this.selectedListToAddInClass,
+				tickedArray: tickedClasses
+			};
+			this.$store.dispatch("addListToClasses", toSendOff);
+		},
+		listIsInClass(list) {
+			this.dispatch("listIsInClass", list);
+		},
+		addTeacher(name) {
+			for (var i = 0; i < this.teachers.length; i++) {
+				if (
+					name ===
+					this.teachers[i].firstname +
+						" " +
+						this.teachers[i].surname.toUpperCase()
+				) {
+					var userToAdd = {
+						id: this.teachers[i].id,
+						firstname: this.teachers[i].firstname,
+						surname: this.teachers[i].surname,
+						roles: this.teachers[i].roles,
+						avatar:
+							"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+					};
+					for (var y = 0; y < this.theTeachers.length; y++) {
+						if (this.theTeachers[y] === name) {
+							this.theTeachers.splice(y, 1);
+						}
+					}
+				}
+			}
+			this.selectedTeachers.push(userToAdd);
+			this.teacherName = "";
+		},
+		addTeacher2(invitedTeachers) {
+			var toSendOff = {
+				invitedTeachers: invitedTeachers,
+				selectedListToShare: this.selectedListToShare
+			};
+			this.$store.dispatch("addTeachers", toSendOff);
+		}
+	},
+	created() {
+		this.$store.dispatch("getLists");
+		this.$store.dispatch("setIsPlayingGame", false);
+		for (var i = 0; i < this.classes.length; i++) {
+			this.tickedClasses[i] = false;
+		}
+		for (var i = 0; i < this.teachers.length; i++) {
+			if (this.teachers[i].id !== this.$store.getters.user.id) {
+				var firstname = this.teachers[i].firstname;
+				var surname = this.teachers[i].surname;
+				this.theTeachers[i] = firstname + " " + surname.toUpperCase();
+			}
+		}
+	}
+};
 </script>
