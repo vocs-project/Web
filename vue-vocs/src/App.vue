@@ -83,9 +83,6 @@
         </v-list>
       </v-navigation-drawer>
 
-<!--"D:/Sync/Music/Images/Logo/Logo.png"-->
-<!--"D:/Sync/CS Dev/Vocs/vue-vocs/src/assets/Android.png"-->
-
       <!--Dashboard menu drawer-->
       <v-navigation-drawer
         v-if="isLoggedIn"

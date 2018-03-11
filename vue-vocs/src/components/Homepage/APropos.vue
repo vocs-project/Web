@@ -8,150 +8,172 @@
 
 <template>
   <div v-scroll="scroll">
-    <v-parallax class="s1-parallax" :src="HomepageBG" style="height:100vh;width:100vw;margin-top: -65px">
-      <v-layout align-center justify-center class="mt-5">
-        <v-flex xs10 sm10 md8 class="text-xs-center" :class="s1TextClass">
-          <h1 class="white--text text-xs-center" >A propos de<br></h1>
-          <h1 class="white--text text-xs-center">Vocs</h1>
-          <v-btn icon class="text-xs-center" large @click="autoScrollDown">
-            <v-icon large color="white">keyboard_arrow_down</v-icon>
-          </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-parallax>
+
+  <!--//*---------------->
+  <!--// *First Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/apropos-header.png"-->
+                      <v-parallax class="s1-parallax" :src="HomepageBG" style="height:100vh;width:100vw;margin-top: -65px">
+                        <v-layout align-center justify-center class="mt-5">
+                          <v-flex xs10 sm10 md8 class="text-xs-center" :class="s1TextClass">
+                            <h1 class="white--text text-xs-center" >A propos de<br></h1>
+                            <h1 class="white--text text-xs-center">Vocs</h1>
+                            <v-btn icon class="text-xs-center" large @click="autoScrollDown">
+                              <v-icon large color="white">keyboard_arrow_down</v-icon>
+                            </v-btn>
+                          </v-flex>
+                        </v-layout>
+                      </v-parallax>
+  <!--//!---------------->
+  <!--// !END First Section -->
+  <!--//!---------------->
+
     <br>
     <br>
     <br>
-    <v-container>
-      <v-layout row wrap class="text-xs-center">
-        <h5><strong>Vocs a pour but de répondre à plusieurs
 
-          problématiques :</strong><br><br>
+  <!--//*---------------->
+  <!--// *Text Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/apropos-text.png"-->
+                      <v-container>
+                        <v-layout row wrap class="text-xs-center">
+                          <h5><strong>Vocs a pour but de répondre à plusieurs
 
-          ➔ Comment apprendre le vocabulaire anglais sur le long terme ?<br><br>
+                            problématiques :</strong><br><br>
 
-          ➔ Comment utiliser les technologies mises à disposition (smartphone,
+                            ➔ Comment apprendre le vocabulaire anglais sur le long terme ?<br><br>
 
-          ordinateur) des étudiants à des fins pédagogiques ?<br><br>
+                            ➔ Comment utiliser les technologies mises à disposition (smartphone,
 
-          ➔ Comment partager le savoir des professeurs d’anglais à une grande
+                            ordinateur) des étudiants à des fins pédagogiques ?<br><br>
 
-          communauté d’étudiants ?<br><br><br>
+                            ➔ Comment partager le savoir des professeurs d’anglais à une grande
 
-          <strong> Les Listes :</strong><br><br>
+                            communauté d’étudiants ?<br><br><br>
 
-          Nous comptons tout d'abord implanter un système de listes. Initialement la plateforme
+                            <strong> Les Listes :</strong><br><br>
 
-          contiendra des listes de vocabulaire sur différentes thématiques que les utilisateurs
+                            Nous comptons tout d'abord implanter un système de listes. Initialement la plateforme
 
-          pourront s’approprier.<br>
+                            contiendra des listes de vocabulaire sur différentes thématiques que les utilisateurs
 
-          Ainsi, tout le monde pourra télécharger une liste quand il le souhaitera pour pouvoir réviser
+                            pourront s’approprier.<br>
 
-          où bon lui plaira et surtout, quand le temps le lui permettra.<br>
+                            Ainsi, tout le monde pourra télécharger une liste quand il le souhaitera pour pouvoir réviser
 
-          Chaque utilisateur pourra créer ses propres listes de mots traduits qu'il pourra
+                            où bon lui plaira et surtout, quand le temps le lui permettra.<br>
 
-          ensuite réviser à sa guise. (Les listes pourront être mises en ligne après être soumises à une
+                            Chaque utilisateur pourra créer ses propres listes de mots traduits qu'il pourra
 
-          correction des traductions par des professeurs ou par les administrateurs).<br>
+                            ensuite réviser à sa guise. (Les listes pourront être mises en ligne après être soumises à une
 
-          Les listes pourront aussi être mises par des professeurs, et être soumises à leurs élèves,
+                            correction des traductions par des professeurs ou par les administrateurs).<br>
 
-          qui devront s'inscrire dans leur classe pour pouvoir les consulter.<br>
+                            Les listes pourront aussi être mises par des professeurs, et être soumises à leurs élèves,
 
-          Par exemple, vous êtes professeur d'une classe de première 4 au lycée Victor Hugo à
+                            qui devront s'inscrire dans leur classe pour pouvoir les consulter.<br>
 
-          Caen. Sur internet, un groupe privé sera créé et nommé "1A du lycée Victor Hugo Caen". Le
+                            Par exemple, vous êtes professeur d'une classe de première 4 au lycée Victor Hugo à
 
-          professeur pourra créer la classe, choisir son nom et gérer la classe. Les élèves pourront
+                            Caen. Sur internet, un groupe privé sera créé et nommé "1A du lycée Victor Hugo Caen". Le
 
-          rejoindre la classe et vous pourrez accepter ou non leur demande d'adhésion (pour éviter les
+                            professeur pourra créer la classe, choisir son nom et gérer la classe. Les élèves pourront
 
-          fausses candidatures). Les élèves pourront ainsi faire des tests.<br><br><br>
+                            rejoindre la classe et vous pourrez accepter ou non leur demande d'adhésion (pour éviter les
 
-          <strong>Les modes d’apprentissage :</strong><br><br>
+                            fausses candidatures). Les élèves pourront ainsi faire des tests.<br><br><br>
 
-          Nous avons aussi pour idée d'implanter différents modes d’apprentissage. Par exemple:
+                            <strong>Les modes d’apprentissage :</strong><br><br>
 
-          - La Traduction: une traduction en français ou en anglais des mots proposés par
+                            Nous avons aussi pour idée d'implanter différents modes d’apprentissage. Par exemple:
 
-          l'application.<br><br>
+                            - La Traduction: une traduction en français ou en anglais des mots proposés par
 
-          - Le Time-Attack: à l'image de beaucoup de mini-jeux sur internet, nous proposons un jeu où
+                            l'application.<br><br>
 
-          le but est de traduire le plus de mots possible dans le temps imparti.<br><br>
+                            - Le Time-Attack: à l'image de beaucoup de mini-jeux sur internet, nous proposons un jeu où
 
-          - Le Matching: ce mode propose une liste de mots français et anglais répartis de part et
+                            le but est de traduire le plus de mots possible dans le temps imparti.<br><br>
 
-          d'autre de l'écran. Ils sont placés au hasard et l'élève doit relier les traductions entre elles.<br><br>
+                            - Le Matching: ce mode propose une liste de mots français et anglais répartis de part et
 
-          - Le QCM: un mot en anglais ou en français est proposé. Plusieurs traductions apparaissent.
+                            d'autre de l'écran. Ils sont placés au hasard et l'élève doit relier les traductions entre elles.<br><br>
 
-          Il suffit de cocher la ou les bonnes réponses.<br><br>
+                            - Le QCM: un mot en anglais ou en français est proposé. Plusieurs traductions apparaissent.
 
-          - Le mode Hard: Les mots que chaque utilisateur orthographient le moins bien sont stockés
+                            Il suffit de cocher la ou les bonnes réponses.<br><br>
 
-          dans une Hard-List personnelle. Nous prenons ensuite ces fameux mots et réalisons un test
+                            - Le mode Hard: Les mots que chaque utilisateur orthographient le moins bien sont stockés
 
-          constitué uniquement de ces mots.<br><br><br>
+                            dans une Hard-List personnelle. Nous prenons ensuite ces fameux mots et réalisons un test
 
-          <strong>Les statistiques :</strong><br><br>
+                            constitué uniquement de ces mots.<br><br><br>
 
-          Nous souhaitons aussi mettre en place un système de statistiques, permettant à
+                            <strong>Les statistiques :</strong><br><br>
 
-          chacun de savoir dans quels domaines il est le plus performant et, a contrario, dans lesquels
+                            Nous souhaitons aussi mettre en place un système de statistiques, permettant à
 
-          il doit progresser.<br><br><br>
+                            chacun de savoir dans quels domaines il est le plus performant et, a contrario, dans lesquels
 
-          <strong>Les fonctionnalités supplémentaires :</strong><br><br>
+                            il doit progresser.<br><br><br>
 
-          Un système de prononciation sera aussi mis en place, accompagné de symboles
+                            <strong>Les fonctionnalités supplémentaires :</strong><br><br>
 
-          phonétiques. Il sera possible de cliquer sur un bouton haut-parleur pour entendre la
+                            Un système de prononciation sera aussi mis en place, accompagné de symboles
 
-          prononciation du mot choisi, et la phonétique de ce mot apparaîtra juste à côté.</h5>
-      </v-layout>
-    </v-container>
+                            phonétiques. Il sera possible de cliquer sur un bouton haut-parleur pour entendre la
+
+                            prononciation du mot choisi, et la phonétique de ce mot apparaîtra juste à côté.</h5>
+                        </v-layout>
+                      </v-container>
+  <!--//!---------------->
+  <!--// !END Text Section -->
+  <!--//!---------------->
 
 
-    <!-------------->
-    <!-- Footer -->
-    <!-------------->
-    <footer style="height: auto;background-color: rgba(24,24,24,0.85);padding: 2%;padding-top: 40px">
-      <v-layout row wrap>
-        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
-          <div>
-            <h6 style="color: white" class="text-xs-center">A Propos</h6>
-            <p style="color: white" class="text-xs-center">A propos de la plateforme Vocs</p>
-          </div>
-        </v-flex>
-        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
-          <div>
-            <h6 style="color: white" class="text-xs-center">Connexion</h6>
-            <p style="color: white" class="text-xs-center">Connectez-vous à votre compte personnel</p>
-          </div>
-        </v-flex>
-        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
-          <div>
-            <h6 style="color: white" class="text-xs-center">Inscription</h6>
-            <p style="color: white" class="text-xs-center">Inscrivez-vous si vous ne l'avez pas encore fait</p>
-          </div>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap style="margin-top: 30px;margin-bottom: 20px">
-        <v-flex xs12>
-          <div style="align-items: center;justify-content: center;">
-            <h6 style="color: white" class="text-xs-center">Contact</h6>
-            <p style="color: white" class="text-xs-center">Vocs Inc</p>
-          </div>
-        </v-flex>
-        <v-flex xs12 class="text-xs-center">
-          <img :src="logo" alt="Logo Vocs" style="height: 40px;">
-        </v-flex>
-      </v-layout>
-    </footer>
 
+
+  <!--//*---------------->
+  <!--// *Footer Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/apropos-footer.png"-->
+                      <footer style="height: auto;background-color: rgba(24,24,24,0.85);padding: 2%;padding-top: 40px">
+                        <v-layout row wrap>
+                          <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+                            <div>
+                              <h6 style="color: white" class="text-xs-center">A Propos</h6>
+                              <p style="color: white" class="text-xs-center">A propos de la plateforme Vocs</p>
+                            </div>
+                          </v-flex>
+                          <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+                            <div>
+                              <h6 style="color: white" class="text-xs-center">Connexion</h6>
+                              <p style="color: white" class="text-xs-center">Connectez-vous à votre compte personnel</p>
+                            </div>
+                          </v-flex>
+                          <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+                            <div>
+                              <h6 style="color: white" class="text-xs-center">Inscription</h6>
+                              <p style="color: white" class="text-xs-center">Inscrivez-vous si vous ne l'avez pas encore fait</p>
+                            </div>
+                          </v-flex>
+                        </v-layout>
+                        <v-layout row wrap style="margin-top: 30px;margin-bottom: 20px">
+                          <v-flex xs12>
+                            <div style="align-items: center;justify-content: center;">
+                              <h6 style="color: white" class="text-xs-center">Contact</h6>
+                              <p style="color: white" class="text-xs-center">Vocs Inc</p>
+                            </div>
+                          </v-flex>
+                          <v-flex xs12 class="text-xs-center">
+                            <img :src="logo" alt="Logo Vocs" style="height: 40px;">
+                          </v-flex>
+                        </v-layout>
+                      </footer>
+  <!--//!---------------->
+  <!--// !END Footer Section -->
+  <!--//!---------------->
   </div>
 </template>
 
@@ -176,42 +198,10 @@ export default {
 		return {
 			logo: logo,
 			HomepageBG: HomepageBG,
-			s1TextClass: "s1-text-hide",
-			s2IphoneClass: "s2-iphone-hide",
-			s2TextClass: "s2-text-hide",
-			s3MainTextClass: "s3-main-text-hide",
-			s3TextClassLeft: "s3-text-left-hide",
-			s3TextClassRight: "s3-text-right-hide",
-			s3TextClassMiddle: "s3-text-middle-hide"
+			s1TextClass: "s1-text-hide"
 		};
 	},
 	methods: {
-		scroll(e) {
-			this.offsetTop = window.pageYOffset || document.documentElement.scrollTop;
-			if (this.offsetTop > 300) {
-				this.s2IphoneClass = "s2-iphone-show";
-				this.s2TextClass = "s2-text-show";
-			} else if (this.offsetTop < 280) {
-				this.s2IphoneClass = "s2-iphone-hide";
-				this.s2TextClass = "s2-text-hide";
-			}
-			if (this.offsetTop > 750) {
-				this.s3MainTextClass = "s3-main-text-show";
-			}
-			if (this.offsetTop > 800) {
-				this.s3TextClassLeft = "s3-text-left-show";
-				this.s3TextClassRight = "s3-text-right-show";
-			}
-			if (this.offsetTop > 900) {
-				this.s3TextClassMiddle = "s3-text-middle-show";
-			}
-			if (this.offsetTop < 750) {
-				this.s3MainTextClass = "s3-main-text-hide";
-				this.s3TextClassLeft = "s3-text-left-hide";
-				this.s3TextClassRight = "s3-text-right-hide";
-				this.s3TextClassMiddle = "s3-text-middle-hide";
-			}
-		},
 		autoScrollDown() {
 			do {
 				document.documentElement.scrollTop =
@@ -228,6 +218,7 @@ export default {
 		});
 	},
 	created() {
+		// We say that the player isn't playing a game to keep/set the side drawer to open
 		this.$store.dispatch("setIsPlayingGame", false);
 	}
 };
