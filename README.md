@@ -2,9 +2,9 @@
     <a href="https://vocs.lebarillier.fr/homepage">
         <img src="/vue-vocs/src/assets/logoFlat.png" alt="Vocs" width="100">
     </a>
+    <br>  
+    Vocs :
 </h1>
-
-# VOCS :
 
 ### | [Site](https://vocs.lebarillier.fr/homepage) |
 
