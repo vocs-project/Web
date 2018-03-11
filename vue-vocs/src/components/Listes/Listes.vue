@@ -180,9 +180,11 @@
           <v-toolbar-title style="color: white">Créer une liste</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
-        <v-card-title primary-title class="ml-5 mr-5">
-          <v-flex xs5 class="ml-5 mr-5">
-            <v-card>
+
+
+        <v-layout row>
+          <v-flex xs12>
+            <v-card style="margin-left: 20%; margin-right: 20%; margin-top:50px">
               <v-toolbar color="indigo" dark>
                 <v-toolbar-title>Ma nouvelle liste</v-toolbar-title>
                 <v-spacer></v-spacer>
@@ -192,7 +194,6 @@
                   <v-text-field
                     label="Nom de la liste"
                     v-model="createListName"
-                    :counter="10"
                     required
                   ></v-text-field>
                   <v-btn @click="addWords=true" :disabled="addWords===true">Ajouter des mots</v-btn>
@@ -200,13 +201,11 @@
                     <v-text-field
                       label="Mot (anglais)"
                       v-model="createWordName"
-                      :counter="10"
                       required
                     ></v-text-field>
                     <v-text-field
                       label="Traduction (français)"
                       v-model="createWordTranslation"
-                      :counter="10"
                       required
                     ></v-text-field>
                     <v-btn :disabled="createWordName === '' || createWordTranslation === ''" @click="addWord">Ajouter mon mot</v-btn>
@@ -215,8 +214,8 @@
               </div>
             </v-card>
           </v-flex>
-          <v-flex xs5 class="ml-5 mr-5 mt-0">
-            <v-card>
+          <v-flex xs12 class="ml-5 mr-5">
+            <v-card style="margin-left: 20%; margin-right: 20%">
               <v-toolbar color="indigo" dark>
                 <v-toolbar-title>Mots ajoutés</v-toolbar-title>
                 <v-spacer></v-spacer>
@@ -229,9 +228,12 @@
               </div>
             </v-card>
           </v-flex>
-        </v-card-title>
+        </v-layout>
+
+
+
         <v-card-actions>
-          <v-flex xs12 sm6 offset-sm5>
+          <v-flex xs12 style="text-align:center">
             <v-btn
               @click="createAList"
               @click.stop="createList = false"

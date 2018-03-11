@@ -104,93 +104,144 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        students: [
-          {name: 'Harvey', surname: 'Roberts', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Simon', surname: 'Aranud', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Mathis', surname: 'Delaunay', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Etienne', surname: 'Lebarillier', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Antoine', surname: 'Lebrun', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Maxime', surname: 'Gouet', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Christophe', surname: 'Genard', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Loic', surname: 'Bitter', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'},
-          {name: 'Thomas', surname: 'Herbelin', avatar: 'https://www.practicepanther.com/wp-content/uploads/2017/02/user.png'}
-        ],
-        enterPassword: false,
-        modifyProfilMessage: false,
-        theModifiedUser: {
-          firstname: null,
-          surname: null,
-          email: null,
-          password: null,
-        },
-        info: {
-          email: '',
-          password: ''
-        }
-      }
-    },
-    computed: {
-      user () {
-        return this.$store.getters.user
-      },
-      accountType () {
-        if (this.user.roles === 'STUDENT' || JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]') {
-          return 'Élève'
-        } else if (this.user.roles === 'PROFESSOR' || JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]') {
-          return 'Professeur'
-        } else {
-          return 'Libre'
-        }
-      },
-      editProfil () {
-        return this.$store.getters.editProfil
-      }
-    },
-    methods: {
-      submitEditProfil(){
-        this.editProfil = false
-        if (this.theModifiedUser.firstname === null) {
-          this.theModifiedUser.firstname = this.user.firstname
-        }
-        if (this.theModifiedUser.surname === null) {
-          this.theModifiedUser.surname = this.user.surname
-        }
-        if (this.theModifiedUser.email === null) {
-          this.theModifiedUser.email = this.user.email
-        }
-        this.$store.dispatch('modifyProfil',this.theModifiedUser)
-      },
-      testPasswordConfirm () {
-        this.enterPassword = false;
-        this.$store.dispatch('testPasswordConfirm',this.info);
-      }
-    },
-    created () {
-      console.log('heheheheheheheh')
-      this.$store.dispatch('resetEditProfile');
-      this.$store.dispatch('setIsPlayingGame', false)
-      this.info.email = this.user.email;
-      this.theModifiedUser.firstname = this.user.firstname;
-      this.theModifiedUser.surname = this.user.surname;
-      this.theModifiedUser.email = this.user.email;
-    }
-  }
+export default {
+	data() {
+		return {
+			students: [
+				{
+					name: "Harvey",
+					surname: "Roberts",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Simon",
+					surname: "Aranud",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Mathis",
+					surname: "Delaunay",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Etienne",
+					surname: "Lebarillier",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Antoine",
+					surname: "Lebrun",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Maxime",
+					surname: "Gouet",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Christophe",
+					surname: "Genard",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Loic",
+					surname: "Bitter",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				},
+				{
+					name: "Thomas",
+					surname: "Herbelin",
+					avatar:
+						"https://www.practicepanther.com/wp-content/uploads/2017/02/user.png"
+				}
+			],
+			enterPassword: false,
+			modifyProfilMessage: false,
+			theModifiedUser: {
+				firstname: null,
+				surname: null,
+				email: null,
+				password: null
+			},
+			info: {
+				email: "",
+				password: ""
+			}
+		};
+	},
+	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
+		accountType() {
+			if (
+				this.user.roles === "STUDENT" ||
+				JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]'
+			) {
+				return "Élève";
+			} else if (
+				this.user.roles === "PROFESSOR" ||
+				JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]'
+			) {
+				return "Professeur";
+			} else {
+				return "Libre";
+			}
+		},
+		editProfil() {
+			return this.$store.getters.editProfil;
+		}
+	},
+	methods: {
+		submitEditProfil() {
+			this.editProfil = false;
+			if (this.theModifiedUser.firstname === null) {
+				this.theModifiedUser.firstname = this.user.firstname;
+			}
+			if (this.theModifiedUser.surname === null) {
+				this.theModifiedUser.surname = this.user.surname;
+			}
+			if (this.theModifiedUser.email === null) {
+				this.theModifiedUser.email = this.user.email;
+			}
+			this.$store.dispatch("modifyProfil", this.theModifiedUser);
+		},
+		testPasswordConfirm() {
+			this.enterPassword = false;
+			this.$store.dispatch("testPasswordConfirm", this.info);
+		}
+	},
+	created() {
+		console.log("heheheheheheheh");
+		this.$store.dispatch("resetEditProfile");
+		this.$store.dispatch("setIsPlayingGame", false);
+		this.info.email = this.user.email;
+		this.theModifiedUser.firstname = this.user.firstname;
+		this.theModifiedUser.surname = this.user.surname;
+		this.theModifiedUser.email = this.user.email;
+	}
+};
 </script>
 
 <style scoped>
-  .modifyProfilMessage {
-    position: absolute;
-    background-color: #4e93bf;
-    color: white;
-    width:75px;
-    height:25px;
-    padding-top:4px;
-    border-radius: 20px;
-    font-size: 12px;
-    margin-top: 40px;
-    margin-left: -20px;
-  }
+.modifyProfilMessage {
+	position: absolute;
+	background-color: #4e93bf;
+	color: white;
+	width: 75px;
+	height: 25px;
+	padding-top: 4px;
+	border-radius: 20px;
+	font-size: 12px;
+	margin-top: 40px;
+	margin-left: -20px;
+}
 </style>

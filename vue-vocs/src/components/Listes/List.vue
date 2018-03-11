@@ -69,18 +69,16 @@
                 <v-text-field
                   label="Mot (Anglais)"
                   v-model="createWordName"
-                  :counter="10"
                   required
                 ></v-text-field>
                 <v-text-field
                   label="Traduction (Français)"
                   v-model="createWordTranslation"
-                  :counter="10"
                   required
                 ></v-text-field>
                 <v-btn :disabled="createWordName === '' || createWordTranslation === ''" @click="addWord(createWordName, createWordTranslation)">Ajouter</v-btn>
               </v-form>
-              <div v-for="createdWord in createdWords">{{createdWord.word.content}} &rarr;  {{createdWord.trad.content}}</div>
+              <div style="text-align: center; align-self: center" v-for="createdWord in createdWords">{{createdWord.word.content}} &rarr;  {{createdWord.trad.content}}</div>
           </v-flex>
         </v-card-title>
         <v-card-actions>
@@ -101,92 +99,108 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        showWordDeleteConfirmation: false,
-        wordRemovalId: '',
-        createWordDialog: false,
-        createWordName: '',
-        createWordTranslation: '',
-        createWordId: '',
-        createdWords: [],
-        createWordFormIsValid: false,
-      }
-    },
-    props: ['id'],
-    computed: {
-      list () {
-        return this.$store.getters.getSelectedList
-      },
-      isAPersonalList () {
-        return this.$store.getters.isAPersonalList
-      },
-      nbGreenWords(){
-        var green = 0;
-        for(let i=0;i<this.list.wordTrads.length;i++) {
-          if(this.list.wordTrads[i].stat.level>3){
-            green ++;
-          }
-        }
-        return green;
-      },
-      nbOrangeWords(){
-        var orange = 0;
-        for(let i=0;i<this.list.wordTrads.length;i++) {
-          if(this.list.wordTrads[i].stat.level>1 && this.list.wordTrads[i].stat.level<=3 ){
-            orange ++;
-          }
-        }
-        return orange;
-      },
-      nbRedWords(){
-        var red = 0;
-        for(let i=0;i<this.list.wordTrads.length;i++) {
-          if(this.list.wordTrads[i].stat.level<=1){
-            red ++;
-          }
-        }
-        return red;
-      }
-    },
-    methods: {
-      removeWord (wordId) {
-        this.$store.dispatch('removeWord', wordId)
-      },
-      selectWord (word) {
-        return this.$store.dispatch('selectWord', word)
-      },
-      addWord (word, trad) {
-        if (this.createWordId === '') {
-          if (this.list.wordTrads.length > 0) {
-            this.createWordId = parseInt(this.list.wordTrads[this.list.wordTrads.length - 1].id) + 1
-          } else {
-            this.createWordId = 1
-          }
-        } else {
-          this.createWordId++
-        }
-        this.createdWords.push({word: {content: word, language: 'EN'}, trad: {content: trad, language: 'FR'}})
-        this.createWordName = ''
-        this.createWordTranslation = ''
-        this.createWordFormIsValid = true
-      },
-      addWords (words) {
-        this.$store.dispatch('addWords', words)
-        this.createdWords = []
-        this.createWordId = ''
-      },
-      listenToWord(word) {
-        if(word.word.language.code ==='EN') {
-          responsiveVoice.speak(word.word.content,localStorage.getItem('userVoicePreference'), {rate: 0.8});
-        } else {
-          responsiveVoice.speak(word.trad.content,localStorage.getItem('userVoicePreference'), {rate: 0.8});
-        }
-      }
-    },
-    created () {
-      this.$store.dispatch('setIsPlayingGame', false)
-    }
-  }
+export default {
+	data() {
+		return {
+			showWordDeleteConfirmation: false,
+			wordRemovalId: "",
+			createWordDialog: false,
+			createWordName: "",
+			createWordTranslation: "",
+			createWordId: "",
+			createdWords: [],
+			createWordFormIsValid: false
+		};
+	},
+	props: ["id"],
+	computed: {
+		list() {
+			return this.$store.getters.getSelectedList;
+		},
+		isAPersonalList() {
+			return this.$store.getters.isAPersonalList;
+		},
+		nbGreenWords() {
+			var green = 0;
+			for (let i = 0; i < this.list.wordTrads.length; i++) {
+				if (this.list.wordTrads[i].stat.level > 3) {
+					green++;
+				}
+			}
+			return green;
+		},
+		nbOrangeWords() {
+			var orange = 0;
+			for (let i = 0; i < this.list.wordTrads.length; i++) {
+				if (
+					this.list.wordTrads[i].stat.level > 1 &&
+					this.list.wordTrads[i].stat.level <= 3
+				) {
+					orange++;
+				}
+			}
+			return orange;
+		},
+		nbRedWords() {
+			var red = 0;
+			for (let i = 0; i < this.list.wordTrads.length; i++) {
+				if (this.list.wordTrads[i].stat.level <= 1) {
+					red++;
+				}
+			}
+			return red;
+		}
+	},
+	methods: {
+		removeWord(wordId) {
+			this.$store.dispatch("removeWord", wordId);
+		},
+		selectWord(word) {
+			return this.$store.dispatch("selectWord", word);
+		},
+		addWord(word, trad) {
+			if (this.createWordId === "") {
+				if (this.list.wordTrads.length > 0) {
+					this.createWordId =
+						parseInt(this.list.wordTrads[this.list.wordTrads.length - 1].id) +
+						1;
+				} else {
+					this.createWordId = 1;
+				}
+			} else {
+				this.createWordId++;
+			}
+			this.createdWords.push({
+				word: { content: word, language: "EN" },
+				trad: { content: trad, language: "FR" }
+			});
+			this.createWordName = "";
+			this.createWordTranslation = "";
+			this.createWordFormIsValid = true;
+		},
+		addWords(words) {
+			this.$store.dispatch("addWords", words);
+			this.createdWords = [];
+			this.createWordId = "";
+		},
+		listenToWord(word) {
+			if (word.word.language.code === "EN") {
+				responsiveVoice.speak(
+					word.word.content,
+					localStorage.getItem("userVoicePreference"),
+					{ rate: 0.8 }
+				);
+			} else {
+				responsiveVoice.speak(
+					word.trad.content,
+					localStorage.getItem("userVoicePreference"),
+					{ rate: 0.8 }
+				);
+			}
+		}
+	},
+	created() {
+		this.$store.dispatch("setIsPlayingGame", false);
+	}
+};
 </script>

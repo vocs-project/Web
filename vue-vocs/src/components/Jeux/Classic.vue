@@ -103,164 +103,181 @@
 </template>
 
 <script>
-  //import VBtn from "vuetify/src/components/VBtn/VBtn";
+//import VBtn from "vuetify/src/components/VBtn/VBtn";
 
-  export default {
-    //components: {VBtn},
-    data () {
-      return {
-        question: '',
-        userAnswer: '',
-        answer: '',
-        answerObject: {},
-        questionsAsked: 0,
-        finished: false,
-        questionResult: '',
-        correctAnswers: 0,
-        currentWordToRemove: '',
-        listSize: 0,
-        amountOfQuestionsUserWants: localStorage.getItem('amountOfQuestions'),
-        alertSignalerMot: false,
-        userEnteredCorrectAnswer : false,
-        userEnteredWrongAnswer : false,
-        userEnteredSynonym: false,
-        hasGotItWrong: false,
-        synonymes : [],
-        previousAnswer: null,
-        currentWordStats: null,
-        currentWordId: null
-      }
-    },
-    computed: {
-      user () {
-        return this.$store.getters.user
-      },
-      list () {
-        return JSON.parse(JSON.stringify(this.$store.getters.gameList))
-      },
-      progress () {
-        return (this.questionsAsked / this.amountOfQuestionsUserWants) * 100;
-      },
-      accountType () {
-        if (this.user.roles === 'STUDENT' || JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]') {
-          return 'Élève'
-        } else if (this.user.roles === 'PROFESSOR' || JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]') {
-          return 'Professeur'
-        } else {
-          return 'Libre'
-        }
-      }
-    },
-    methods: {
-      randomQuestion () {
-        this.hasGotItWrong = false;
-        var randomNum = Math.floor(Math.random() * this.list.wordTrads.length);
-        if(this.list.wordTrads[randomNum].word.language.code === 'EN') {
-          this.question = this.list.wordTrads[randomNum].trad.content;
-          this.answer = this.list.wordTrads[randomNum].word.content.toLowerCase();
-          this.synonymes = this.list.wordTrads[randomNum].trad.trads;
-        } else{
-          this.question = this.list.wordTrads[randomNum].word.content;
-          this.answer = this.list.wordTrads[randomNum].trad.content.toLowerCase();
-          this.synonymes = this.list.wordTrads[randomNum].word.trads;
-        }
-        this.currentWordStats = this.list.wordTrads[randomNum].stat;
-        console.log('********currentWordStats: ' + JSON.stringify(this.currentWordStats));
-        this.currentWordId = this.list.wordTrads[randomNum].id;
-        console.log("all synonymes: " + JSON.stringify(this.list.wordTrads[randomNum].word));
-        this.answerObject = this.list.wordTrads[randomNum];
-        this.currentWordToRemove = randomNum;
-        this.userAnswer = '';
-      },
-      testAnswer () {
-        var heEnteredSynonyme = this.testIfUserEnteredASynonyme(this.userAnswer,this.synonymes);
-        if (this.userAnswer.toLowerCase() === this.answer) {
-          if(!this.hasGotItWrong){
-            this.correctAnswers++;
-            if(this.currentWordStats.level<5){
-              this.currentWordStats.level ++;
-            }
-            this.currentWordStats.goodRepetition ++;
-            if(this.currentWordStats.goodRepetition >=2) {
-              this.currentWordStats.badRepetition =0;
-            }
-            var word = {
-              stat: this.currentWordStats
-            }
-            this.$store.dispatch('updateWordStats',word);
-          }
-          this.userEnteredCorrectAnswer = true;
-          this.userEnteredWrongAnswer = false;
-          this.userEnteredSynonym = false;
-          this.questionResult = 'Bonne Réponse'
-          this.questionsAsked++;
-          if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
-            this.finished = true
-            this.userAnswer = ''
-          } else {
-            this.list.wordTrads.splice(this.currentWordToRemove, 1)
-            this.randomQuestion()
-          }
-        } else if(heEnteredSynonyme) {
-          if(!this.hasGotItWrong){
-            this.correctAnswers++
-          }
-          this.userEnteredCorrectAnswer = false;
-          this.userEnteredSynonym = true;
-          this.userEnteredWrongAnswer = false;
-          this.previousAnswer = this.answer;
-          this.questionResult = 'Bonne Réponse'
-          this.questionsAsked++;
-          if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
-            this.finished = true
-            this.userAnswer = ''
-          } else {
-            this.list.wordTrads.splice(this.currentWordToRemove, 1)
-            this.randomQuestion()
-          }
-        }else {
-          if(!this.hasGotItWrong){
-            if(this.currentWordStats.level>0){
-              this.currentWordStats.level --;
-            }
-            this.currentWordStats.badRepetition ++;
-            this.currentWordStats.goodRepetition=0;
-            var word = {
-              stat: this.currentWordStats
-            }
-            this.$store.dispatch('updateWordStats',word);
-          }
-          this.hasGotItWrong = true;
-          this.userEnteredSynonym = false;
-          this.userEnteredCorrectAnswer = false;
-          this.userEnteredWrongAnswer = true;
-          this.questionResult = 'Mauvaise Réponse'
-        }
-
-      },
-      testIfUserEnteredASynonyme(userInput,synonymes){
-        console.log("testing for synonyme");
-        for (var s=0;s<synonymes.length;s++){
-          console.log("user input: "+userInput+" curent synonyme: "+synonymes[s].content);
-          if (userInput.toLowerCase() == synonymes[s].content.toLowerCase()){
-            return true;
-          }
-        }
-        return false;
-      },
-      sendSynonyme () {
-        var toSend = {
-          userAnswer: this.userAnswer,
-          answerObject: this.answerObject
-        }
-        console.log(this.userAnswer);
-        this.$store.dispatch('sendSynonyme', toSend);
-        this.alertSignalerMot = false;
-      }
-    },
-    created () {
-      this.listSize = this.list.wordTrads.length;
-      this.randomQuestion();
-    }
-  }
+export default {
+	//components: {VBtn},
+	data() {
+		return {
+			question: "",
+			userAnswer: "",
+			answer: "",
+			answerObject: {},
+			questionsAsked: 0,
+			finished: false,
+			questionResult: "",
+			correctAnswers: 0,
+			currentWordToRemove: "",
+			listSize: 0,
+			amountOfQuestionsUserWants: localStorage.getItem("amountOfQuestions"),
+			alertSignalerMot: false,
+			userEnteredCorrectAnswer: false,
+			userEnteredWrongAnswer: false,
+			userEnteredSynonym: false,
+			hasGotItWrong: false,
+			synonymes: [],
+			previousAnswer: null,
+			currentWordStats: null,
+			currentWordId: null
+		};
+	},
+	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
+		list() {
+			return JSON.parse(JSON.stringify(this.$store.getters.gameList));
+		},
+		progress() {
+			return this.questionsAsked / this.amountOfQuestionsUserWants * 100;
+		},
+		accountType() {
+			if (
+				this.user.roles === "STUDENT" ||
+				JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]'
+			) {
+				return "Élève";
+			} else if (
+				this.user.roles === "PROFESSOR" ||
+				JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]'
+			) {
+				return "Professeur";
+			} else {
+				return "Libre";
+			}
+		}
+	},
+	methods: {
+		randomQuestion() {
+			this.hasGotItWrong = false;
+			var randomNum = Math.floor(Math.random() * this.list.wordTrads.length);
+			if (this.list.wordTrads[randomNum].word.language.code === "EN") {
+				this.question = this.list.wordTrads[randomNum].trad.content;
+				this.answer = this.list.wordTrads[randomNum].word.content.toLowerCase();
+				this.synonymes = this.list.wordTrads[randomNum].trad.trads;
+			} else {
+				this.question = this.list.wordTrads[randomNum].word.content;
+				this.answer = this.list.wordTrads[randomNum].trad.content.toLowerCase();
+				this.synonymes = this.list.wordTrads[randomNum].word.trads;
+			}
+			this.currentWordStats = this.list.wordTrads[randomNum].stat;
+			console.log(
+				"********currentWordStats: " + JSON.stringify(this.currentWordStats)
+			);
+			this.currentWordId = this.list.wordTrads[randomNum].id;
+			console.log(
+				"all synonymes: " + JSON.stringify(this.list.wordTrads[randomNum].word)
+			);
+			this.answerObject = this.list.wordTrads[randomNum];
+			this.currentWordToRemove = randomNum;
+			this.userAnswer = "";
+		},
+		testAnswer() {
+			var heEnteredSynonyme = this.testIfUserEnteredASynonyme(
+				this.userAnswer,
+				this.synonymes
+			);
+			if (this.userAnswer.toLowerCase() === this.answer) {
+				if (!this.hasGotItWrong) {
+					this.correctAnswers++;
+					if (this.currentWordStats.level < 5) {
+						this.currentWordStats.level++;
+					}
+					this.currentWordStats.goodRepetition++;
+					if (this.currentWordStats.goodRepetition >= 2) {
+						this.currentWordStats.badRepetition = 0;
+					}
+					var word = {
+						stat: this.currentWordStats
+					};
+					this.$store.dispatch("updateWordStats", word);
+				}
+				this.userEnteredCorrectAnswer = true;
+				this.userEnteredWrongAnswer = false;
+				this.userEnteredSynonym = false;
+				this.questionResult = "Bonne Réponse";
+				this.questionsAsked++;
+				if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
+					this.finished = true;
+					this.userAnswer = "";
+				} else {
+					this.list.wordTrads.splice(this.currentWordToRemove, 1);
+					this.randomQuestion();
+				}
+			} else if (heEnteredSynonyme) {
+				if (!this.hasGotItWrong) {
+					this.correctAnswers++;
+				}
+				this.userEnteredCorrectAnswer = false;
+				this.userEnteredSynonym = true;
+				this.userEnteredWrongAnswer = false;
+				this.previousAnswer = this.answer;
+				this.questionResult = "Bonne Réponse";
+				this.questionsAsked++;
+				if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
+					this.finished = true;
+					this.userAnswer = "";
+				} else {
+					this.list.wordTrads.splice(this.currentWordToRemove, 1);
+					this.randomQuestion();
+				}
+			} else {
+				if (!this.hasGotItWrong) {
+					if (this.currentWordStats.level > 0) {
+						this.currentWordStats.level--;
+					}
+					this.currentWordStats.badRepetition++;
+					this.currentWordStats.goodRepetition = 0;
+					var word = {
+						stat: this.currentWordStats
+					};
+					this.$store.dispatch("updateWordStats", word);
+				}
+				this.hasGotItWrong = true;
+				this.userEnteredSynonym = false;
+				this.userEnteredCorrectAnswer = false;
+				this.userEnteredWrongAnswer = true;
+				this.questionResult = "Mauvaise Réponse";
+			}
+		},
+		testIfUserEnteredASynonyme(userInput, synonymes) {
+			console.log("testing for synonyme");
+			for (var s = 0; s < synonymes.length; s++) {
+				console.log(
+					"user input: " +
+						userInput +
+						" curent synonyme: " +
+						synonymes[s].content
+				);
+				if (userInput.toLowerCase() == synonymes[s].content.toLowerCase()) {
+					return true;
+				}
+			}
+			return false;
+		},
+		sendSynonyme() {
+			var toSend = {
+				userAnswer: this.userAnswer,
+				answerObject: this.answerObject
+			};
+			console.log(this.userAnswer);
+			this.$store.dispatch("sendSynonyme", toSend);
+			this.alertSignalerMot = false;
+		}
+	},
+	created() {
+		this.listSize = this.list.wordTrads.length;
+		this.randomQuestion();
+	}
+};
 </script>

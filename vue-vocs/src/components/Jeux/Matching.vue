@@ -67,147 +67,153 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        question: '',
-        userAnswer: '',
-        answer: '',
-        finished: false,
-        questionResult: '',
-        correctAnswers: 0,
-        currentWordToRemove: '',
-        listSize: 0,
-        droppedList: [],
-        listWords: [],
-        listTrads:[],
-        listStats: [],
-        //array of the words the user has matched
-        matchedWords: [],
-        //list that appears when user has finished
-        correctionList: [],
-        selectedWord: null,
-        selectedTradWord: null,
-        hasGotItWrong: false,
-        progress: 0
-      }
-    },
-    computed: {
-      list () {
-        return JSON.parse(JSON.stringify(this.$store.getters.gameList))
-      }
-    },
-    methods: {
-      wordInArray(word){
-        for(var i = 0;i<this.listWords.length;i++) {
-          if(word == this.listWords[i]) {
-            return i;
-          }
-        }
-        return -1;
-      },
-      testButtonsAndSelectCurrent(word,trad) {
-        if (word === null) {
-          this.selectedTradWord = trad
-        } else {
-          this.selectedWord = word
-        }
-        if (this.selectedTradWord !== null && this.selectedWord !== null) {
-          var theCorrectAnswer = null;
-          for(var i=0;i<this.list.wordTrads.length;i++) {
-            if(this.selectedTradWord === this.list.wordTrads[i].trad.content) {
-              theCorrectAnswer = this.list.wordTrads[i].word.content
-            }
-          }
-          this.progress = this.progress + 10;
-            for(var i=0;i<this.list.wordTrads.length;i++) {
-              if(this.selectedTradWord === this.list.wordTrads[i].trad.content) {
-                this.matchedWords.push({
-                  id:this.matchedWords.length+1,
-                  word:this.listTrads[i],
-                  trad:this.listWords[this.wordInArray(this.selectedWord)],
-                  stat:this.listStats[i],
-                  correct:this.selectedWord === theCorrectAnswer,
-                  theHoleWordTradObject:this.list.wordTrads[i]
-                });
-                this.list.wordTrads.splice(i,1);
-                this.listWords.splice(this.wordInArray(this.selectedWord),1);
-                this.listTrads.splice(i,1);
-                this.selectedTradWord = null;
-                this.selectedWord = null;
-              }
-            }
-        }
-      },
-      putBackInList(aword,index) {
-        this.list.wordTrads.unshift(aword.theHoleWordTradObject)
-        this.listWords.unshift(aword.trad);
-        this.listTrads.unshift(aword.word);
-        this.matchedWords.splice(index,1);
-        this.progress = this.progress - 10;
-      },
-      testAllMatchedWords() {
-        this.finished = true;
-        for(let i=0;i<10;i++){
-          if(this.matchedWords[i].correct){
-            this.correctAnswers ++;
-            this.correctionList[i]= {
-              id:i,
-              word:this.matchedWords[i].word,
-              trad:this.matchedWords[i].trad,
-              color: '#89dc6c'
-            };
-            if(this.listStats[i].level<5){
-              this.listStats[i].level ++;
-            }
-            this.listStats[i].goodRepetition ++;
-            if(this.listStats[i].goodRepetition >=2) {
-              this.listStats[i].badRepetition =0;
-            }
-            var word = {
-              stat: this.listStats[i]
-            }
-            this.$store.dispatch('updateWordStats',word);
-          } else {
-            this.correctionList[i]= {
-              id:i,
-              word:this.matchedWords[i].word,
-              trad:this.matchedWords[i].trad,
-              color: '#ca6b6c'
-            };
-            if(this.listStats[i].level>0){
-              this.listStats[i].level --;
-            }
-            this.listStats[i].badRepetition ++;
-            this.listStats[i].goodRepetition=0;
-            var word = {
-              stat: this.listStats[i]
-            }
-            this.$store.dispatch('updateWordStats',word);
-          }
-        }
-      }
-    },
-    created () {
-      this.listSize = this.list.wordTrads.length
-      var selectedWord = this.list.wordTrads[Math.floor(Math.random() * (this.listSize))].word.content;
-      for(var i=0;i<this.listSize;i++) {
-        if(i>0) {
-          while(this.wordInArray(selectedWord)>-1) {
-            selectedWord = this.list.wordTrads[Math.floor(Math.random() * (this.listSize))].word.content
-          }
-        }
-        this.listWords[i] = selectedWord;
-        this.listTrads[i] = this.list.wordTrads[i].trad.content
-        this.listStats[i] = this.list.wordTrads[i].stat;
-        selectedWord = this.list.wordTrads[Math.floor(Math.random() * (this.listSize))].word.content
-      }
-    }
-  }
+export default {
+	data() {
+		return {
+			question: "",
+			userAnswer: "",
+			answer: "",
+			finished: false,
+			questionResult: "",
+			correctAnswers: 0,
+			currentWordToRemove: "",
+			listSize: 0,
+			droppedList: [],
+			listWords: [],
+			listTrads: [],
+			listStats: [],
+			//array of the words the user has matched
+			matchedWords: [],
+			//list that appears when user has finished
+			correctionList: [],
+			selectedWord: null,
+			selectedTradWord: null,
+			hasGotItWrong: false,
+			progress: 0
+		};
+	},
+	computed: {
+		list() {
+			return JSON.parse(JSON.stringify(this.$store.getters.gameList));
+		}
+	},
+	methods: {
+		wordInArray(word) {
+			for (var i = 0; i < this.listWords.length; i++) {
+				if (word == this.listWords[i]) {
+					return i;
+				}
+			}
+			return -1;
+		},
+		testButtonsAndSelectCurrent(word, trad) {
+			if (word === null) {
+				this.selectedTradWord = trad;
+			} else {
+				this.selectedWord = word;
+			}
+			if (this.selectedTradWord !== null && this.selectedWord !== null) {
+				var theCorrectAnswer = null;
+				for (var i = 0; i < this.list.wordTrads.length; i++) {
+					if (this.selectedTradWord === this.list.wordTrads[i].trad.content) {
+						theCorrectAnswer = this.list.wordTrads[i].word.content;
+					}
+				}
+				this.progress = this.progress + 10;
+				for (var i = 0; i < this.list.wordTrads.length; i++) {
+					if (this.selectedTradWord === this.list.wordTrads[i].trad.content) {
+						this.matchedWords.push({
+							id: this.matchedWords.length + 1,
+							word: this.listTrads[i],
+							trad: this.listWords[this.wordInArray(this.selectedWord)],
+							stat: this.listStats[i],
+							correct: this.selectedWord === theCorrectAnswer,
+							theHoleWordTradObject: this.list.wordTrads[i]
+						});
+						this.list.wordTrads.splice(i, 1);
+						this.listWords.splice(this.wordInArray(this.selectedWord), 1);
+						this.listTrads.splice(i, 1);
+						this.selectedTradWord = null;
+						this.selectedWord = null;
+					}
+				}
+			}
+		},
+		putBackInList(aword, index) {
+			this.list.wordTrads.unshift(aword.theHoleWordTradObject);
+			this.listWords.unshift(aword.trad);
+			this.listTrads.unshift(aword.word);
+			this.matchedWords.splice(index, 1);
+			this.progress = this.progress - 10;
+		},
+		testAllMatchedWords() {
+			this.finished = true;
+			for (let i = 0; i < 10; i++) {
+				if (this.matchedWords[i].correct) {
+					this.correctAnswers++;
+					this.correctionList[i] = {
+						id: i,
+						word: this.matchedWords[i].word,
+						trad: this.matchedWords[i].trad,
+						color: "#89dc6c"
+					};
+					if (this.listStats[i].level < 5) {
+						this.listStats[i].level++;
+					}
+					this.listStats[i].goodRepetition++;
+					if (this.listStats[i].goodRepetition >= 2) {
+						this.listStats[i].badRepetition = 0;
+					}
+					var word = {
+						stat: this.listStats[i]
+					};
+					this.$store.dispatch("updateWordStats", word);
+				} else {
+					this.correctionList[i] = {
+						id: i,
+						word: this.matchedWords[i].word,
+						trad: this.matchedWords[i].trad,
+						color: "#ca6b6c"
+					};
+					if (this.listStats[i].level > 0) {
+						this.listStats[i].level--;
+					}
+					this.listStats[i].badRepetition++;
+					this.listStats[i].goodRepetition = 0;
+					var word = {
+						stat: this.listStats[i]
+					};
+					this.$store.dispatch("updateWordStats", word);
+				}
+			}
+		}
+	},
+	created() {
+		this.listSize = this.list.wordTrads.length;
+		var selectedWord = this.list.wordTrads[
+			Math.floor(Math.random() * this.listSize)
+		].word.content;
+		for (var i = 0; i < this.listSize; i++) {
+			if (i > 0) {
+				while (this.wordInArray(selectedWord) > -1) {
+					selectedWord = this.list.wordTrads[
+						Math.floor(Math.random() * this.listSize)
+					].word.content;
+				}
+			}
+			this.listWords[i] = selectedWord;
+			this.listTrads[i] = this.list.wordTrads[i].trad.content;
+			this.listStats[i] = this.list.wordTrads[i].stat;
+			selectedWord = this.list.wordTrads[
+				Math.floor(Math.random() * this.listSize)
+			].word.content;
+		}
+	}
+};
 </script>
 
 <style scoped>
-  .selected {
-    opacity:0.5;
-  }
+.selected {
+	opacity: 0.5;
+}
 </style>

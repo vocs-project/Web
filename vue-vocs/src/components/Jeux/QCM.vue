@@ -77,154 +77,191 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        question: '',
-        questionChoises: [],
-        userAnswer: '',
-        answer: '',
-        questionsAsked: 0,
-        finished: false,
-        questionResult: '',
-        correctAnswers: 0,
-        currentWordToRemove: '',
-        listSize: 0,
-        tempTempList: '',
-        questionChoisesTempList: '',
-        randomIndexForCorrectAnswer: null,
-        amountOfQuestionsUserWants: localStorage.getItem('amountOfQuestions'),
-        userEnteredCorrectAnswer: false,
-        userEnteredWrongAnswer: false,
-        hasGotItWrong: false,
-        currentWordStats: null,
-        currentWordId: null
-      }
-    },
-    computed: {
-      SelectedListForGameIsLessThanFour () {
-        return this.$store.getters.getSelectedListForGame.wordTrads.length <= 4
-      },
-      list () {
-        return JSON.parse(JSON.stringify(this.$store.getters.gameList))
-      },
-      progress () {
-        return (this.questionsAsked / this.amountOfQuestionsUserWants) * 100
-      }
-    },
-    methods: {
-      randomQuestion () {
-        this.hasGotItWrong = false;
-        this.userAnswer = ''
-        var randomNum = Math.floor(Math.random() * this.list.wordTrads.length)
-        console.log('randomNum: ' + randomNum)
-        this.currentWordToRemove = randomNum
-        this.question = this.list.wordTrads[randomNum].word.content;
-        this.answer = this.list.wordTrads[randomNum].trad.content;
-        this.currentWordStats = this.list.wordTrads[randomNum].stat;
-        this.currentWordId = this.list.wordTrads[randomNum].id;
-        this.randomIndexForCorrectAnswer = Math.floor(Math.random() * 4)
-        console.log('randomIndexForCorrectAnswer: ' + randomNum)
-        console.log('questionChoises: ' + this.questionChoises)
-        this.questionChoises[this.randomIndexForCorrectAnswer] = this.answer
-        console.log('questionChoises: ' + this.questionChoises)
-        for (var h = 0; h < this.list.wordTrads.length; h++) {
-          console.log('List: ' + JSON.stringify(this.list.wordTrads[h].trad.content))
-        }
-        for (var u = 0; u < this.tempTempList.wordTrads.length; u++) {
-          console.log('tempTempList: ' + JSON.stringify(this.tempTempList.wordTrads[u].trad.content))
-        }
-        for (var o = 0; o < this.questionChoisesTempList.wordTrads.length; o++) {
-          console.log('questionChoisesTempListBeforeSplice: ' + JSON.stringify(this.questionChoisesTempList.wordTrads[o].trad.content))
-        }
-        var wordToRemove = null
-        for (var x = 0; x < this.questionChoisesTempList.wordTrads.length; x++) {
-          console.log('question: ' + this.question)
-          console.log('this.questionChoisesTempList.wordTrads[x].trad.content: ' + this.answer)
-          if (this.answer === this.questionChoisesTempList.wordTrads[x].trad.content) {
-            wordToRemove = x
-          }
-        }
-        this.questionChoisesTempList.wordTrads.splice(wordToRemove, 1)
-        for (var y = 0; y < this.questionChoisesTempList.wordTrads.length; y++) {
-          console.log('questionChoisesTempListAfterSplice: ' + JSON.stringify(this.questionChoisesTempList.wordTrads[y].trad.content))
-        }
-        var randomNumChoises = Math.floor(Math.random() * this.questionChoisesTempList.wordTrads.length)
-        console.log('randomNumChoises: ' + randomNumChoises)
-        for (var i = 0; i < 4; i++) {
-          console.log('i: ' + i)
-          if (i !== this.randomIndexForCorrectAnswer) {
-            this.questionChoises[i] = this.questionChoisesTempList.wordTrads[randomNumChoises].trad.content
-            console.log('questionChoises: ' + this.questionChoises)
-            this.questionChoisesTempList.wordTrads.splice(randomNumChoises, 1)
-            for (var j = 0; j < this.questionChoisesTempList.wordTrads.length; j++) {
-              console.log('questionChoisesTempListAfterSplice: ' + JSON.stringify(this.questionChoisesTempList.wordTrads[j].trad.content))
-            }
-            randomNumChoises = Math.floor(Math.random() * this.questionChoisesTempList.wordTrads.length)
-            console.log('randomNumChoises: ' + randomNumChoises)
-          }
-        }
-        console.log('------------------------------------------------')
-        console.log('------------------------------------------------')
-        console.log('------------------------------------------------')
-      },
-      testAnswer () {
-        if (this.userAnswer === this.answer) {
-          if(!this.hasGotItWrong){
-            this.correctAnswers++
-            if(this.currentWordStats.level<5){
-              this.currentWordStats.level ++;
-            }
-            this.currentWordStats.goodRepetition ++;
-            if(this.currentWordStats.goodRepetition >=2) {
-              this.currentWordStats.badRepetition =0;
-            }
-            var word = {
-              stat: this.currentWordStats
-            }
-            this.$store.dispatch('updateWordStats',word);
-          }
-          this.userEnteredCorrectAnswer = true;
-          this.userEnteredWrongAnswer = false;
-          this.questionsAsked++
-          if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
-            this.finished = true
-            this.userAnswer = ''
-          } else {
-            this.list.wordTrads.splice(this.currentWordToRemove, 1)
-            this.questionChoises = []
-            this.questionChoisesTempList = JSON.parse(JSON.stringify(this.tempTempList))
-            this.randomQuestion()
-          }
-        } else {
-          if(!this.hasGotItWrong){
-            if(this.currentWordStats.level>0){
-              this.currentWordStats.level --;
-            }
-            this.currentWordStats.badRepetition ++;
-            this.currentWordStats.goodRepetition=0;
-            var word = {
-              stat: this.currentWordStats
-            }
-            this.$store.dispatch('updateWordStats',word);
-          }
-          this.hasGotItWrong = true;
-          this.userEnteredCorrectAnswer = false;
-          this.userEnteredWrongAnswer = true;
-        }
-      }
-    },
-    created () {
-      /* if (this.$store.getters.getSelectedListForGame !== '' && !this.SelectedListForGameIsLessThanFour) {
+export default {
+	data() {
+		return {
+			question: "",
+			questionChoises: [],
+			userAnswer: "",
+			answer: "",
+			questionsAsked: 0,
+			finished: false,
+			questionResult: "",
+			correctAnswers: 0,
+			currentWordToRemove: "",
+			listSize: 0,
+			tempTempList: "",
+			questionChoisesTempList: "",
+			randomIndexForCorrectAnswer: null,
+			amountOfQuestionsUserWants: localStorage.getItem("amountOfQuestions"),
+			userEnteredCorrectAnswer: false,
+			userEnteredWrongAnswer: false,
+			hasGotItWrong: false,
+			currentWordStats: null,
+			currentWordId: null
+		};
+	},
+	computed: {
+		SelectedListForGameIsLessThanFour() {
+			return this.$store.getters.getSelectedListForGame.wordTrads.length <= 4;
+		},
+		list() {
+			return JSON.parse(JSON.stringify(this.$store.getters.gameList));
+		},
+		progress() {
+			return this.questionsAsked / this.amountOfQuestionsUserWants * 100;
+		}
+	},
+	methods: {
+		randomQuestion() {
+			this.hasGotItWrong = false;
+			this.userAnswer = "";
+			var randomNum = Math.floor(Math.random() * this.list.wordTrads.length);
+			console.log("randomNum: " + randomNum);
+			this.currentWordToRemove = randomNum;
+			this.question = this.list.wordTrads[randomNum].word.content;
+			this.answer = this.list.wordTrads[randomNum].trad.content;
+			this.currentWordStats = this.list.wordTrads[randomNum].stat;
+			this.currentWordId = this.list.wordTrads[randomNum].id;
+			this.randomIndexForCorrectAnswer = Math.floor(Math.random() * 4);
+			console.log("randomIndexForCorrectAnswer: " + randomNum);
+			console.log("questionChoises: " + this.questionChoises);
+			this.questionChoises[this.randomIndexForCorrectAnswer] = this.answer;
+			console.log("questionChoises: " + this.questionChoises);
+			for (var h = 0; h < this.list.wordTrads.length; h++) {
+				console.log(
+					"List: " + JSON.stringify(this.list.wordTrads[h].trad.content)
+				);
+			}
+			for (var u = 0; u < this.tempTempList.wordTrads.length; u++) {
+				console.log(
+					"tempTempList: " +
+						JSON.stringify(this.tempTempList.wordTrads[u].trad.content)
+				);
+			}
+			for (var o = 0; o < this.questionChoisesTempList.wordTrads.length; o++) {
+				console.log(
+					"questionChoisesTempListBeforeSplice: " +
+						JSON.stringify(
+							this.questionChoisesTempList.wordTrads[o].trad.content
+						)
+				);
+			}
+			var wordToRemove = null;
+			for (var x = 0; x < this.questionChoisesTempList.wordTrads.length; x++) {
+				console.log("question: " + this.question);
+				console.log(
+					"this.questionChoisesTempList.wordTrads[x].trad.content: " +
+						this.answer
+				);
+				if (
+					this.answer === this.questionChoisesTempList.wordTrads[x].trad.content
+				) {
+					wordToRemove = x;
+				}
+			}
+			this.questionChoisesTempList.wordTrads.splice(wordToRemove, 1);
+			for (var y = 0; y < this.questionChoisesTempList.wordTrads.length; y++) {
+				console.log(
+					"questionChoisesTempListAfterSplice: " +
+						JSON.stringify(
+							this.questionChoisesTempList.wordTrads[y].trad.content
+						)
+				);
+			}
+			var randomNumChoises = Math.floor(
+				Math.random() * this.questionChoisesTempList.wordTrads.length
+			);
+			console.log("randomNumChoises: " + randomNumChoises);
+			for (var i = 0; i < 4; i++) {
+				console.log("i: " + i);
+				if (i !== this.randomIndexForCorrectAnswer) {
+					this.questionChoises[i] = this.questionChoisesTempList.wordTrads[
+						randomNumChoises
+					].trad.content;
+					console.log("questionChoises: " + this.questionChoises);
+					this.questionChoisesTempList.wordTrads.splice(randomNumChoises, 1);
+					for (
+						var j = 0;
+						j < this.questionChoisesTempList.wordTrads.length;
+						j++
+					) {
+						console.log(
+							"questionChoisesTempListAfterSplice: " +
+								JSON.stringify(
+									this.questionChoisesTempList.wordTrads[j].trad.content
+								)
+						);
+					}
+					randomNumChoises = Math.floor(
+						Math.random() * this.questionChoisesTempList.wordTrads.length
+					);
+					console.log("randomNumChoises: " + randomNumChoises);
+				}
+			}
+			console.log("------------------------------------------------");
+			console.log("------------------------------------------------");
+			console.log("------------------------------------------------");
+		},
+		testAnswer() {
+			if (this.userAnswer === this.answer) {
+				if (!this.hasGotItWrong) {
+					this.correctAnswers++;
+					if (this.currentWordStats.level < 5) {
+						this.currentWordStats.level++;
+					}
+					this.currentWordStats.goodRepetition++;
+					if (this.currentWordStats.goodRepetition >= 2) {
+						this.currentWordStats.badRepetition = 0;
+					}
+					var word = {
+						stat: this.currentWordStats
+					};
+					this.$store.dispatch("updateWordStats", word);
+				}
+				this.userEnteredCorrectAnswer = true;
+				this.userEnteredWrongAnswer = false;
+				this.questionsAsked++;
+				if (this.questionsAsked >= this.amountOfQuestionsUserWants) {
+					this.finished = true;
+					this.userAnswer = "";
+				} else {
+					this.list.wordTrads.splice(this.currentWordToRemove, 1);
+					this.questionChoises = [];
+					this.questionChoisesTempList = JSON.parse(
+						JSON.stringify(this.tempTempList)
+					);
+					this.randomQuestion();
+				}
+			} else {
+				if (!this.hasGotItWrong) {
+					if (this.currentWordStats.level > 0) {
+						this.currentWordStats.level--;
+					}
+					this.currentWordStats.badRepetition++;
+					this.currentWordStats.goodRepetition = 0;
+					var word = {
+						stat: this.currentWordStats
+					};
+					this.$store.dispatch("updateWordStats", word);
+				}
+				this.hasGotItWrong = true;
+				this.userEnteredCorrectAnswer = false;
+				this.userEnteredWrongAnswer = true;
+			}
+		}
+	},
+	created() {
+		/* if (this.$store.getters.getSelectedListForGame !== '' && !this.SelectedListForGameIsLessThanFour) {
         this.list = this.$store.getters.getSelectedListForGame
       } else {
         this.list = this.$store.getters.basicList
       } */
-      this.tempTempList = JSON.parse(JSON.stringify(this.list))
-      this.questionChoisesTempList = JSON.parse(JSON.stringify(this.list))
-      this.listSize = this.list.wordTrads.length
-      console.log(JSON.stringify(this.list))
-      this.randomQuestion()
-    }
-  }
+		this.tempTempList = JSON.parse(JSON.stringify(this.list));
+		this.questionChoisesTempList = JSON.parse(JSON.stringify(this.list));
+		this.listSize = this.list.wordTrads.length;
+		console.log(JSON.stringify(this.list));
+		this.randomQuestion();
+	}
+};
 </script>

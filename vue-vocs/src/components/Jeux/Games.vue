@@ -119,81 +119,111 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        gameModes: [
-          {name: 'Traduction', icon: 'gamepad', description: 'Traduire une série de mots qui s\'affichent en l\'écrivant dans la boîte indiquée', link: '/games/classic', color: '#6FC9C0', showInfo: false},
-          {name: 'QCM', icon: 'gamepad', description: 'Choisir parmis plusieurs mots la traduction correcte ', link: '/games/QCM', color: '#26A4FF', showInfo: false},
-          {name: 'Matching', icon: 'gamepad', description: 'Lier le mot français à sa traduction correspondante', link: '/games/matching', color: '#B198DA', showInfo: false},
-          {name: 'Time Attack', icon: 'gamepad', description: 'Ecriver les mots correspondants mais avec une contrainte de temps!', link: '/games/timeattack', color: '#FF865E', showInfo: false}
-        ],
-        dialogConfirmation: false,
-        dialogConfirmation2: false,
-        tempLink: '',
-        selectedGameMode: ''
-      }
-    },
-    computed: {
-      lists () {
-        /* loadedLists doesn't take parenthese it is a property (even though it is a method in the store */
-        return this.$store.getters.loadedLists
-      },
-      classLists () {
-        return this.$store.getters.classLists
-      },
-      selectedListForGame () {
-        return this.$store.getters.getSelectedListForGame
-      },
-      SelectedListForGameIsLessThanFour () {
-        if (this.$store.getters.getSelectedListForGame === '') {
-          return false
-        } else {
-          return this.$store.getters.getSelectedListForGame.wordTrads.length < 4
-        }
-      },
-      SelectedListForGameIsLessThanTen () {
-        if (this.$store.getters.getSelectedListForGame === '') {
-          return false
-        } else {
-          return this.$store.getters.getSelectedListForGame.wordTrads.length < 10
-        }
-      },
-      gameList () {
-        return this.$store.getters.gameList
-      }
-    },
-    methods: {
-      testIfUserHasSelectedAList (link, gameMode) {
-        this.selectedGameMode = gameMode
-        this.tempLink = link
-        if (this.selectedListForGame === '') {
-          this.dialogConfirmation = true
-        } else {
-          this.dialogConfirmation2 = true
-        }
-      },
-      setGameList (list) {
-        this.$store.dispatch('setGameList', list)
-        this.$store.dispatch('setIsPlayingGame',  true)
-        this.$router.push(this.tempLink)
-      },
-      chooseAnotherList(){
-        this.$store.dispatch('selectListForGame', '');
-        this.dialogConfirmation2 = false;
-        this.dialogConfirmation = true;
-      }
-    },
-    created () {
-      this.$store.dispatch('setIsPlayingGame', false)
-    }
-  }
+export default {
+	data() {
+		return {
+			gameModes: [
+				{
+					name: "Traduction",
+					icon: "gamepad",
+					description:
+						"Traduire une série de mots qui s'affichent en l'écrivant dans la boîte indiquée",
+					link: "/games/classic",
+					color: "#6FC9C0",
+					showInfo: false
+				},
+				{
+					name: "QCM",
+					icon: "gamepad",
+					description: "Choisir parmis plusieurs mots la traduction correcte ",
+					link: "/games/QCM",
+					color: "#26A4FF",
+					showInfo: false
+				},
+				{
+					name: "Matching",
+					icon: "gamepad",
+					description: "Lier le mot français à sa traduction correspondante",
+					link: "/games/matching",
+					color: "#B198DA",
+					showInfo: false
+				},
+				{
+					name: "Time Attack",
+					icon: "gamepad",
+					description:
+						"Ecriver les mots correspondants mais avec une contrainte de temps!",
+					link: "/games/timeattack",
+					color: "#FF865E",
+					showInfo: false
+				}
+			],
+			dialogConfirmation: false,
+			dialogConfirmation2: false,
+			tempLink: "",
+			selectedGameMode: ""
+		};
+	},
+	computed: {
+		lists() {
+			/* loadedLists doesn't take parenthese it is a property (even though it is a method in the store */
+			return this.$store.getters.loadedLists;
+		},
+		classLists() {
+			return this.$store.getters.classLists;
+		},
+		selectedListForGame() {
+			return this.$store.getters.getSelectedListForGame;
+		},
+		SelectedListForGameIsLessThanFour() {
+			if (this.$store.getters.getSelectedListForGame === "") {
+				return false;
+			} else {
+				return this.$store.getters.getSelectedListForGame.wordTrads.length < 4;
+			}
+		},
+		SelectedListForGameIsLessThanTen() {
+			if (this.$store.getters.getSelectedListForGame === "") {
+				return false;
+			} else {
+				return this.$store.getters.getSelectedListForGame.wordTrads.length < 10;
+			}
+		},
+		gameList() {
+			return this.$store.getters.gameList;
+		}
+	},
+	methods: {
+		testIfUserHasSelectedAList(link, gameMode) {
+			this.selectedGameMode = gameMode;
+			this.tempLink = link;
+			if (this.selectedListForGame === "") {
+				this.dialogConfirmation = true;
+			} else {
+				this.dialogConfirmation2 = true;
+			}
+		},
+		setGameList(list) {
+			this.$store.dispatch("setGameList", list);
+			this.$store.dispatch("setIsPlayingGame", true);
+			this.$router.push(this.tempLink);
+		},
+		chooseAnotherList() {
+			this.$store.dispatch("selectListForGame", "");
+			this.dialogConfirmation2 = false;
+			this.dialogConfirmation = true;
+		}
+	},
+	created() {
+		this.$store.dispatch("setIsPlayingGame", false);
+	}
+};
 </script>
 
 
 <style>
-  .game-box {
-    height: 275px;
-    border-radius: 10px;
-  }
+.game-box {
+	height: 275px;
+	border-radius: 10px;
+}
 </style>

@@ -34,52 +34,61 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        info: {
-          email: '',
-          password: ''
-        },
-        voiceSelected: localStorage.getItem('userVoicePreference'),
-        amountOfQuestionsUserWants: localStorage.getItem('amountOfQuestions')
-      }
-    },
-    computed: {
-      voiceList() {
-        console.log(JSON.stringify(responsiveVoice.getVoices()))
-        var voices = [];
-        var voicess = responsiveVoice.getVoices();
-        for(let i = 0; i<voicess.length;i++) {
-          voices.push(voicess[i].name);
-        }
-        return voices;
-      },
-      voice () {
-        return localStorage.getItem('userVoicePreference')
-      },
-      user () {
-        return this.$store.getters.user
-      },
-      accountType () {
-        if (this.user.roles === 'STUDENT' || JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]') {
-          return 'Élève'
-        } else if (this.user.roles === 'PROFESSOR' || JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]') {
-          return 'Professeur'
-        } else {
-          return 'Libre'
-        }
-      }
-    },
-    methods: {
-      setSettings () {
-        localStorage.setItem('userVoicePreference',this.voiceSelected)
-        localStorage.setItem('amountOfQuestions',this.amountOfQuestionsUserWants)
-        responsiveVoice.setDefaultVoice(this.voiceSelected);
-      }
-    },
-    created () {
-      this.$store.dispatch('setIsPlayingGame', false)
-    }
-  }
+export default {
+	data() {
+		return {
+			info: {
+				email: "",
+				password: ""
+			},
+			voiceSelected: localStorage.getItem("userVoicePreference"),
+			amountOfQuestionsUserWants: localStorage.getItem("amountOfQuestions")
+		};
+	},
+	computed: {
+		voiceList() {
+			console.log(JSON.stringify(responsiveVoice.getVoices()));
+			var voices = [];
+			var voicess = responsiveVoice.getVoices();
+			for (let i = 0; i < voicess.length; i++) {
+				voices.push(voicess[i].name);
+			}
+			return voices;
+		},
+		voice() {
+			return localStorage.getItem("userVoicePreference");
+		},
+		user() {
+			return this.$store.getters.user;
+		},
+		accountType() {
+			if (
+				this.user.roles === "STUDENT" ||
+				JSON.stringify(this.user.roles) === '["ROLE_STUDENT"]'
+			) {
+				return "Élève";
+			} else if (
+				this.user.roles === "PROFESSOR" ||
+				JSON.stringify(this.user.roles) === '["ROLE_PROFESSOR"]'
+			) {
+				return "Professeur";
+			} else {
+				return "Libre";
+			}
+		}
+	},
+	methods: {
+		setSettings() {
+			localStorage.setItem("userVoicePreference", this.voiceSelected);
+			localStorage.setItem(
+				"amountOfQuestions",
+				this.amountOfQuestionsUserWants
+			);
+			responsiveVoice.setDefaultVoice(this.voiceSelected);
+		}
+	},
+	created() {
+		this.$store.dispatch("setIsPlayingGame", false);
+	}
+};
 </script>

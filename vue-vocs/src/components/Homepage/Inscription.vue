@@ -297,122 +297,121 @@
 </template>
 
 <script>
-  import HomepageBG from '@/assets/HomepageBG.png'
-  export default {
-    data () {
-      return {
-        HomepageBG:HomepageBG,
-        step: 1,
-        notice: '',
-        confirmPassword: '',
-        teacherSelected: 'teacher-selected-false',
-        studentSelected: 'student-selected-false',
-        freeSelected: 'free-selected-false',
-        theClasses: [],
-        classSearch: '',
-        user: {
-          roles: null,
-          firstname: null,
-          surname: null,
-          email: null,
-          password: null,
-          classes: [
-            {
-              school: null
-            }
-          ]
-        },
-        users: [],
-        allSchools: []
-      }
-    },
-    computed: {
-      allClasses () {
-        return this.$store.getters.allClasses
-      },
-      inscriptionErrorMessage () {
-        return this.$store.getters.inscriptionErrorMessage
-      },
-      theInscriptionErrorMessageIsOn () {
-        return this.$store.getters.inscriptionErrorMessage !== ''
-      },
-      schools () {
-        return this.$store.getters.schools
-      }
-
-    },
-    methods: {
-      onSignup () {
-        this.$store.dispatch('signUserUp', this.user)
-      },
-      comparePasswords () {
-        if (this.user.password === this.confirmPassword) {
-          this.step = 2
-          this.notice = ''
-        } else {
-          this.notice = 'Les mots de passe ne correspondent pas'
-        }
-      },
-      jeMeConnecte () {
-        this.$store.dispatch('resetSignInAndUpErrorMessages')
-        this.$router.push('/connection')
-      },
-      resetSignInAndUpErrorMessages () {
-        this.$store.dispatch('resetSignInAndUpErrorMessages')
-      },
-      StudentSignUp () {
-        this.user.roles = 'USER'
-        var id = null
-        for (var i = 0; i < this.allClasses.length; i++) {
-          if (this.allClasses[i].name === this.classSearch) {
-            id = this.allClasses[i].id
-          }
-        }
-        var theClassToSendOff = {
-          classe: {
-            id: id,
-            name: this.classSearch
-          },
-          user: this.user
-        }
-        this.$store.dispatch('signStudentUp', theClassToSendOff)
-      },
-    },
-    created () {
-      this.$store.dispatch('setIsPlayingGame', false)
-      for (var i = 0; i < this.allClasses.length; i++) {
-        this.theClasses[i] = this.allClasses[i].name
-      }
-      for (var i = 0; i < this.schools.length; i++) {
-        this.allSchools[i] = this.schools[i].nom
-      }
-    }
-  }
+import HomepageBG from "@/assets/HomepageBG.png";
+export default {
+	data() {
+		return {
+			HomepageBG: HomepageBG,
+			step: 1,
+			notice: "",
+			confirmPassword: "",
+			teacherSelected: "teacher-selected-false",
+			studentSelected: "student-selected-false",
+			freeSelected: "free-selected-false",
+			theClasses: [],
+			classSearch: "",
+			user: {
+				roles: null,
+				firstname: null,
+				surname: null,
+				email: null,
+				password: null,
+				classes: [
+					{
+						school: null
+					}
+				]
+			},
+			users: [],
+			allSchools: []
+		};
+	},
+	computed: {
+		allClasses() {
+			return this.$store.getters.allClasses;
+		},
+		inscriptionErrorMessage() {
+			return this.$store.getters.inscriptionErrorMessage;
+		},
+		theInscriptionErrorMessageIsOn() {
+			return this.$store.getters.inscriptionErrorMessage !== "";
+		},
+		schools() {
+			return this.$store.getters.schools;
+		}
+	},
+	methods: {
+		onSignup() {
+			this.$store.dispatch("signUserUp", this.user);
+		},
+		comparePasswords() {
+			if (this.user.password === this.confirmPassword) {
+				this.step = 2;
+				this.notice = "";
+			} else {
+				this.notice = "Les mots de passe ne correspondent pas";
+			}
+		},
+		jeMeConnecte() {
+			this.$store.dispatch("resetSignInAndUpErrorMessages");
+			this.$router.push("/connection");
+		},
+		resetSignInAndUpErrorMessages() {
+			this.$store.dispatch("resetSignInAndUpErrorMessages");
+		},
+		StudentSignUp() {
+			this.user.roles = "USER";
+			var id = null;
+			for (var i = 0; i < this.allClasses.length; i++) {
+				if (this.allClasses[i].name === this.classSearch) {
+					id = this.allClasses[i].id;
+				}
+			}
+			var theClassToSendOff = {
+				classe: {
+					id: id,
+					name: this.classSearch
+				},
+				user: this.user
+			};
+			this.$store.dispatch("signStudentUp", theClassToSendOff);
+		}
+	},
+	created() {
+		this.$store.dispatch("setIsPlayingGame", false);
+		for (var i = 0; i < this.allClasses.length; i++) {
+			this.theClasses[i] = this.allClasses[i].name;
+		}
+		for (var i = 0; i < this.schools.length; i++) {
+			this.allSchools[i] = this.schools[i].nom;
+		}
+	}
+};
 </script>
 
 <style>
-  .teacher-selected-false {
-    transition: background-color 0.5s;
-  }
-  .teacher-selected-true {
-    background-color: #00cfff !important;
-    color: white !important;
-    transition: background-color 0.5s;
-  }
-  .student-selected-false {
-    transition: background-color 0.5s;
-  }
-  .student-selected-true {
-    background-color: #00cfff !important;
-    color: white !important;
-    transition: background-color 0.5s;
-  }
-  .free-selected-false {
-    transition: background-color 0.5s
-  }
-  .free-selected-true {
-    background-color: #00cfff !important;
-    color: white !important;
-    transition: background-color 0.5s;
-  }
+.teacher-selected-false {
+	transition: background-color 0.5s;
+}
+.teacher-selected-true {
+	background-color: #00cfff !important;
+	color: white !important;
+	transition: background-color 0.5s;
+}
+.student-selected-false {
+	transition: background-color 0.5s;
+}
+.student-selected-true {
+	background-color: #00cfff !important;
+	color: white !important;
+	transition: background-color 0.5s;
+}
+.free-selected-false {
+	transition: background-color 0.5s;
+}
+.free-selected-true {
+	background-color: #00cfff !important;
+	color: white !important;
+	transition: background-color 0.5s;
+}
 </style>
