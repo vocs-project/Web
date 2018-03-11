@@ -3,13 +3,14 @@
         <img src="/vue-vocs/src/assets/logoFlat.png" alt="Vocs" width="100">
     </a>
 </h1>
+
 # VOCS :
 
-#### [Site](https://vocs.lebarillier.fr/homepage)
+### | [Site](https://vocs.lebarillier.fr/homepage) |
 
-<img src="/vue-vocs/src/assets/HomepageScreenshot.png" alt="Vocs" width="500">
+<img src="/vue-vocs/src/assets/HomepageScreenshot.png" alt="Vocs" width="650">
 
-## ENGLISH :
+# ENGLISH :
 
 A complete refactoring of the web app is necessary (working on it)
 
@@ -21,17 +22,17 @@ Other things to do:
 
 Check out the Vocs organization: https://github.com/vocs-project/Web
 
-# Contributing
+## Contributing
 
 You are free to contribute in any way and we're happy for your input.
 
-# License
+## License
 
 Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
 Everyone is permitted to copy and distribute verbatim copies
 of this license document, but changing it is not allowed.
 
-## FRANCAIS :
+# FRANCAIS :
 
 Un refactoring complet de la plateforme web est nécéssaire (en cours)
 
@@ -43,11 +44,11 @@ Autres choses à faire:
 
 Allez voir l'organisation Vocs: https://github.com/vocs-project/Web
 
-# Contribution
+## Contribution
 
 Vous êtes libre de contribuer d'une manière ou d'une autre et nous sommes heureux de votre contribution.
 
-# Licence
+## Licence
 
 Droit d'auteur (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
 Tout le monde est autorisé à copier et à distribuer des copies textuelles
