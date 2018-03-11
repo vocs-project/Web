@@ -258,7 +258,7 @@
       <!---------------->
       <!--The Top bar When Logged In-->
       <!---------------->
-      <v-toolbar v-if="isLoggedIn" :class="topBarClass" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important">
+      <v-toolbar v-if="isLoggedIn" :class="topBarClassLoggedIn" :style="{backgroundColor: topbarColor, color: topbarTextColor}" style="z-index:997; padding-right: 2%; padding-left: 1%;  position: fixed !important">
         <v-toolbar-side-icon @click="dashboardMove" v-if="!isPlayingGame">
         </v-toolbar-side-icon>
         <v-toolbar-title>
@@ -422,379 +422,443 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        vocsLoadingLogo: require('@/assets/logoFlat.png'),
-        vocsLoadingLogoGrey: require('@/assets/logoFlatGrey.png'),
-        vocsLoadingLogoWhite: require('@/assets/logoFlatWhite.png'),
-        resource: '',
-        timeout: 0,
-        mobileMenuIsOpen: false,
-        dashboardMenuItems: [
-          {icon: 'home', title: 'Principal', link: '/home', accountType: 'ALL'},
-          {icon: 'play_arrow', title: 'Exercices', link: '/games', accountType: 'ALL'},
-          {icon: 'description', title: 'Listes', link: '/lists', accountType: 'ALL'}
-        ],
-        dashboardMenuItems2: [
-          {icon: 'tune', title: 'Paramètres', link: '/settings', accountType: 'ALL'}
-        ],
-        deconnectionButton: {
-          icon: 'close',
-          title: 'Déconnexion',
-          link: '/homepage'},
-        offsetTop: 0,
-        oldOffsetTop: 0,
-        topBarClass: 'top-bar-hide',
-        autoScrollUpBtnClass: 'auto-scroll-up-btn-hide',
-        roles: [
-          {title: 'USER'},
-          {title: 'STUDENT'},
-          {title: 'PROFESSOR'}
-        ],
-        mainClass: 'dashboard-closed',
-        dashboardClass: 'dashboard-move-right',
-        dashboardWidth: 300,
-        dashboardAvatarStyle: true,
-        dashboardMarginTop: 20,
-        showNotifications: false,
-        showNotificationsTeacher: false,
-        showDemandsSent: false,
-        windowWidth: 0,
-        showDownloadAppDialog: false
-      }
-    },
-    mounted() {
-      this.$nextTick(function() {
-        window.addEventListener('resize', this.getWindowWidth);
-        this.getWindowWidth()
-      })
-
-    },
-    computed: {
-      isLoggedIn () {
-        return this.$store.getters.isLoggedIn;
-      },
-      menuItems () {
-        return [
-          {icon: 'help_outline', title: 'A Propos', link: '/about', shown: !this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'},
-          {icon: 'perm_identity', title: 'Connexion', link: '/connection', shown: !this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'},
-          {icon: 'assignment', title: 'Inscription', link: '/inscription', shown: !this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'}
-        ]
-      },
-      myClassButton () {
-        return {icon: 'school', title: this.classButtonText, link: this.classButtonLink}
-      },
-      hasClass () {
-        return JSON.stringify(this.$store.getters.classes) !== '[]'
-      },
-      classButtonText () {
-        if (this.$store.getters.roles === 'PROFESSOR') {
-          return 'Mes Classes'
-        } else if (this.$store.getters.roles === 'STUDENT' && this.hasClass === false) {
-          return 'Rejoindre Une Classe'
-        } else if (this.$store.getters.roles === 'STUDENT' && this.hasClass === true) {
-          return 'Ma Classe'
-        } else if (this.$store.getters.roles === 'USER') {
-          return 'Rejoindre Une Classe'
-        } else {
-          return 'Rejoindre Une Classe'
-        }
-      },
-      classButtonLink () {
-        if (this.$store.getters.roles === 'PROFESSOR') {
-          return '/classes'
-        } else if (this.$store.getters.roles === 'STUDENT' && this.hasClass === false) {
-          return '/joinclass'
-        } else if (this.$store.getters.roles === 'STUDENT' && this.hasClass === true) {
-          return '/class'
-        } else if (this.$store.getters.roles === 'USER') {
-          return '/joinclass'
-        } else {
-          return '/joinclass'
-        }
-      },
-      profile () {
-        return {icon: 'account_circle', title: 'Profil', link: '/profil', shown: this.isLoggedIn, buttonType: 'btn--round', class: 'btn-round'}
-      },
-      getSelectedList () {
-        return this.$store.getters.getSelectedList
-      },
-      getSelectedWord () {
-        return this.$store.getters.getSelectedWord
-      },
-      getSelectedListForGame () {
-        return this.$store.getters.getSelectedListForGame
-      },
-      getLoadedLists () {
-        return this.$store.getters.loadedLists
-      },
-      role () {
-        return this.$store.getters.roles
-      },
-      user () {
-        return this.$store.getters.user
-      },
-      users () {
-        return this.$store.getters.users
-      },
-      topbarColor () {
-        if (this.role === 'STUDENT') {
-          return '#FBFBFB'
-        } else if (this.role === 'PROFESSOR') {
-          return '#fbfbfb'
-        } else {
-          return '#FBFBFB'
-        }
-      },
-      topbarTextColor () {
-        if (this.role === 'STUDENT') {
-          return '#7f7f7f'
-        } else if (this.role === 'PROFESSOR') {
-          return '#7f7f7f'
-        } else {
-          return '#7f7f7f'
-        }
-      },
-      topbarAccountText () {
-        if (this.role === 'STUDENT') {
-          return 'Compte Élève'
-        } else if (this.role === 'PROFESSOR') {
-          return 'Compte Professeur'
-        } else {
-          return 'Compte Libre'
-        }
-      },
-      loading () {
-        return this.$store.getters.loading
-      },
-      loadingClass () {
-        if (this.$store.getters.loading === true) {
-          return 'loadingClass'
-        } else {
-          return 'notLoadingClass'
-        }
-      },
-      amountOfNotifications () {
-        return this.$store.getters.myDemands.demandReceive.length
-      },
-      notifications () {
-        return this.$store.getters.myDemands
-      },
-      amountOfDemandsSent () {
-        return this.$store.getters.myDemands.demandSend.length
-      },
-      snackbarMessage () {
-        return this.$store.getters.snackbarMessage
-      },
-      snackbarEnabled () {
-        return this.$store.getters.snackbarIsEnabled
-      },
-      isPlayingGame () {
-        return this.$store.getters.getIsPlayingGame
-      }
-    },
-    watch: {
-      isLoggedIn: function (val) {
-        if(val === true) {
-          this.getWindowWidth();
-        }
-        if (val === true && this.isPlayingGame === false) {
-          this.mainClass = 'dashboard-open'
-        } else if (this.isPlayingGame === false){
-          this.mainClass = 'dashboard-closed'
-        } else {
-          this.mainClass = 'dashboard-half-open'
-        }
-      },
-      isPlayingGame: function(value) {
-        if(value === true) {
-          this.dashboardMove ()
-        }
-        if(value === false) {
-          this.dashboardMove ()
-        }
-      }
-    },
-    methods: {
-      getWindowWidth() {
-        this.windowWidth = document.documentElement.clientWidth;
-        if(this.windowWidth <= 900 && this.isLoggedIn === true){
-          this.showDownloadAppDialog = true;
-        } else {
-          this.showDownloadAppDialog = false;
-        }
-      },
-      deconnect () {
-        //this is for when we are on a small
-        //device and we press on the deconnect 
-        //button when the dialog comes up
-        this.showDownloadAppDialog = false;
-        this.$store.dispatch('logout');
-        this.$router.push('/homepage');
-      },
-      scroll (e) {
-        //When we scroll we get the users scroll position and show the 
-        //top bar or not 
-        this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
-        if(this.isLoggedIn) {
-          this.topBarClass = 'top-bar-show';
-        }else if(this.offsetTop>100){
-          this.topBarClass = 'top-bar-show';
-        } else {
-          this.topBarClass = 'top-bar-hide';
-        }
-        //show the auto scroll up button or not
-        if (this.offsetTop > 750) {
-          this.autoScrollUpBtnClass = 'auto-scroll-up-btn-show'
-        }
-        if (this.offsetTop < 750) {
-          this.autoScrollUpBtnClass = 'auto-scroll-up-btn-hide'
-        }
-      },
-      autoScrollUp () {
-        //would like to make this progressive
-        document.documentElement.scrollTop = 0
-      },
-      setRole (account) {
-        this.$store.dispatch('setRoles', account)
-      },
-      dashboardMove () {
-        if (this.mainClass === 'dashboard-half-open') {
-          this.mainClass = 'dashboard-open';
-          this.dashboardWidth = 300;
-          this.dashboardMarginTop = 20;
-          this.dashboardAvatarStyle = true;
-        } else if (this.mainClass === 'dashboard-open') {
-          this.mainClass = 'dashboard-half-open';
-          this.dashboardAvatarStyle = false;
-          this.dashboardWidth = 60;
-          this.dashboardMarginTop = -210;
-        }
-      },
-      deleteDemand (id) {
-        this.$store.dispatch('deleteDemand', id)
-      },
-      deleteDemand2 (id) {
-        this.$store.dispatch('deleteDemand2', id)
-      },
-      addUserToClass (idClass, idUser) {
-        var toSendOff = {
-          classId: idClass,
-          userId: idUser
-        }
-        this.$store.dispatch('addUserToClass', toSendOff)
-      },
-      addListToUser (idList, idUser) {
-        var toSendOff = {
-          listId: idList,
-          userId: idUser,
-        }
-        this.$store.dispatch('addListToUser', toSendOff)
-      },
-      setSnackbarEnabled () {
-        this.$store.dispatch('setSnackbarIsEnabled', false)
-      },
-      beforeunload () {
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userPassword');
-      },
-      addSynonyme(demand) {
-        this.$store.dispatch('addSynonyme',demand)
-      }
-    },
-    created () {
-      if (this.isLoggedIn === true && !this.isPlayingGame || (localStorage.getItem('userEmail') && localStorage.getItem('userPassword') && !this.isPlayingGame)) {
-        this.mainClass = 'dashboard-open'
-        this.topBarClass = 'top-bar-show'
-        this.$router.push('/home')
-      } else if(!this.isPlayingGame){
-        this.mainClass = 'dashboard-closed'
-        this.$router.push('/homepage')
-      }else if(this.isPlayingGame){
-        this.mainClass = 'dashboard-half-open'
-      }else {
-        this.$router.push('/homepage')
-        this.topBarClass = 'top-bar-hide'
-      }
-      this.$store.dispatch('getSchoolsAndClasses')
-      this.$store.dispatch('autoLoginIn')
-      document.addEventListener('beforeunload', this.beforeunload)
-    }
-  }
-
+export default {
+	data() {
+		return {
+			vocsLoadingLogo: require("@/assets/logoFlat.png"),
+			vocsLoadingLogoGrey: require("@/assets/logoFlatGrey.png"),
+			vocsLoadingLogoWhite: require("@/assets/logoFlatWhite.png"),
+			resource: "",
+			timeout: 0,
+			mobileMenuIsOpen: false,
+			dashboardMenuItems: [
+				{ icon: "home", title: "Principal", link: "/home", accountType: "ALL" },
+				{
+					icon: "play_arrow",
+					title: "Exercices",
+					link: "/games",
+					accountType: "ALL"
+				},
+				{
+					icon: "description",
+					title: "Listes",
+					link: "/lists",
+					accountType: "ALL"
+				}
+			],
+			dashboardMenuItems2: [
+				{
+					icon: "tune",
+					title: "Paramètres",
+					link: "/settings",
+					accountType: "ALL"
+				}
+			],
+			deconnectionButton: {
+				icon: "close",
+				title: "Déconnexion",
+				link: "/homepage"
+			},
+			offsetTop: 0,
+			oldOffsetTop: 0,
+      topBarClass: "top-bar-hide",
+      topBarClassLoggedIn: "top-bar-show-logged-in",
+			autoScrollUpBtnClass: "auto-scroll-up-btn-hide",
+			roles: [{ title: "USER" }, { title: "STUDENT" }, { title: "PROFESSOR" }],
+			mainClass: "dashboard-closed",
+			dashboardClass: "dashboard-move-right",
+			dashboardWidth: 300,
+			dashboardAvatarStyle: true,
+			dashboardMarginTop: 20,
+			showNotifications: false,
+			showNotificationsTeacher: false,
+			showDemandsSent: false,
+			windowWidth: 0,
+			showDownloadAppDialog: false
+		};
+	},
+	mounted() {
+		this.$nextTick(function() {
+			window.addEventListener("resize", this.getWindowWidth);
+			this.getWindowWidth();
+		});
+	},
+	computed: {
+		isLoggedIn() {
+			return this.$store.getters.isLoggedIn;
+		},
+		menuItems() {
+			return [
+				{
+					icon: "help_outline",
+					title: "A Propos",
+					link: "/about",
+					shown: !this.isLoggedIn,
+					buttonType: "btn--round",
+					class: "btn-round"
+				},
+				{
+					icon: "perm_identity",
+					title: "Connexion",
+					link: "/connection",
+					shown: !this.isLoggedIn,
+					buttonType: "btn--round",
+					class: "btn-round"
+				},
+				{
+					icon: "assignment",
+					title: "Inscription",
+					link: "/inscription",
+					shown: !this.isLoggedIn,
+					buttonType: "btn--round",
+					class: "btn-round"
+				}
+			];
+		},
+		myClassButton() {
+			return {
+				icon: "school",
+				title: this.classButtonText,
+				link: this.classButtonLink
+			};
+		},
+		hasClass() {
+			return JSON.stringify(this.$store.getters.classes) !== "[]";
+		},
+		classButtonText() {
+			if (this.$store.getters.roles === "PROFESSOR") {
+				return "Mes Classes";
+			} else if (
+				this.$store.getters.roles === "STUDENT" &&
+				this.hasClass === false
+			) {
+				return "Rejoindre Une Classe";
+			} else if (
+				this.$store.getters.roles === "STUDENT" &&
+				this.hasClass === true
+			) {
+				return "Ma Classe";
+			} else if (this.$store.getters.roles === "USER") {
+				return "Rejoindre Une Classe";
+			} else {
+				return "Rejoindre Une Classe";
+			}
+		},
+		classButtonLink() {
+			if (this.$store.getters.roles === "PROFESSOR") {
+				return "/classes";
+			} else if (
+				this.$store.getters.roles === "STUDENT" &&
+				this.hasClass === false
+			) {
+				return "/joinclass";
+			} else if (
+				this.$store.getters.roles === "STUDENT" &&
+				this.hasClass === true
+			) {
+				return "/class";
+			} else if (this.$store.getters.roles === "USER") {
+				return "/joinclass";
+			} else {
+				return "/joinclass";
+			}
+		},
+		profile() {
+			return {
+				icon: "account_circle",
+				title: "Profil",
+				link: "/profil",
+				shown: this.isLoggedIn,
+				buttonType: "btn--round",
+				class: "btn-round"
+			};
+		},
+		getSelectedList() {
+			return this.$store.getters.getSelectedList;
+		},
+		getSelectedWord() {
+			return this.$store.getters.getSelectedWord;
+		},
+		getSelectedListForGame() {
+			return this.$store.getters.getSelectedListForGame;
+		},
+		getLoadedLists() {
+			return this.$store.getters.loadedLists;
+		},
+		role() {
+			return this.$store.getters.roles;
+		},
+		user() {
+			return this.$store.getters.user;
+		},
+		users() {
+			return this.$store.getters.users;
+		},
+		topbarColor() {
+			if (this.role === "STUDENT") {
+				return "#FBFBFB";
+			} else if (this.role === "PROFESSOR") {
+				return "#fbfbfb";
+			} else {
+				return "#FBFBFB";
+			}
+		},
+		topbarTextColor() {
+			if (this.role === "STUDENT") {
+				return "#7f7f7f";
+			} else if (this.role === "PROFESSOR") {
+				return "#7f7f7f";
+			} else {
+				return "#7f7f7f";
+			}
+		},
+		topbarAccountText() {
+			if (this.role === "STUDENT") {
+				return "Compte Élève";
+			} else if (this.role === "PROFESSOR") {
+				return "Compte Professeur";
+			} else {
+				return "Compte Libre";
+			}
+		},
+		loading() {
+			return this.$store.getters.loading;
+		},
+		loadingClass() {
+			if (this.$store.getters.loading === true) {
+				return "loadingClass";
+			} else {
+				return "notLoadingClass";
+			}
+		},
+		amountOfNotifications() {
+			return this.$store.getters.myDemands.demandReceive.length;
+		},
+		notifications() {
+			return this.$store.getters.myDemands;
+		},
+		amountOfDemandsSent() {
+			return this.$store.getters.myDemands.demandSend.length;
+		},
+		snackbarMessage() {
+			return this.$store.getters.snackbarMessage;
+		},
+		snackbarEnabled() {
+			return this.$store.getters.snackbarIsEnabled;
+		},
+		isPlayingGame() {
+			return this.$store.getters.getIsPlayingGame;
+		}
+	},
+	watch: {
+		isLoggedIn: function(val) {
+			if (val === true) {
+				this.getWindowWidth();
+			}
+			if (val === true && this.isPlayingGame === false) {
+				this.mainClass = "dashboard-open";
+			} else if (this.isPlayingGame === false) {
+				this.mainClass = "dashboard-closed";
+			} else {
+				this.mainClass = "dashboard-half-open";
+			}
+		},
+		isPlayingGame: function(value) {
+			if (value === true) {
+				this.dashboardMove();
+			}
+			if (value === false) {
+				this.dashboardMove();
+			}
+		}
+	},
+	methods: {
+		getWindowWidth() {
+			this.windowWidth = document.documentElement.clientWidth;
+			if (this.windowWidth <= 900 && this.isLoggedIn === true) {
+				this.showDownloadAppDialog = true;
+			} else {
+				this.showDownloadAppDialog = false;
+			}
+		},
+		deconnect() {
+			//this is for when we are on a small
+			//device and we press on the deconnect
+			//button when the dialog comes up
+			this.showDownloadAppDialog = false;
+			this.$store.dispatch("logout");
+			this.$router.push("/homepage");
+		},
+		scroll(e) {
+			//When we scroll we get the users scroll position and show the
+			//top bar or not
+			this.offsetTop = window.pageYOffset || document.documentElement.scrollTop;
+			if (this.isLoggedIn) {
+				this.topBarClass = "top-bar-show";
+			} else if (this.offsetTop > 100) {
+				this.topBarClass = "top-bar-show";
+			} else {
+				this.topBarClass = "top-bar-hide";
+			}
+			//show the auto scroll up button or not
+			if (this.offsetTop > 750) {
+				this.autoScrollUpBtnClass = "auto-scroll-up-btn-show";
+			}
+			if (this.offsetTop < 750) {
+				this.autoScrollUpBtnClass = "auto-scroll-up-btn-hide";
+			}
+		},
+		autoScrollUp() {
+			//would like to make this progressive
+			document.documentElement.scrollTop = 0;
+		},
+		setRole(account) {
+			this.$store.dispatch("setRoles", account);
+		},
+		dashboardMove() {
+			if (this.mainClass === "dashboard-half-open") {
+				this.mainClass = "dashboard-open";
+				this.dashboardWidth = 300;
+				this.dashboardMarginTop = 20;
+				this.dashboardAvatarStyle = true;
+			} else if (this.mainClass === "dashboard-open") {
+				this.mainClass = "dashboard-half-open";
+				this.dashboardAvatarStyle = false;
+				this.dashboardWidth = 60;
+				this.dashboardMarginTop = -210;
+			}
+		},
+		deleteDemand(id) {
+			this.$store.dispatch("deleteDemand", id);
+		},
+		deleteDemand2(id) {
+			this.$store.dispatch("deleteDemand2", id);
+		},
+		addUserToClass(idClass, idUser) {
+			var toSendOff = {
+				classId: idClass,
+				userId: idUser
+			};
+			this.$store.dispatch("addUserToClass", toSendOff);
+		},
+		addListToUser(idList, idUser) {
+			var toSendOff = {
+				listId: idList,
+				userId: idUser
+			};
+			this.$store.dispatch("addListToUser", toSendOff);
+		},
+		setSnackbarEnabled() {
+			this.$store.dispatch("setSnackbarIsEnabled", false);
+		},
+		beforeunload() {
+			localStorage.removeItem("userEmail");
+			localStorage.removeItem("userPassword");
+		},
+		addSynonyme(demand) {
+			this.$store.dispatch("addSynonyme", demand);
+		}
+	},
+	created() {
+		if (
+			(this.isLoggedIn === true && !this.isPlayingGame) ||
+			(localStorage.getItem("userEmail") &&
+				localStorage.getItem("userPassword") &&
+				!this.isPlayingGame)
+		) {
+			this.mainClass = "dashboard-open";
+			this.topBarClass = "top-bar-show";
+			this.$router.push("/home");
+		} else if (!this.isPlayingGame) {
+			this.mainClass = "dashboard-closed";
+			this.$router.push("/homepage");
+		} else if (this.isPlayingGame) {
+			this.mainClass = "dashboard-half-open";
+		} else {
+			this.$router.push("/homepage");
+			this.topBarClass = "top-bar-hide";
+		}
+		this.$store.dispatch("getSchoolsAndClasses");
+		this.$store.dispatch("autoLoginIn");
+		document.addEventListener("beforeunload", this.beforeunload);
+	}
+};
 </script>
 
 <style lang="stylus">
-  @import './stylus/main'
+@import './stylus/main';
 </style>
 
 <style>
-  .v-app {
-    background-color: #e9eaee;
-  }
-  .dashboard-closed {
-    margin-left: 0px;
-    padding:0;
-    padding-right: 0;
-    transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .dashboard-half-open {
-    margin-left: 60px;
-    padding:0;
-    padding-right: 60px;
-    transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .dashboard-open {
-    margin-left: 300px;
-    padding:0;
-    padding-right: 300px;
-    transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .auto-scroll-up-btn-hide {
-    transform: translateX(150%);
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .auto-scroll-up-btn-show {
-    transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .topbar-btn {
-    height:38px;
-  }
-  .top-bar-show {
-    transform: translateY(-100%);
-    transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .top-bar-hide {
-    transform: translateY(-200%);
-    transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
-  }
-  .dashboard-nav-tile:hover {
-    transition: border-left 0.3s;
-    border-left: 3px solid #00adff;
-  }
-  .dashboardAvatarShow {
-    opacity: 1;
-    transition: opacity 0.8s;
-    transition-delay: 0.3s;
-  }
-  .dashboardAvatarHidden {
-    opacity: 0;
-    transition: opacity 0.15s;
-  }
-  .loadingClass {
-    bottom: 35vh;
-    transition: all 0.6s cubic-bezier(0.6, 0, 0.07, 1);;
-    z-index: 999;
-    position: absolute;
-  }
-  .notLoadingClass {
-    bottom: 100vh;
-    transition: all 1s cubic-bezier(0.6, 0, 0.07, 1), bottom 1s  cubic-bezier(0.6, 0, 0.07, 1);
-    z-index: 999;
-    position: absolute;
-  }
-
-
+.v-app {
+	background-color: #e9eaee;
+}
+.dashboard-closed {
+	margin-left: 0px;
+	padding: 0;
+	padding-right: 0;
+	transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.dashboard-half-open {
+	margin-left: 60px;
+	padding: 0;
+	padding-right: 60px;
+	transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.dashboard-open {
+	margin-left: 300px;
+	padding: 0;
+	padding-right: 300px;
+	transition: all 0.4s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.auto-scroll-up-btn-hide {
+	transform: translateX(150%);
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.auto-scroll-up-btn-show {
+	transition: transform 0.7s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.topbar-btn {
+	height: 38px;
+}
+.top-bar-show {
+	transform: translateY(-100%);
+	transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.top-bar-show-logged-in {
+  transform: translateY(0%);
+  background-color: pink;
+	transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.top-bar-hide {
+	transform: translateY(-200%);
+	transition: transform 1s cubic-bezier(0.6, 0, 0.07, 1);
+}
+.dashboard-nav-tile:hover {
+	transition: border-left 0.3s;
+	border-left: 3px solid #00adff;
+}
+.dashboardAvatarShow {
+	opacity: 1;
+	transition: opacity 0.8s;
+	transition-delay: 0.3s;
+}
+.dashboardAvatarHidden {
+	opacity: 0;
+	transition: opacity 0.15s;
+}
+.loadingClass {
+	bottom: 35vh;
+	transition: all 0.6s cubic-bezier(0.6, 0, 0.07, 1);
+	z-index: 999;
+	position: absolute;
+}
+.notLoadingClass {
+	bottom: 100vh;
+	transition: all 1s cubic-bezier(0.6, 0, 0.07, 1),
+		bottom 1s cubic-bezier(0.6, 0, 0.07, 1);
+	z-index: 999;
+	position: absolute;
+}
 </style>
 
