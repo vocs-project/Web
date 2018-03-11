@@ -1,13 +1,7 @@
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--//////////////////////////////////////////////////////////VIEW///////////////////////////////////////////////////////////// -->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--//////////////////////////////////////////////////////////TEMPLATE///////////////////////////////////////////////////////// -->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
@@ -19,173 +13,182 @@
   <div v-scroll="scroll">
 
 
-
-    <!-------------->
-    <!-- First Section -->
-    <!-------------->
-    <v-parallax class="s1-parallax" :src="BGFrontPageSRC" style="height:100vh;width:100vw;margin-top: -65px">
-      <v-layout style="height:100vh;width:100%;">
-        <v-flex xs8 md10 lg8 sm10 offset-xs2 offset-lg2 offset-sm1 style="align-self: center;" >
-          <h1 class="white--text text-xs-center" style="font-size: 100px">Vocs</h1>
-          <h3 class="white--text text-xs-center" style="opacity: 0.7;font-size: 40px">Apprenez, retenez, réussissez.</h3>
-          <p class="white--text text-xs-center" style="opacity: 0.7;font-size: 20px" >Une plateforme pour apprendre le vocabulaire en anglais.</p>
-          <div class="text-xs-center">
-            <v-btn style="border-radius: 10px;background-color: #27629E;color: white;width:200px;height:55px;font-size: 20px" large to="/inscription">
-              Commencer
-            </v-btn>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-parallax>
-
-
-
-    <!-------------->
-    <!-- Second Section -->
-    <!-------------->
-    <v-container>
-      <br>
-      <br>
-      <v-layout row wrap >
-        <v-flex md6 sm12 xs12 class="text-xs-center">
-          <img :class="s2IphoneClass" :src="iphone" class="s2-iphone" height="420px">
-        </v-flex>
-        <v-flex :class="s2TextClass" md6 sm12 xs12 class="text-xs-center pt-5">
-          <p style="font-size:38px;color: #5a5a5a">Vocs partout où vous êtes.</p>
-          <p style="font-size:24px;color: #5a5a5a;opacity: 0.8">Grâce au site Web et à l'application mobile, vous pourrez apprendre l'anglais partout où vous êtes.
-            Pas de connexion internet? Avec l'application mobile téléchargez votre vocabulaire sur votre appareil pour toujours l'avoir avec vous.</p>
-        </v-flex>
-      </v-layout>
-      <br>
-      <br>
-    </v-container>
+  <!--//*---------------->
+  <!--// *First Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-FirstSection.png"-->
+                      <v-parallax class="s1-parallax" :src="BGFrontPageSRC" style="height:100vh;width:100vw;margin-top: -65px">
+                        <v-layout style="height:100vh;width:100%;">
+                          <v-flex xs8 md10 lg8 sm10 offset-xs2 offset-lg2 offset-sm1 style="align-self: center;" >
+                            <h1 class="white--text text-xs-center" style="font-size: 100px">Vocs</h1>
+                            <h3 class="white--text text-xs-center" style="opacity: 0.7;font-size: 40px">Apprenez, retenez, réussissez.</h3>
+                            <p class="white--text text-xs-center" style="opacity: 0.7;font-size: 20px" >Une plateforme pour apprendre le vocabulaire en anglais.</p>
+                            <div class="text-xs-center">
+                              <v-btn style="border-radius: 10px;background-color: #27629E;color: white;width:200px;height:55px;font-size: 20px" large to="/inscription">
+                                Commencer
+                              </v-btn>
+                            </div>
+                          </v-flex>
+                        </v-layout>
+                      </v-parallax>
+  <!--//!---------------->
+  <!--// !END First Section -->
+  <!--//!---------------->
 
 
-
-    <!-------------->
-    <!-- Third Section -->
-    <!-------------->
-    <v-container text-xs-center fluid style="background-color: #f6f6f6">
-
-      <v-layout row wrap >
-        <v-flex xs12 style="margin-top: 30px;margin-bottom: 20px" class="text-xs-center" :class="s3MainTextClass">
-          <p style="font-size: 38px;color: #5a5a5a">Une superbe façon d'apprendre</p>
-        </v-flex>
-      </v-layout>
-
-      <v-layout row wrap style="margin-bottom: 20px">
-
-        <v-flex xs12 sm6 md3 class="pa-3" :class="s3TextClassLeft">
-          <p><v-icon class="s3-icon">done</v-icon></p>
-          <p style="font-size: 26px;color: #5a5a5a">Simple, efficace et facile d'utilisation.</p>
-        </v-flex>
-
-        <v-flex xs12 sm6 md3 class="pa-3">
-          <p><v-icon :class="s3TextClassMiddle" class="s3-icon">memory</v-icon></p>
-          <p :class="s3TextClassMiddle" style="font-size: 26px;color: #5a5a5a">Algorithmes d'apprentissage.</p>
-        </v-flex>
-
-        <v-flex xs12 sm6 md3 class="pa-3">
-          <p ><v-icon  :class="s3TextClassMiddle" class="s3-icon">school</v-icon></p>
-          <p :class="s3TextClassMiddle" style="font-size: 26px;color: #5a5a5a">Rejoingnez une classe.</p>
-        </v-flex>
-
-        <v-flex xs12 sm6 md3 class="pa-3" :class="s3TextClassRight">
-          <p><v-icon class="s3-icon">language</v-icon></p>
-          <p style="font-size: 26px;color: #5a5a5a" >Intéragissez avec votre enseignant.</p>
-        </v-flex>
-
-      </v-layout>
-    </v-container>
+  <!--//*---------------->
+  <!--// *Second Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-SecondSection.png"-->
+                      <v-container>
+                        <br>
+                        <br>
+                        <v-layout row wrap >
+                          <v-flex md6 sm12 xs12 class="text-xs-center">
+                            <img :class="s2IphoneClass" :src="iphone" class="s2-iphone" height="420px">
+                          </v-flex>
+                          <v-flex :class="s2TextClass" md6 sm12 xs12 class="text-xs-center pt-5">
+                            <p style="font-size:38px;color: #5a5a5a">Vocs partout où vous êtes.</p>
+                            <p style="font-size:24px;color: #5a5a5a;opacity: 0.8">Grâce au site Web et à l'application mobile, vous pourrez apprendre l'anglais partout où vous êtes.
+                              Pas de connexion internet? Avec l'application mobile téléchargez votre vocabulaire sur votre appareil pour toujours l'avoir avec vous.</p>
+                          </v-flex>
+                        </v-layout>
+                        <br>
+                        <br>
+                      </v-container>
+  <!--//!---------------->
+  <!--// !END Second Section -->
+  <!--//!---------------->
 
 
+  <!--//*---------------->
+  <!--// *Third Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-ThirdSection.png"-->
+                      <v-container text-xs-center fluid style="background-color: #f6f6f6">
 
-    <!-------------->
-    <!-- Fourth Section -->
-    <!-------------->
-    <v-parallax :src="sky" style="height:auto;padding-top: 80px;padding-bottom: 80px">
-      <v-parallax :src="stars" height="11000" style="position:absolute; width:100vw">
-      </v-parallax>
-      <v-parallax :src="stars" height="5000" style="position:absolute; width:100vw">
-      </v-parallax>
-      <v-layout row wrap >
-        <v-flex xs12 sm12 md6 class="text-xs-center" style="padding: 5%">
-          <img :class="s4IphoneImgClass" :src="iphone" height="420px">
-          <h3 style="color: #f5f5f5; margin-top: 10px" :class="s4IphoneTextClass">Disponible à télécharger sur votre iPhone.</h3>
-          <v-btn :class="s4IphoneTextClass" style="border-radius: 10px;background-color: #27629E;color: white;width:180px;height:50px;font-size: 15px" large>
-              AppStore
-          </v-btn>
-        </v-flex>
-        <v-flex xs12 sm12 md6 class="text-xs-center" style="padding: 5%">
-          <img :class="s4AndroidImgClass" :src="android" height="420px">
-          <h3 style="color: #f5f5f5; margin-top: 10px" :class="s4AndroidTextClass">Ou alors sur votre appareil Android.</h3>
-          <v-btn :class="s4AndroidTextClass" style="border-radius: 10px;background-color: #27629E;color: white;width:180px;height:50px;font-size: 15px" large>
-              Google Play Store
-          </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-parallax>
+                        <v-layout row wrap >
+                          <v-flex xs12 style="margin-top: 30px;margin-bottom: 20px" class="text-xs-center" :class="s3MainTextClass">
+                            <p style="font-size: 38px;color: #5a5a5a">Une superbe façon d'apprendre</p>
+                          </v-flex>
+                        </v-layout>
+
+                        <v-layout row wrap style="margin-bottom: 20px">
+
+                          <v-flex xs12 sm6 md3 class="pa-3" :class="s3TextClassLeft">
+                            <p><v-icon class="s3-icon">done</v-icon></p>
+                            <p style="font-size: 26px;color: #5a5a5a">Simple, efficace et facile d'utilisation.</p>
+                          </v-flex>
+
+                          <v-flex xs12 sm6 md3 class="pa-3">
+                            <p><v-icon :class="s3TextClassMiddle" class="s3-icon">memory</v-icon></p>
+                            <p :class="s3TextClassMiddle" style="font-size: 26px;color: #5a5a5a">Algorithmes d'apprentissage.</p>
+                          </v-flex>
+
+                          <v-flex xs12 sm6 md3 class="pa-3">
+                            <p ><v-icon  :class="s3TextClassMiddle" class="s3-icon">school</v-icon></p>
+                            <p :class="s3TextClassMiddle" style="font-size: 26px;color: #5a5a5a">Rejoingnez une classe.</p>
+                          </v-flex>
+
+                          <v-flex xs12 sm6 md3 class="pa-3" :class="s3TextClassRight">
+                            <p><v-icon class="s3-icon">language</v-icon></p>
+                            <p style="font-size: 26px;color: #5a5a5a" >Intéragissez avec votre enseignant.</p>
+                          </v-flex>
+
+                        </v-layout>
+                      </v-container>
+  <!--//!---------------->
+  <!--// !END Third Section -->
+  <!--//!---------------->
+
+
+  <!--//*---------------->
+  <!--// *Fourth Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-FourthSection.png"-->
+                      <v-parallax :src="sky" style="height:auto;padding-top: 80px;padding-bottom: 80px">
+                        <v-parallax :src="stars" height="11000" style="position:absolute; width:100vw">
+                        </v-parallax>
+                        <v-parallax :src="stars" height="5000" style="position:absolute; width:100vw">
+                        </v-parallax>
+                        <v-layout row wrap >
+                          <v-flex xs12 sm12 md6 class="text-xs-center" style="padding: 5%">
+                            <img :class="s4IphoneImgClass" :src="iphone" height="420px">
+                            <h3 style="color: #f5f5f5; margin-top: 10px" :class="s4IphoneTextClass">Disponible à télécharger sur votre iPhone.</h3>
+                            <v-btn :class="s4IphoneTextClass" style="border-radius: 10px;background-color: #27629E;color: white;width:180px;height:50px;font-size: 15px" large>
+                                AppStore
+                            </v-btn>
+                          </v-flex>
+                          <v-flex xs12 sm12 md6 class="text-xs-center" style="padding: 5%">
+                            <img :class="s4AndroidImgClass" :src="android" height="420px">
+                            <h3 style="color: #f5f5f5; margin-top: 10px" :class="s4AndroidTextClass">Ou alors sur votre appareil Android.</h3>
+                            <v-btn :class="s4AndroidTextClass" style="border-radius: 10px;background-color: #27629E;color: white;width:180px;height:50px;font-size: 15px" large>
+                                Google Play Store
+                            </v-btn>
+                          </v-flex>
+                        </v-layout>
+                      </v-parallax>
+  <!--//!---------------->
+  <!--// !END Fourth Section -->
+  <!--//!---------------->
 
 
 
-
-    <!-------------->
-    <!-- Footer -->
-    <!-------------->
-    <footer style="height: auto;background-color: rgba(24,24,24,0.85);padding: 2%;padding-top: 40px">
-      <v-layout row wrap>
-        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
-          <div>
-            <h6 style="color: white" class="text-xs-center">A Propos</h6>
-            <p style="color: white" class="text-xs-center">A propos de la plateforme Vocs</p>
-          </div>
-        </v-flex>
-        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
-          <div>
-            <h6 style="color: white" class="text-xs-center">Connexion</h6>
-            <p style="color: white" class="text-xs-center">Connectez-vous à votre compte personnel</p>
-          </div>
-        </v-flex>
-        <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
-          <div>
-            <h6 style="color: white" class="text-xs-center">Inscription</h6>
-            <p style="color: white" class="text-xs-center">Inscrivez-vous si vous ne l'avez pas encore fait</p>
-          </div>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap style="margin-top: 30px;margin-bottom: 20px">
-        <v-flex xs12>
-          <div style="align-items: center;justify-content: center;">
-            <h6 style="color: white" class="text-xs-center">Contact</h6>
-            <p style="color: white" class="text-xs-center">Vocs Inc</p>
-          </div>
-        </v-flex>
-        <v-flex xs12 class="text-xs-center">
-            <img :src="logo" alt="Logo Vocs" style="height: 40px;">
-        </v-flex>
-      </v-layout>
-    </footer>
+  <!--//*---------------->
+  <!--// *Footer Section -->
+  <!--//*---------------->
+  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-Footer.png"-->
+                      <footer style="height: auto;background-color: rgba(24,24,24,0.85);padding: 2%;padding-top: 40px">
+                        <v-layout row wrap>
+                          <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+                            <div>
+                              <h6 style="color: white" class="text-xs-center">A Propos</h6>
+                              <p style="color: white" class="text-xs-center">A propos de la plateforme Vocs</p>
+                            </div>
+                          </v-flex>
+                          <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+                            <div>
+                              <h6 style="color: white" class="text-xs-center">Connexion</h6>
+                              <p style="color: white" class="text-xs-center">Connectez-vous à votre compte personnel</p>
+                            </div>
+                          </v-flex>
+                          <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">
+                            <div>
+                              <h6 style="color: white" class="text-xs-center">Inscription</h6>
+                              <p style="color: white" class="text-xs-center">Inscrivez-vous si vous ne l'avez pas encore fait</p>
+                            </div>
+                          </v-flex>
+                        </v-layout>
+                        <v-layout row wrap style="margin-top: 30px;margin-bottom: 20px">
+                          <v-flex xs12>
+                            <div style="align-items: center;justify-content: center;">
+                              <h6 style="color: white" class="text-xs-center">Contact</h6>
+                              <p style="color: white" class="text-xs-center">Vocs Inc</p>
+                            </div>
+                          </v-flex>
+                          <v-flex xs12 class="text-xs-center">
+                              <img :src="logo" alt="Logo Vocs" style="height: 40px;">
+                          </v-flex>
+                        </v-layout>
+                      </footer>
+  <!--//!---------------->
+  <!--// !END Footer Section -->
+  <!--//!---------------->
 
   </div>
 </template>
 
 
 
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--//////////////////////////////////////////////////////////SCRIPT/////////////////////////////////////////////////////////// -->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
 
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--//////////////////////////////////////////////////////////SCRIPT///////////////////////////////////////////////////////// -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
 <script>
 import BGFrontPage from "@/assets/HomepageBackgroundFinal.png";
@@ -278,21 +281,17 @@ export default {
 
 
 
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////STYLE/////////////////////////////////////////////////////////// -->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
 
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--//////////////////////////////////////////////////////////STYLE///////////////////////////////////////////////////////// -->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
 <style scoped>
 .textSlide {
