@@ -57,9 +57,10 @@
                 </v-layout>
               </div>
               <v-layout row justify-center>
-                <v-dialog max-width="500" v-model="dialogConfirmation">
+                <v-dialog max-width="500" style="z-index:999" v-model="dialogConfirmation">
                   <v-card>
                     <v-card-title class="headline">Selectionnez une liste</v-card-title>
+                    <div style="margin-left: 3%;margin-right:3%">Vos listes doivent contenir assez de mots pour le mode de jeu correspondant</div>
                     <v-list>
                       <template v-for="list in lists">
                         <v-list-tile v-if="(list.wordTrads.length > 0) && !(list.wordTrads.length < 4 && selectedGameMode === 'QCM') && !(list.wordTrads.length < 10 && selectedGameMode === 'Matching')" v-bind:key="list.name" class="mt-3 mb-3">
@@ -85,7 +86,7 @@
                     <v-card-title class="headline">Votre liste {{selectedListForGame.name}} a moins de 4 mots.</v-card-title>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn flat to="/lists" color="primary" @click.native="dialogConfirmation2 = false">Choisir une autre liste</v-btn>
+                      <v-btn flat color="primary" @click.native="chooseAnotherList()">Choisir une autre liste</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -94,11 +95,11 @@
                     <v-card-title class="headline">Votre liste {{selectedListForGame.name}} a moins de 10 mots.</v-card-title>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn flat to="/lists" color="primary" @click.native="dialogConfirmation2 = false">Choisir une autre liste</v-btn>
+                      <v-btn flat color="primary" @click.native="chooseAnotherList()">Choisir une autre liste</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
-                <v-dialog v-model="dialogConfirmation2" v-else>
+                <v-dialog max-width="500" v-model="dialogConfirmation2" v-else>
                   <v-card>
                     <v-card-title class="headline">S'entrainer avec la liste {{selectedListForGame.name}}?</v-card-title>
                     <v-card-actions>

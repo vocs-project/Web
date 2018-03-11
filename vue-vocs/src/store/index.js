@@ -387,6 +387,9 @@ export const store = new Vuex.Store({
   /*ACTIONS*/
 
   actions: {
+    setLoading({ state }, payload) {
+      state.loading = payload;
+    },
     setIsPlayingGame({ state }, payload) {
       state.isPlayingGame = payload;
     },
