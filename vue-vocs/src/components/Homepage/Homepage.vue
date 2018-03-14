@@ -16,7 +16,7 @@
   <!--//*---------------->
   <!--// *First Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-FirstSection.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/Homepage-FirstSection.png"-->
                       <v-parallax class="s1-parallax" :src="BGFrontPageSRC" style="height:100vh;width:100vw;margin-top: -65px">
                         <v-layout style="height:100vh;width:100%;">
                           <v-flex xs8 md10 lg8 sm10 offset-xs2 offset-lg2 offset-sm1 style="align-self: center;" >
@@ -39,7 +39,7 @@
   <!--//*---------------->
   <!--// *Second Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-SecondSection.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/Homepage-SecondSection.png"-->
                       <v-container>
                         <br>
                         <br>
@@ -64,7 +64,7 @@
   <!--//*---------------->
   <!--// *Third Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-ThirdSection.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/Homepage-ThirdSection.png"-->
                       <v-container text-xs-center fluid style="background-color: #f6f6f6">
 
                         <v-layout row wrap >
@@ -105,7 +105,7 @@
   <!--//*---------------->
   <!--// *Fourth Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-FourthSection.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/Homepage-FourthSection.png"-->
                       <v-parallax :src="sky" style="height:auto;padding-top: 80px;padding-bottom: 80px">
                         <v-parallax :src="stars" height="11000" style="position:absolute; width:100vw">
                         </v-parallax>
@@ -137,7 +137,7 @@
   <!--//*---------------->
   <!--// *Footer Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/Homepage-Footer.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/Homepage-Footer.png"-->
                       <footer style="height: auto;background-color: rgba(24,24,24,0.85);padding: 2%;padding-top: 40px">
                         <v-layout row wrap>
                           <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">

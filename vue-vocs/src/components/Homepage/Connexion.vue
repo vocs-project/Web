@@ -13,11 +13,11 @@
   <!--//*---------------->
   <!--// *First Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/connection-maincard.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/connection-maincard.png"-->
                       <v-layout row>
                         <v-flex style="margin-top: 180px" xs12 sm6 offset-sm3>
                           <!--Toolbar Section -->   
-                          <!--"/assets/Screenshots(ForCommenting)/Homepage/connection-maincard-topbar.png"-->    
+                          <!--"../../assets/Screenshots(ForCommenting)/Homepage/connection-maincard-topbar.png"-->    
                           <v-toolbar color="light-blue" dark>
                             <v-toolbar-title>Connexion</v-toolbar-title>
                             <v-spacer></v-spacer>
@@ -30,7 +30,7 @@
                               <v-container>
                                 <form @submit.prevent="onSignin">
                                   <!--Inputs Section -->   
-                                  <!--"/assets/Screenshots(ForCommenting)/Homepage/connection-maincard-inputs.png"-->   
+                                  <!--"../../assets/Screenshots(ForCommenting)/Homepage/connection-maincard-inputs.png"-->   
                                   <v-layout row>
                                     <v-flex xs12>
                                       <v-text-field
@@ -52,7 +52,7 @@
                                     </v-flex>
                                   </v-layout>
                                   <!--Button Section -->   
-                                  <!--"/assets/Screenshots(ForCommenting)/Homepage/connection-maincard-button.png"-->   
+                                  <!--"../../assets/Screenshots(ForCommenting)/Homepage/connection-maincard-button.png"-->   
                                   <v-layout row>
                                     <v-flex xs12>
                                       <v-btn type="submit" >Connexion</v-btn>

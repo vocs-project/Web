@@ -214,6 +214,8 @@
               </div>
             </v-card>
           </v-flex>
+        </v-layout>
+        <v-layout row>
           <v-flex xs12 class="ml-5 mr-5">
             <v-card style="margin-left: 20%; margin-right: 20%">
               <v-toolbar color="indigo" dark>

@@ -12,7 +12,7 @@
   <!--//*---------------->
   <!--// *First Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/apropos-header.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/apropos-header.png"-->
                       <v-parallax class="s1-parallax" :src="HomepageBG" style="height:100vh;width:100vw;margin-top: -65px">
                         <v-layout align-center justify-center class="mt-5">
                           <v-flex xs10 sm10 md8 class="text-xs-center" :class="s1TextClass">
@@ -35,7 +35,7 @@
   <!--//*---------------->
   <!--// *Text Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/apropos-text.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/apropos-text.png"-->
                       <v-container>
                         <v-layout row wrap class="text-xs-center">
                           <h5><strong>Vocs a pour but de répondre à plusieurs
@@ -137,7 +137,7 @@
   <!--//*---------------->
   <!--// *Footer Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Homepage/apropos-footer.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Homepage/apropos-footer.png"-->
                       <footer style="height: auto;background-color: rgba(24,24,24,0.85);padding: 2%;padding-top: 40px">
                         <v-layout row wrap>
                           <v-flex lg4 sm12 xs12 style="align-items: center;justify-content: center;margin-bottom: 20px">

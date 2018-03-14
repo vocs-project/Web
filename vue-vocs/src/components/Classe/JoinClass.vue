@@ -12,18 +12,18 @@
   <!--//*---------------->
   <!--// *Top Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Classe/JoinClass-TopSection.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Classe/JoinClass-TopSection.png"-->
                       <v-layout row wrap >
                         <v-flex xs6 offset-xs3 class="mb-4">
                         <!-- Class Icon Section -->
-                        <!--"/assets/Screenshots(ForCommenting)/Classe/JoinClass-TopSection-Icon.png"-->
+                        <!--"../../assets/Screenshots(ForCommenting)/Classe/JoinClass-TopSection-Icon.png"-->
                             <div class="text-xs-center mt-3">
                               <v-icon class="white--text" style="font-size: 120px; margin-right: 1%; margin-top: 3%">school</v-icon>
                             </div>
                         </v-flex>
                       </v-layout>
                       <!-- My Class Title Section -->
-                      <!--"/assets/Screenshots(ForCommenting)/Classe/JoinClass-TopSection-Title.png"-->
+                      <!--"../../assets/Screenshots(ForCommenting)/Classe/JoinClass-TopSection-Title.png"-->
                       <v-layout row wrap>
                         <v-flex class="text-xs-center">
                           <h2 class="white--text">Rejoindre une classe</h2>
@@ -37,7 +37,7 @@
   <!--//*---------------->
   <!--// *Form Section -->
   <!--//*---------------->
-  <!--"/assets/Screenshots(ForCommenting)/Classe/JoinClass-LowerSection.png"-->
+  <!--"../../assets/Screenshots(ForCommenting)/Classe/JoinClass-LowerSection.png"-->
                       <v-layout style="background-color: #ebebeb" row wrap>
                         <v-card style="width:100%; height: 309px" class="gray--text text-xs-center">
                           <v-select
