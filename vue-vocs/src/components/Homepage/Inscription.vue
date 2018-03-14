@@ -67,7 +67,7 @@
             </v-btn>
           </v-toolbar>
           <v-card>
-              <v-btn flat @click="step--; user.roles = null; teacherSelected =  'teacher-selected-false'; studentSelected = 'student-selected-false'; freeSelected = 'free-selected-false'"><v-icon >arrow_back</v-icon>Retour</v-btn>
+              <v-btn flat @click="step--; user.roles = null; teacherSelected =  'teacher-selected-false'; freeSelected = 'free-selected-false'"><v-icon >arrow_back</v-icon>Retour</v-btn>
             <v-card-text>
               <div class="text-xs-center" style="font-size: 20px">Choisissez votre type de compte</div>
                 <form class='mt-4' @submit.prevent="step=3; notice = ''">
@@ -75,21 +75,12 @@
                     <v-flex xs4 >
                       <v-btn @click="user.roles='USER'
                              teacherSelected='teacher-selected-false',
-                             studentSelected='student-selected-false',
                              freeSelected='free-selected-true'"
                              :class="freeSelected" raised>Libre</v-btn>
                     </v-flex>
                     <v-flex xs4>
-                      <v-btn @click="user.roles='STUDENT'
-                             teacherSelected='teacher-selected-false',
-                             studentSelected='student-selected-true',
-                             freeSelected='free-selected-false'"
-                             :class="studentSelected" raised>Elève</v-btn>
-                    </v-flex>
-                    <v-flex xs4>
                       <v-btn @click="user.roles='PROFESSOR',
                        teacherSelected='teacher-selected-true',
-                       studentSelected='student-selected-false',
                        freeSelected='free-selected-false'"
                              :class="teacherSelected"
                              raised>
@@ -156,73 +147,6 @@
         </v-flex>
       </v-layout>
 
-
-      <v-layout row v-if="step==3 && user.roles==='STUDENT'" style="margin-top: 180px">
-        <v-flex style="margin-top: -50px" xs12 sm6 offset-sm3>
-          <v-toolbar color="light-blue" dark>
-            <v-toolbar-title>Inscription</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn to="/connection" flat>
-              déjà inscrit?
-            </v-btn>
-          </v-toolbar>
-          <v-card>
-            <v-btn flat @click="step--"><v-icon >arrow_back</v-icon>Retour</v-btn>
-            <v-card-text>
-              <div class="text-xs-center" style="font-size: 20px">Compte Élève</div>
-              <v-container>
-                <form >
-                  <v-layout row>
-                    <v-text-field
-                      class="mr-2"
-                      name="name"
-                      label="Prénom"
-                      v-model="user.firstname"
-                      type="text"
-                      required>
-                    </v-text-field>
-                    <v-text-field
-                      class="ml-2"
-                      name="surname"
-                      label="Nom"
-                      v-model="user.surname"
-                      type="text"
-                      required>
-                    </v-text-field>
-                  </v-layout>
-                  <v-layout row>
-                    <v-layout row>
-                      <v-select
-                        :items="allSchools"
-                        v-model="user.classes[0].school"
-                        label="Établissement"
-                        required
-                        autocomplete
-                      ></v-select>
-                    </v-layout>
-                  </v-layout>
-                  <v-layout row>
-                    <v-layout row>
-                      <v-select
-                        :items="theClasses"
-                        v-model="classSearch"
-                        label="Classe"
-                        required
-                      ></v-select>
-                    </v-layout>
-                  </v-layout>
-                  <v-layout row>
-                    {{notice}}
-                    <v-flex  xs6 offset-xs3 class="text-xs-center">
-                      <v-btn justify-center @click="StudentSignUp" :disabled="classSearch === '' || user.classes[0].school === null" >Continuer</v-btn>
-                    </v-flex>
-                  </v-layout>
-                </form>
-              </v-container>
-            </v-card-text>
-          </v-card>
-        </v-flex>
-      </v-layout>
 
 
 
@@ -306,7 +230,6 @@ export default {
 			notice: "",
 			confirmPassword: "",
 			teacherSelected: "teacher-selected-false",
-			studentSelected: "student-selected-false",
 			freeSelected: "free-selected-false",
 			theClasses: [],
 			classSearch: "",
@@ -358,23 +281,6 @@ export default {
 		},
 		resetSignInAndUpErrorMessages() {
 			this.$store.dispatch("resetSignInAndUpErrorMessages");
-		},
-		StudentSignUp() {
-			this.user.roles = "USER";
-			var id = null;
-			for (var i = 0; i < this.allClasses.length; i++) {
-				if (this.allClasses[i].name === this.classSearch) {
-					id = this.allClasses[i].id;
-				}
-			}
-			var theClassToSendOff = {
-				classe: {
-					id: id,
-					name: this.classSearch
-				},
-				user: this.user
-			};
-			this.$store.dispatch("signStudentUp", theClassToSendOff);
 		}
 	},
 	created() {
@@ -394,14 +300,6 @@ export default {
 	transition: background-color 0.5s;
 }
 .teacher-selected-true {
-	background-color: #00cfff !important;
-	color: white !important;
-	transition: background-color 0.5s;
-}
-.student-selected-false {
-	transition: background-color 0.5s;
-}
-.student-selected-true {
 	background-color: #00cfff !important;
 	color: white !important;
 	transition: background-color 0.5s;
