@@ -842,6 +842,7 @@ export const store = new Vuex.Store({
                         theUser.roles = "PROFESSOR";
                       } else {
                         console.log(theUser.roles);
+                        theUser.roles = "USER";
                       }
                       if (state.isConfirmingPassword) {
                         state.loading = false;
@@ -884,7 +885,7 @@ export const store = new Vuex.Store({
         password: payload.password,
         roles: ["ROLE_" + payload.roles]
       };
-      if (JSON.stringify(user.roles) === '["ROLE_USER"]') {
+      if (JSON.stringify(user.roles) === '["ROLE_USER"]' || JSON.stringify(user.roles) === '[]') {
         user.roles = [];
       }
       console.log(JSON.stringify(user));
@@ -966,6 +967,8 @@ export const store = new Vuex.Store({
                         JSON.stringify(theUser.roles) === '["ROLE_PROFESSOR"]'
                       ) {
                         theUser.roles = "PROFESSOR";
+                      } else {
+                        theUser.roles = "USER";
                       }
                       router.push("/home");
                       this.dispatch("setSnackbarIsEnabled", true);
@@ -999,7 +1002,7 @@ export const store = new Vuex.Store({
         password: payload.user.password,
         roles: ["ROLE_" + payload.user.roles]
       };
-      if (JSON.stringify(user.roles) === '["ROLE_USER"]') {
+      if (JSON.stringify(user.roles) === '["ROLE_USER"]' || JSON.stringify(user.roles) === '[]') {
         user.roles = [];
       }
       console.log(JSON.stringify(user));
@@ -1082,6 +1085,8 @@ export const store = new Vuex.Store({
                         JSON.stringify(theUser.roles) === '["ROLE_PROFESSOR"]'
                       ) {
                         theUser.roles = "PROFESSOR";
+                      } else {
+                        theUser.roles = "USER";
                       }
                       router.push("/home");
                       this.dispatch("setSnackbarIsEnabled", true);
