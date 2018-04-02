@@ -1919,7 +1919,7 @@ export const store = new Vuex.Store({
       };
       Vue.http
         .patch(
-          "https:/vocsapi.lebarillier.fr/rest/wordTradUsers/" + payload.stat.id,
+          "https://vocsapi.lebarillier.fr/rest/wordTradUsers/" + payload.stat.id,
           toSendOff
         )
         .then(response => {

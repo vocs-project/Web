@@ -1,10 +1,10 @@
 <h1 style="text-align: center;">
-    <a href="https://vocs.lebarillier.fr/homepage">
+    <a href="https://vocs.lebarillier.fr">
         <img src="/vue-vocs/src/assets/logo.png" alt="Vocs" width="100">
     </a>
 </h1>
 
-### | [Site](https://vocs.lebarillier.fr/homepage) |
+### | [Site](https://vocs.lebarillier.fr) |
 
 <img src="/vue-vocs/src/assets/HomepageScreenshot.png" alt="Vocs" width="650">
 
